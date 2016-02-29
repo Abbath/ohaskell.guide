@@ -87,9 +87,24 @@ a {
 
 .cover-title {
     font-size: 48px;
-    padding-bottom: 65px;
+    padding-bottom: 15px;
     color: #586e75;
 }
+
+.cover-v2 {
+    font-size: 20px;
+    padding-bottom: 70px;
+    color: #586e75;
+}
+
+.donate {
+    padding-top: 105px;
+}
+
+.donate-button {
+    width: 162px;
+}
+
 
 .community-title {
     padding-top: 25px;
