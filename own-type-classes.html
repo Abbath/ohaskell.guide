@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>До этого мы рассматривали лишь стандартные классы типов. А теперь поговорим о собственных классах типов.</p>
+<h2 id="перцы">Перцы</h2>
+<p>Объявим класс типов <code>Pepper</code> (перец):</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">SHU</span> <span class="fu">=</span> <span class="dt">Integer</span>  <span class="co">-- SHU (Scoville Heat Units), единица жгучести перца</span>
+
+<span class="kw">class</span> <span class="dt">Pepper</span> p <span class="kw">where</span>
+<span class="ot">    color ::</span> p <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="ot">    pungency ::</span> p <span class="ot">-&gt;</span> <span class="dt">SHU</span></code></pre></div>
+<p>У этого класса два метода, <code>color</code> (цвет) и <code>pungency</code> (жгучесть). Создадим два разных перца:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Poblano</span> <span class="fu">=</span> <span class="dt">Poblano</span>  <span class="co">-- Распространён в национальных блюдах Мексики.</span>
+
+<span class="kw">data</span> <span class="dt">TrinidadScorpion</span> <span class="fu">=</span> <span class="dt">TrinidadScorpion</span>  <span class="co">-- Самый жгучий перец в мире.</span>
+
+<span class="kw">instance</span> <span class="dt">Pepper</span> <span class="dt">Poblano</span> <span class="kw">where</span>
+    color <span class="dt">Poblano</span> <span class="fu">=</span> <span class="st">&quot;green&quot;</span>
+    pungency <span class="dt">Poblano</span> <span class="fu">=</span> <span class="dv">1500</span>
+
+<span class="kw">instance</span> <span class="dt">Pepper</span> <span class="dt">TrinidadScorpion</span> <span class="kw">where</span>
+    color <span class="dt">TrinidadScorpion</span> <span class="fu">=</span> <span class="st">&quot;red&quot;</span>
+    pungency <span class="dt">TrinidadScorpion</span> <span class="fu">=</span> <span class="dv">855000</span></code></pre></div>
+<p>Теперь мы можем работать с этими перцами как обычно:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    putStrLn <span class="fu">$</span> show (pungency trinidad) <span class="fu">++</span> <span class="st">&quot;, &quot;</span> <span class="fu">++</span> color trinidad
+    <span class="kw">where</span> trinidad <span class="fu">=</span> <span class="dt">TrinidadScorpion</span></code></pre></div>
+<h2 id="зачем-они-нужны">Зачем они нужны</h2>
+<p>В самом деле, разве мы не можем использовать каждый из типов перца самостоятельно? Конечно можем. Главная цель определения собственного класса типов - указание контекста типов. Определим функцию, выводящую информацию о конкретном перце:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">pepperInfo ::</span> <span class="dt">Pepper</span> p <span class="ot">=&gt;</span> p <span class="ot">-&gt;</span> <span class="dt">String</span>
+pepperInfo pepper <span class="fu">=</span> show (pungency pepper) <span class="fu">++</span> <span class="st">&quot;, &quot;</span> <span class="fu">++</span> color pepper</code></pre></div>
+<p>Контекст полиморфного типа <code>p</code> говорит нам о том, что эта функция предназначена только для работы с перцами. Более того, сам класс тоже может иметь контекст типа:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Pepper</span> p <span class="ot">=&gt;</span> <span class="dt">Chili</span> p <span class="kw">where</span>
+<span class="ot">    kind ::</span> p <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+<p>Класс типов <code>Chili</code> объявлен с контекстом <code>Pepper</code>. Следовательно, занять место полиморфного типа <code>p</code> смогут лишь те типы, которые относятся к классу <code>Pepper</code>, и никакие другие. Это позволяет ограничить набор типов, которые смогут иметь отношение к классу <code>Chili</code>.</p>
+<p>Разумеется, контекст может состоять и из нескольких классов. В этом случае они, как обычно, перечисляются в виде кортежа:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> (<span class="dt">Pepper</span> p, <span class="dt">Capsicum</span> p) <span class="ot">=&gt;</span> <span class="dt">Chili</span> p <span class="kw">where</span>
+<span class="ot">    kind ::</span> p <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+<h2 id="константы">Константы</h2>
+<p>Добавим в наш класс константу:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">SHU</span> <span class="fu">=</span> <span class="dt">Integer</span>
+
+<span class="kw">class</span> <span class="dt">Pepper</span> p <span class="kw">where</span>
+<span class="ot">    simple   ::</span> p           <span class="co">-- Это константное значение, а не функция.</span>
+<span class="ot">    color    ::</span> p <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="ot">    pungency ::</span> p <span class="ot">-&gt;</span> <span class="dt">SHU</span>
+<span class="ot">    name     ::</span> p <span class="ot">-&gt;</span> <span class="dt">String</span>
+
+<span class="kw">data</span> <span class="dt">Poblano</span> <span class="fu">=</span> <span class="dt">Poblano</span> <span class="dt">String</span>  <span class="co">-- Унарный конструктор вместо нульарного.</span>
+
+<span class="kw">instance</span> <span class="dt">Pepper</span> <span class="dt">Poblano</span> <span class="kw">where</span>
+    simple <span class="fu">=</span> <span class="dt">Poblano</span> <span class="st">&quot;ancho&quot;</span>         <span class="co">-- Готовим простое значение.</span>
+    color (<span class="dt">Poblano</span> name) <span class="fu">=</span> <span class="st">&quot;green&quot;</span>
+    pungency (<span class="dt">Poblano</span> name) <span class="fu">=</span> <span class="dv">1500</span>
+    name (<span class="dt">Poblano</span> name) <span class="fu">=</span> name
+
+main <span class="fu">=</span> putStrLn <span class="fu">$</span> name (<span class="ot">simple ::</span> <span class="dt">Poblano</span>)  <span class="co">-- Обращаемся к значению.</span></code></pre></div>
+<p><code>simple</code> - это константное значение, к которому можно обращаться напрямую. Мы говорим: “Каждый тип, относящийся к классу <code>Pepper</code>, обязан предоставлять константу <code>simple</code> своего собственного типа”. Поэтому при определении экземпляра класса <code>Pepper</code> мы готовим это константное значение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">simple <span class="fu">=</span> <span class="dt">Poblano</span> <span class="st">&quot;ancho&quot;</span></code></pre></div>
+<p>Поскольку теперь конструктор значения <code>Poblano</code> у нас унарный, он принимает строку (например, название перца или ассоциативного блюда). Здесь мы говорим: “Когда кто-нибудь обратится к константе <code>simple</code>, принадлежащей типу <code>Poblano</code>, он получит такое значение, как если бы мы написали просто <code>Poblanlo &quot;ancho&quot;</code>”. Таким образом, эту константу можно рассматривать как конструктор по умолчанию для значения типа <code>Poblano</code>. И это весьма удобно: если для нашего типа имеет смысл некоторое умолчальное значение, лучше задавать его прямо внутри нашего типа.</p>
+<p>Однако вы должны знать, что иногда константу называют-таки функцией. В этом случае можно было бы сказать: “<code>simple</code> - это функция, всегда возвращающая одно и то же значение.” Однако лично мне это кажется не совсем корректным. Ведь если функция является чистой, она, как мы уже знаем, обязана однозначно отображать одно значение на другое значение. Если же она всегда возращает одно и то же - тогда никакого отображения нет. Впрочем, вы можете считать это отображением в одну точку. ;-)</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Главная цель определения собственного класса типов - указание контекста типов.</li>
+<li>Класс типов может включать в себя как функции, так и константы (иногда называемые константными функциями).</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

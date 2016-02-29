@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Как вы помните, в самом начале мы уже немного говорили о модулях. Пришло время изучить их более основательно.</p>
+<h2 id="об-иерархии">Об иерархии</h2>
+<p>Зайдём в каталог <code>src</code>, создадим в нём подкаталог <code>Utils</code> и разместим в нём файл <code>Helpers.hs</code>. Откроем и напишем следующее:  </p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Utils.Helpers</span> (
+    calibrate,
+    graduate
+) <span class="kw">where</span>
+
+<span class="ot">coefficient ::</span> <span class="dt">Double</span>
+coefficient <span class="fu">=</span> <span class="fl">0.99874</span>
+
+calibrate length <span class="fu">=</span> length <span class="fu">*</span> coefficient
+
+graduate length <span class="fu">=</span> length <span class="fu">/</span> coefficient</code></pre></div>
+<p>Имя модуля не просто <code>Helpers</code>, а <code>Utils.Helpers</code>, то есть оно теперь отражает иерархию наших исходников. И хотя мы можем и не делать этого, но общая практика в мире Haskell именно такова: указывать имя модуля с полным путём к нему от корня проекта. Именно поэтому все модули, которые мы уже использовали, именовались полным путём, например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.String.Utils</span></code></pre></div>
+<p>Теперь вы знаете, что подобное длинное название - это всего лишь путь: в исходниках данного пакета есть каталог <code>Data</code>, в нём - подкаталог <code>String</code>, а уже в нём лежит модуль <code>Utils.hs</code>.</p>
+<h2 id="о-лице">О лице</h2>
+<p>У каждого модуля, помимо имени, есть и лицо (или, если угодно, интерфейс). Интерфейс - это набор всего того, что может быть импортировано в другие модули. По умолчанию всё содержимое модуля является его интерфейсом и поэтому доступно всему миру. Однако в реальных модулях у вас, скорее всего, будут некоторые служебные функции и типы, которые вы не захотите показывать всем.</p>
+<p>Взглянем ещё раз на начало модуля <code>Utils.Helpers</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Utils.Helpers</span> (
+    calibrate,
+    graduate
+) <span class="kw">where</span></code></pre></div>
+<p>Вы уже видели такие круглые скобки, теперь же вы знаете, что это и есть интерфейс нашего модуля, поэтому только эти две функции можно будет импортировать. Всё остальное, что есть в этом модуле, останется тайной за семью печатями. В частности, наше служебное значение <code>coefficient</code>: при попытке импортировать его в другой модуль компилятор удивлённо упрекнёт вас, мол, не знаю я никакого <code>coefficient</code>. Но если оно окажется кому-то нужным - допишем его имя в круглых скобках:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Utils.Helpers</span> (
+    calibrate,
+    graduate,
+    coefficient
+) <span class="kw">where</span></code></pre></div>
+<p>и всё заработает. Теперь пропишем в лице модуля наш собственный тип:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Utils.Helpers</span> (
+    calibrate,
+    graduate,
+    <span class="dt">Color</span> (<span class="dt">Red</span>, <span class="dt">Green</span>, <span class="dt">Blue</span>)
+) <span class="kw">where</span>
+
+<span class="kw">data</span> <span class="dt">Color</span> <span class="fu">=</span> <span class="dt">Red</span> <span class="fu">|</span> <span class="dt">Green</span> <span class="fu">|</span> <span class="dt">Blue</span> <span class="kw">deriving</span> <span class="dt">Show</span></code></pre></div>
+<p>Обратите внимание: недостаточно прописать в лице модуля имя типа, необходимо также перечислить его конструкторы в виде кортежа. Впрочем, достаточно перечислить лишь те конструкторы, которые вы реально собираетесь использовать в других модулях для создания значений типа <code>Color</code>.</p>
+<h2 id="ничего-кроме">Ничего, кроме…</h2>
+<p>В ряде случаев вам нельзя (или необязательно) импортировать всё то, что есть в модуле. Откроем <code>app/Main.hs</code> и напишем в нём:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Utils.Helpers</span> (calibrate)  <span class="co">-- Импортируем только calibrate. </span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> calibrate <span class="fl">12.4</span></code></pre></div>
+<p>Мы импортировали лишь то, что перечислено в виде кортежа сразу за именем модуля. Всё остальное содержимое <code>Utils.Helpers</code> осталось невидимым.</p>
+<p>Вы спросите, зачем это нужно? В конце концов, ну и пусть импортируется всё, а уж мы решим, что нам использовать.</p>
+<p>Главная цель частичного импорта - исключение конфликта имён. В разных модулях зачастую присутствуют одноимённые сущности. В этом случае мы можем взять из “конфликтных” модулей только то, что нам необходимо.</p>
+<h2 id="всё-кроме">Всё, кроме…</h2>
+<p>Существует также противоположный подход, а именно частичный импорт всего содержимого модуля, кроме указанного. В этом случае нам понадобится ключевое слово <code>hiding</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Utils.Helpers</span> <span class="kw">hiding</span> (graduate)  <span class="co">-- graduate скрыта.  </span></code></pre></div>
+<p>После слова <code>hiding</code> перечислены в виде кортежа те сущности, которые будут недоступны (скрыты) в текущем модуле. Как вы уже догадались, такой подход так же используется во избежание конфликтов между одноимёнными сущностями из разных модулей.</p>
+<h2 id="принадлежность">Принадлежность</h2>
+<p>В реальных проектах вы столкнётесь с ситуацией, когда вам очень нужно будет совместно использовать одноимённые функции из разных модулей. Просто так это сделать не получится, компилятор проявит принципиальность и потребует уточнений. В этом случае нам необходимо явно указать принадлежность функции к конкретному модулю:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Utils.Helpers</span>
+<span class="kw">import </span><span class="dt">Utils.Math</span>  <span class="co">-- А вдруг здесь тоже есть функция calibrate?</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> Utils.Helpers.calibrate <span class="fl">12.4</span></code></pre></div>
+<p>В этом случае конфликта не будет.</p>
+<h2 id="короткая-принадлежность">Короткая принадлежность</h2>
+<p>В уже известном нам пакете <code>MissingH</code> есть модули с весьма длинным именем, например <code>System.Console.GetOpt.Utils</code>. Согласитесь, длинновато писать такой “префикс” всякий раз, когда нужно указать принадлежность. К счастью, есть способ ввести короткий псевдоним для модуля:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Utils.Helpers</span> <span class="kw">as</span> <span class="dt">H</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> H.graduate <span class="dv">23</span></code></pre></div>
+<p>Ключевое слово as вводит короткое имя для <code>Utils.Helpers</code>. Кстати, на это имя действует общее для всех типов правило: только с большой буквы. Поэтому такой вариант не пройдёт:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Utils.Helpers</span> <span class="kw">as</span> h</code></pre></div>
+<h2 id="обязательная-принадлежность">Обязательная принадлежность</h2>
+<p>В ряде случаев бывает полезным призвать пользователя к строгому порядку и обязать его указывать принадлежность сущностей к модулю. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import qualified</span> <span class="dt">Utils.Helpers</span> <span class="kw">as</span> <span class="dt">H</span> 
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> graduate <span class="dv">23</span></code></pre></div>
+<p>Мы импортировали наш модуль с ключевым словом qualified. Именно поэтому такой код не пройдёт компиляцию. Слово <code>qualified</code> обязывает нас уточнять принадлежность всех используемых сущностей к соответствующим им модулям. Поэтому даже если функция graduate представлена в единственном экземпляре, при <code>qualified</code>-импорте мы должны явно указать, к какому модулю она принадлежит:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">print <span class="fu">$</span> H.graduate <span class="dv">23</span></code></pre></div>
+<p>Ну вот, теперь вы знаете о модулях практически всё.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

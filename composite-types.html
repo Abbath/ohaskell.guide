@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Вспомним наш демонстрационный тип <code>IPAddress</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPAddress</span> <span class="dt">String</span></code></pre></div>
+<p>Даже столь простой тип может быть полезным в реальных проектах. Однако чаще нам нужны более сложные типы. О них и поговорим в этой главе.</p>
+<h2 id="поля">Поля</h2>
+<p>Определим тип User:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span> {<span class="ot"> firstName ::</span> <span class="dt">String</span>
+                 ,<span class="ot"> lastName  ::</span> <span class="dt">String</span>
+                 ,<span class="ot"> email     ::</span> <span class="dt">String</span>
+                 }</code></pre></div>
+<p>Это уже значительно интереснее. Перед нами - классический составной тип. Он очень похож на структуру в языке C, однако это впечатление обманчиво. Рассмотрим вот эту конструкцию:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">firstName ::</span> <span class="dt">String</span></code></pre></div>
+<p>Перед нами - поле. Впрочем, при кажущейся простоте, оно как шляпа фокусника, с двойным дном. С одной стороны, это значение типа <code>String</code>. С другой стороны - это (автоматически создаваемая компилятором) функция, позволяющая получить доступ к этому значению (то есть getter). Поэтому при создании значения типа <code>User</code> мы сначала инициализируем все три его поля, а потом можем получить доступ к значениям этих полей. Вот так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    putStrLn <span class="fu">$</span> firstName user <span class="fu">++</span> <span class="st">&quot; &quot;</span> <span class="fu">++</span>
+               lastName user <span class="fu">++</span> <span class="st">&quot;, &quot;</span> <span class="fu">++</span>
+               email user
+    <span class="kw">where</span> user <span class="fu">=</span> <span class="dt">User</span> { firstName <span class="fu">=</span> <span class="st">&quot;Denis&quot;</span>
+                      , lastName  <span class="fu">=</span> <span class="st">&quot;Shevchenko&quot;</span>
+                      , email     <span class="fu">=</span> <span class="st">&quot;me@dshevchenko.biz&quot;</span>
+                      }</code></pre></div>
+<p>Вывод:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">&quot;Denis Shevchenko, me@dshevchenko.biz&quot;</span></code></pre></div>
+<p>Применяя каждую из “полевых” функций к значению типа <code>User</code>, мы получаем доступ к соответствующему “полевому” содержимому, заданному при инициализации. Разумеется, все три значения константны.</p>
+<h2 id="что-с-ними-можно-делать">Что с ними можно делать</h2>
+<p>Как обычно: создавать, сохранять, использовать, изменять. Стоп… Я сказал “изменять”? Так значит, поле можно изменить??</p>
+<p>Конечно же нет. Когда мы пишем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">email <span class="fu">=</span> <span class="st">&quot;me@dshevchenko.biz&quot;</span></code></pre></div>
+<p>мы тем самым объявляем: “Всё! С этого мгновения и до конца времён функция <code>email</code>, применённая к этому значению типа <code>User</code>, будет возвращать значение <code>&quot;me@dshevchenko.biz&quot;</code> и никакое другое”. Однако есть один способ, создающий <em>впечатление</em> изменяемости поля. Смотрите:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">changeEmail ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">User</span>
+changeEmail user newEmail <span class="fu">=</span> user { email <span class="fu">=</span> newEmail }</code></pre></div>
+<p>Эта функция меняет текущее значение поля <code>email</code> на значение <code>newEmail</code>, используя тот же синтаксис фигурных скобок, что и при создании <code>user</code>. То есть здесь <code>email</code> выступает в роли setter-а. Однако, сказав об отсутствии присваивания в Haskell, я не обманул вас. Поэтому значение поля <code>email</code> у аргумента <code>user</code> конечно же не изменится.</p>
+<p>Обратите внимание на сигнатуру этой функции:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">changeEmail ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">User</span></code></pre></div>
+<p>Мы возвращаем значение типа <code>User</code>, но это уже не то значение, которое идёт первым аргументом. Здесь мы говорим: “Возьми аргумент <code>user</code> и создай на его основе такое же значение, но пусть поле <code>email</code> в этом новом значении будет равным <code>newEmail</code>”. И теперь мы можем написать так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    <span class="kw">let</span> userWithNewEmail <span class="fu">=</span> changeEmail user <span class="st">&quot;shev.denis@gmail.com&quot;</span>
+    <span class="kw">in</span> putStrLn <span class="fu">$</span> email userWithNewEmail
+    <span class="kw">where</span> user <span class="fu">=</span> <span class="dt">User</span> { firstName <span class="fu">=</span> <span class="st">&quot;Denis&quot;</span>
+                      , lastName <span class="fu">=</span> <span class="st">&quot;Shevchenko&quot;</span>
+                      , email <span class="fu">=</span> <span class="st">&quot;me@dshevchenko.biz&quot;</span>
+                      }</code></pre></div>
+<p>Вывод будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">&quot;shev.denis@gmail.com&quot;</span></code></pre></div>
+<h2 id="укороченная-запись-типов-полей">Укороченная запись типов полей</h2>
+<p>Мы должны явно указывать типы всех наших полей. Однако если эти типы одинаковы, можно использовать сокращённую запись.</p>
+<p>Вспомним наш тип:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span> {<span class="ot"> firstName ::</span> <span class="dt">String</span>
+                 ,<span class="ot"> lastName  ::</span> <span class="dt">String</span>
+                 ,<span class="ot"> email     ::</span> <span class="dt">String</span>
+                 }</code></pre></div>
+<p>Все три поля имеют одинаковый тип, поэтому мы можем переписать объявление так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span> { firstName
+                 , lastName
+                 ,<span class="ot"> email ::</span> <span class="dt">String</span>
+                 }</code></pre></div>
+<p>Перечисляем поля и в конце указываем их тип. Кроме того, поля могут объединяться и по нескольким типовым группам:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span> { firstName
+                 , lastName
+                 ,<span class="ot"> email ::</span> <span class="dt">String</span>
+                 , account
+                 ,<span class="ot"> uid ::</span> <span class="dt">Integer</span>
+                 }</code></pre></div>
+<p>Здесь у нас появились два новых поля, и мы опять использовали сокращённую типовую запись: группа из первых трёх полей имеет тип <code>String</code>, в то время как группа из полей <code>account</code> и <code>uid</code> имеет тип <code>Integer</code>.</p>
+<h2 id="конструктор-типа">Конструктор типа</h2>
+<p>Помните, мы уже говорили о конструкторах? Но там речь шла о конструкторах <em>значений</em>, а теперь поговорим о конструкторах <em>типов</em>. Различаются они очевидным образом: конструктор значения используется при создании значений, а конструктор типа - при создании типов.</p>
+<p>Добавим в тип <code>User</code> чуток гибкости:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> y <span class="fu">=</span> <span class="dt">User</span> { firstName          <span class="co">-- строка</span>
+                   , lastName           <span class="co">-- опять строка</span>
+                   ,<span class="ot"> email ::</span> <span class="dt">String</span>    <span class="co">-- ещё одна строка</span>
+                   ,<span class="ot"> yearOfBirth ::</span> y   <span class="co">-- а это что??</span>
+                   , account            <span class="co">-- целое число</span>
+                   ,<span class="ot"> uid ::</span> <span class="dt">Integer</span>     <span class="co">-- тоже целое число</span>
+                   }</code></pre></div>
+<p>Вот эта строка:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> y <span class="fu">=</span> <span class="fu">...</span></code></pre></div>
+<p>и говорит нам о том, что перед нами конструктор типа (type constructor). Тип поля <code>yearOfBirth</code> задан полиморфным типом <code>y</code>. Это позволит нам инициализировать это поле значением любого типа (например, числом <code>1981</code> или строкой <code>&quot;1981&quot;</code>).</p>
+<p>Однако нас поджидает один неприятный сюрприз. Теперь функция <code>changeEmail</code> наотрез откажется работать с типом <code>User</code>. Но не ругайтесь на неё, она поступает абсолютно правильно. Вспомним её объявление:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">changeEmail ::</span> <span class="dt">User</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">User</span></code></pre></div>
+<p>Она ожидает, что первым аргументом идет значение типа <code>User</code>, но ведь <code>User</code> - это уже не тип, это конструктор типа. Теперь мы должны любезно попросить его сконструировать для нас конкретный тип. Чтобы это сделать, мы должны “применить” конструктор типа к типу. Прямо так и пишем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">User</span> <span class="dt">String</span></code></pre></div>
+<p>В результате “применения” конструктора типа <code>User</code> к типу <code>String</code> был создан тип, аналогичный такому:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">User</span> <span class="fu">=</span> <span class="dt">User</span> { firstName
+                 , lastName
+                 , email
+                 ,<span class="ot"> yearOfBirth ::</span> <span class="dt">String</span>
+                 , account
+                 ,<span class="ot"> uid ::</span> <span class="dt">Integer</span>
+                 }</code></pre></div>
+<p>Больше нет никакого полиморфного типа <code>y</code>, потому что тип поля <code>yearOfBirth</code> теперь <code>String</code>.</p>
+<p>Следовательно, чтобы наша функция <code>changeEmail</code> смогла работать с типами, сконструированными конструктором <code>User</code>, это нужно явно указать в её объявлении:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">changeEmail ::</span> <span class="dt">User</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">User</span> <span class="dt">String</span></code></pre></div>
+<p>Мы говорим нашей функции: “Первым аргументом ты теперь принимаешь значение типа, сконструированного путём применения конструктора <code>User</code> к типу <code>String</code>. Возвращаешь то же самое”.</p>
+<p>Разумеется, мы можем воспользоваться полиморфным типом и здесь:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">changeEmail ::</span> <span class="dt">User</span> a <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">User</span> a</code></pre></div>
+<p>Теперь мы говорим этой функции: “Отныне в качестве аргумента ты принимаешь значение типа, который был создан конструктором <code>User</code>, применённым к некоторому типу <code>a</code>”. Такой подход удобен в том случае, если мы не знаем заранее, какой конкретный тип будет подставлен вместо полиморфного.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Тип может содержать в себе одно или несколько полей.</li>
+<li>Поле - это и константное значение, и автоматически создаваемый компилятором getter для этого значения.</li>
+<li>Синтаксис фигурных скобок используется как для инициализирования полей, так и для их “изменения”.</li>
+<li>Тип поля может быть указан как индивидуально, так и в составе группы полей.</li>
+<li>Тип поля может быть полиморфным. В этом случае составной тип превращается в конструктор типа - в конструкцию, способную порождать бесчисленное множество конкретных типов.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

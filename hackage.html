@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h1 id="hackage">Hackage</h1>
+<p>Hackage - это главный репозиторий Haskell-библиотек, или, как у нас принято называть, пакетов (англ. package). Название происходит от слияния слов <code>Haskell</code> и <code>package</code>.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Hackage существует с 2008 года, и с тех пор увеличился с нескольких десятков пакетов до почти 9 тысяч. </span>
+</div>
+<p>По сути, пакет представляет собой совокупность модулей (напоминаю, модуль - это <code>.hs</code>-файл). Существуют большие пакеты, состоящие из многих десятков модулей, но есть и такие, в которых модуль всего один.</p>
+<p>Итак, чтобы воспользоваться пакетом, необходимо сделать три шага:</p>
+<ol style="list-style-type: decimal">
+<li>найти этот пакет,</li>
+<li>включить его в наш проект,</li>
+<li>импортировать из него нужные нам модули.</li>
+</ol>
+<h2 id="ищем">Ищем</h2>
+<p>Искать пакет можно двумя способами: на единой Hackage-странице или через специальный поисковик.</p>
+<p>Все пакеты, живущий в Hackage, можно увидеть на <a href="http://hackage.haskell.org/packages/">одной странице</a>. Это весьма удобно: браузерный поиск поможет вам искать пакеты по всем доступным тематическим категориям.</p>
+<p>Существует также особый поисковик по Hackage. Строго говоря, их два, названных в честь поисковых гигантов:</p>
+<ol style="list-style-type: decimal">
+<li><a href="http://www.haskell.org/hoogle/">Hoogle</a></li>
+<li><a href="http://holumbus.fh-wedel.de/hayoo/hayoo.html">Hayoo!</a></li>
+</ol>
+<p>Эти поисковые движки скрупулёзно осматривают внутренности Hackage, и мы будем очень часто ими пользоваться. Особенно полезны они тогда, когда мы хотим найти информацию по некоторому API. Например, когда мы знаем имя функции и хотим найти пакет, в котором она живёт.</p>
+<p>Сейчас, в качестве примера, возьмём пакет <code>text</code>, предназначенный для работы с текстом. Этот пакет, кстати, очень нам пригодится. Живёт он <a href="http://hackage.haskell.org/package/text">тут</a>.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Каждый из Hackage-пакетов живёт по адресу, сформированному по следующей схеме: http://hackage.haskell.org/package/ИМЯПАКЕТА. </span>
+</div>
+<h2 id="включаем">Включаем</h2>
+<p>Открываем сборочный файл <code>real.cabal</code>, находим секцию <code>executable real-exe</code> и в поле <code>build-depends</code> через запятую дописываем имя пакета:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  build<span class="fu">-</span>depends<span class="fu">:</span>       base
+                     , real
+                     , text</code></pre></div>
+<p>Теперь выполняем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> install</code></pre></div>
+<p>Начнётся повторная сборка нашего проекта, но перед нею <code>stack</code>, увидев новую зависимость, сделает то что нам и нужно: установит сам пакет <code>text</code> и все те пакеты, от которых он в свою очередь зависит.</p>
+<p>Готово. Отныне мы можем импортировать нужные нам модули из пакета <code>text</code>. В следующих главах мы сделаем это.</p>
+<h2 id="о-прелюдии">О Прелюдии</h2>
+<p>Существует один стандартный модуль, который по умолчанию автоматически импортируется во все наши модули (поэтому нам не придётся импортировать его с помощью <code>import</code>). Имя ему - <a href="http://hackage.haskell.org/package/base/docs/Prelude.html">Prelude</a>. В этому модуле содержатся самые базовые Haskell-инструменты, многие из которых мы будем использовать постоянно.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/modules-minimum.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="/expressions-n-functions.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

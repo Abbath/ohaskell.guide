@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Список в Haskell - это структура данных, представляющая собою набор значений одного типа. Например, список из трёх целых чисел выглядит так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
+<p>а список из двух значений типа <code>Double</code> - так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="fl">1.3</span>, <span class="fl">45.7899</span>]</code></pre></div>
+<p>а вот и список из одного символа:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="ch">'H'</span>]</code></pre></div>
+<p>Конечно, список может быть и пустым:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[]</code></pre></div>
+<p>Элементами списка могут быть значения любого типа, в том числе и другие списки (списки списков - вещь в Haskell-коде весьма распространённая).</p>
+<h2 id="простейшие-действия">Простейшие действия</h2>
+<p>Если списки создаются - значит это кому-нибудь нужно. Вот функция, формирующая список из трёх строк:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">listOfNames ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">String</span>]
+listOfNames prefix <span class="fu">=</span>
+    [prefix <span class="fu">++</span> <span class="st">&quot;John&quot;</span>, prefix <span class="fu">++</span> <span class="st">&quot;Anna&quot;</span>, prefix <span class="fu">++</span> <span class="st">&quot;Andrew&quot;</span>]
+
+main <span class="fu">=</span> print <span class="fu">$</span> listOfNames <span class="st">&quot;Dear &quot;</span></code></pre></div>
+<p>Результат:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;Dear John&quot;</span>,<span class="st">&quot;Dear Anna&quot;</span>,<span class="st">&quot;Dear Andrew&quot;</span>]</code></pre></div>
+<p>Обратите внимание на объявление этой функции:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">listOfNames ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">String</span>]</code></pre></div>
+<p>Тип <code>[String]</code> - это список строк. А, например, список символов объявляется как <code>[Char]</code>. Кстати, строка - это и есть список символов, то есть тип <code>String</code> эквивалентен типу <code>[Char]</code>. Поэтому данное объявление можно переписать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">listOfNames ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [[<span class="dt">Char</span>]]  <span class="co">-- Возвращает список списков символов.</span></code></pre></div>
+<p>Вот так можно узнать размер списка:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">$</span> length listOfAnimals
+    where listOfAnimals <span class="fu">=</span> [<span class="st">&quot;Bear&quot;</span>, <span class="st">&quot;Tiger&quot;</span>, <span class="st">&quot;Lion&quot;</span>, <span class="st">&quot;Wolf&quot;</span>]</code></pre></div>
+<p>А так можно узнать, присутствует ли заданное значение в списке:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">thisIsAWildAnimal ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+thisIsAWildAnimal name <span class="fu">=</span> name <span class="ot">`elem`</span> wildAnimals
+    where wildAnimals <span class="fu">=</span> [<span class="st">&quot;Bear&quot;</span>, <span class="st">&quot;Tiger&quot;</span>, <span class="st">&quot;Lion&quot;</span>, <span class="st">&quot;Wolf&quot;</span>]
+
+main <span class="fu">=</span> putStrLn <span class="fu">$</span> <span class="kw">if</span> thisIsAWildAnimal <span class="st">&quot;Cat&quot;</span> <span class="kw">then</span> <span class="st">&quot;Yes!&quot;</span> <span class="kw">else</span> <span class="st">&quot;No!&quot;</span></code></pre></div>
+<p>Здесь стандартная функция <code>elem</code>, записанная в инфиксной форме (то есть между двумя своими аргументами), проверяет наличие строки <code>&quot;Cat&quot;</code> в списке диких животных.</p>
+<p>Разумеется, со списком можно делать огромное множество различных действий. Все они включены в .</p>
+<h2 id="неизменность-списка">Неизменность списка</h2>
+<p>Как вы знаете, все значения в Haskell неизменны, как Египетские пирамиды. Списки - не исключение: мы не можем изменить список, мы можем лишь создать на его основе новый список. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">addToFront ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
+addToFront newHost listOfHosts <span class="fu">=</span> newHost <span class="fu">:</span> listOfHosts
+
+main <span class="fu">=</span> print <span class="fu">$</span> <span class="st">&quot;124.67.54.90&quot;</span> <span class="ot">`addToFront`</span> listOfHosts
+    where listOfHosts <span class="fu">=</span> [<span class="st">&quot;45.67.78.89&quot;</span>, <span class="st">&quot;123.45.65.54&quot;</span>]</code></pre></div>
+<p>Вывод:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;124.67.54.90&quot;</span>,<span class="st">&quot;45.67.78.89&quot;</span>,<span class="st">&quot;123.45.65.54&quot;</span>]</code></pre></div>
+<p>Оператор <code>:</code> добавляет значение, являющееся левым операндом, в начало списка, являющегося правым операндом:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">newHost <span class="fu">:</span> listOfHosts</code></pre></div>
+<p>С концептуальной точки зрения функция <code>addToFront</code> добавила новый адрес в начало переданного ей списка. Но в действительности никакого добавления не произошло: функция просто взяла значение <code>newHost</code> и список <code>listOfHosts</code> и создала на их основе новый список, содержащий уже три адреса вместо двух.</p>
+<h2 id="действия-над-элементами">Действия над элементами</h2>
+<p>Мы создаём список для того, чтобы что-то делать с его элементами. Например, такая функция:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">nonEmptyNamesFrom ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
+nonEmptyNamesFrom aList <span class="fu">=</span>
+    filter nonEmptyName aList <span class="co">-- Отфильтруй все непустые значения.</span>
+    where nonEmptyName <span class="fu">=</span> not <span class="fu">.</span> null
+
+main <span class="fu">=</span> print <span class="fu">$</span> nonEmptyNamesFrom names
+    where names <span class="fu">=</span> [<span class="st">&quot;John&quot;</span>, <span class="st">&quot;&quot;</span>, <span class="st">&quot;Ann&quot;</span>]</code></pre></div>
+<p>На выходе получим ожидаемый список из двух имён, ведь второе по счёту было пустым. Стандартная функция <code>filter</code> последовательно применяет предикат <code>nonEmptyName</code> к каждой строке в списке и конструирует новый список лишь из тех строк, которые удовлетворяют данному предикату. В качестве предиката выступает композиция функций. Эта композиция применяется к одной строке и возвращает <code>True</code> в том случае, если эта строка не <code>null</code> (то есть непустая). Обратите внимание, мы вновь использовали короткую форму записи функции <code>nonEmptyName</code>, опустив имя аргумента:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">where</span> nonEmptyName <span class="fu">=</span> not <span class="fu">.</span> null</code></pre></div>
+<p>хотя могли бы написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">where</span> nonEmptyName aName <span class="fu">=</span> not <span class="fu">.</span> null <span class="fu">$</span> aName</code></pre></div>
+<h2 id="сворачивание">Сворачивание</h2>
+<p>Об этом механизме я не могу промолчать, уж очень он занимательный и полезный. Речь идёт о сворачивании (folding) списка. Суть его очень проста и элегантна, и поэтому сворачивание очень часто используется на практике.</p>
+<p>Сворачивание - это процесс превращения всех элементов списка в одно значение. Сразу пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    putStrLn <span class="fu">$</span> foldl (<span class="fu">++</span>) <span class="st">&quot;http&quot;</span> [<span class="st">&quot;://&quot;</span>, <span class="st">&quot;www&quot;</span>, <span class="st">&quot;.&quot;</span>, <span class="st">&quot;google.com&quot;</span>]</code></pre></div>
+<p>Вывод будет следующим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">http</span>://www.google.com</code></pre></div>
+<p>Стандартная функция <code>foldl</code> сворачивает список слева (название собрано из слов “fold left”). Рассмотрим, как же она работает.</p>
+<p>Для сворачивания элементов используется бинарная функция, в данном случае оператор <code>(++)</code>. На первом шаге функция <code>foldl</code> берёт начальное значение <code>&quot;http&quot;</code> и первый элемент <code>&quot;://&quot;</code>, а затем применяет к ним оператор конкатенации. В результате получается строка <code>&quot;http://&quot;</code>. На втором шаге оператор конкатенации применяется уже к этой строке и ко второму элементу <code>&quot;www&quot;</code>, в результате чего получаем <code>&quot;http://www&quot;</code>. На третьем шаге складываем эту строку с третьим элементом <code>&quot;.&quot;</code>, получив <code>&quot;http://www.&quot;</code>. И на последнем шаге складываем получившееся с четвёртым элементом, и вот перед нами полная строка <code>&quot;http://www.google.com&quot;</code>. Таким образом, функция <code>foldl</code> постепенно скомкала (свернула) все строки в одну.</p>
+<p>Впрочем, вы можете увидеть все эти шаги воочию, достаточно воспользоваться стандартной функцией <code>scanl</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    print <span class="fu">$</span> scanl (<span class="fu">++</span>) <span class="st">&quot;http&quot;</span> [<span class="st">&quot;://&quot;</span>, <span class="st">&quot;www&quot;</span>, <span class="st">&quot;.&quot;</span>, <span class="st">&quot;google.com&quot;</span>]</code></pre></div>
+<p>Результат будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;http&quot;</span>,<span class="st">&quot;http://&quot;</span>,<span class="st">&quot;http://www&quot;</span>,<span class="st">&quot;http://www.&quot;</span>,<span class="st">&quot;http://www.google.com&quot;</span>]</code></pre></div>
+<p>Функция <code>scanl</code> выступает в роли эдакого рентгена для функции <code>foldl</code>, показывая внутреннюю работу последней: в возвращённом списке строк мы видим, как постепенно сворачивается наш изначальный список.</p>
+<p>Разумеется, сворачивать список можно не только слева, но и справа. Для этого, как вы уже догадались, следует использовать функцию <code>foldr</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    putStrLn <span class="fu">$</span> foldr (<span class="fu">++</span>) <span class="st">&quot;.com&quot;</span> [<span class="st">&quot;http&quot;</span>, <span class="st">&quot;://&quot;</span>, <span class="st">&quot;www&quot;</span>, <span class="st">&quot;.&quot;</span>, <span class="st">&quot;google&quot;</span>]</code></pre></div>
+<p>Результат будет таким же, мы просто свернули строки справа, о чём нам может поведать функция <code>scanr</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    print <span class="fu">$</span> scanr (<span class="fu">++</span>) <span class="st">&quot;.com&quot;</span> [<span class="st">&quot;http&quot;</span>, <span class="st">&quot;://&quot;</span>, <span class="st">&quot;www&quot;</span>, <span class="st">&quot;.&quot;</span>, <span class="st">&quot;google&quot;</span>]</code></pre></div>
+<p>Вывод:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;http://www.google.com&quot;</span>,<span class="st">&quot;://www.google.com&quot;</span>,<span class="st">&quot;www.google.com&quot;</span>,<span class="st">&quot;.google.com&quot;</span>,<span class="st">&quot;google.com&quot;</span>,<span class="st">&quot;.com&quot;</span>]</code></pre></div>
+<p>Взгляните на этот список справа налево - и вы сразу поймёте, <em>как</em> происходило сворачивание на этот раз. Кстати, если вам не нужно начальное значение, на помощь придут функции <code>foldl1</code> и <code>foldr1</code>. Да, название не очень, но уж какое есть. Этим функциям не требуется начальное значение, они сразу же начинают работать с элементами списка. Упростим наш первый пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    putStrLn <span class="fu">$</span> foldl1 (<span class="fu">++</span>) [<span class="st">&quot;http&quot;</span>, <span class="st">&quot;://&quot;</span>, <span class="st">&quot;www&quot;</span>, <span class="st">&quot;.&quot;</span>, <span class="st">&quot;google&quot;</span>, <span class="st">&quot;.com&quot;</span>]</code></pre></div>
+<p>Таким образом, механизм сворачивания даёт нам простой и очень элегантный способ объединения элементов списка в единое значение.</p>
+<p>Вот и всё, что хотелось рассмотреть. Помимо функций, рассмотренных выше, в стандартной библиотеке Haskell присутствуют и многие другие вкусности для работы с элементами (проверки, замены, сортировки, перестановки и тому подобное).</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Список - это набор значений одного типа.</li>
+<li>Мы не можем изменить уже созданный список, мы можем лишь создать на его основе другой список.</li>
+<li>С элементами списка можно совершать различные манипуляции.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Со знакомства с функтором начинается наше восхождение к вершинам Haskell.</p>
+<h2 id="контекст-вычислений">Контекст вычислений</h2>
+<p>Функтор (англ. Functor) - это стандартный класс типов, поднимающий простое значение на новый вычислительный контекст.</p>
+<p>Поговорим о функторах, одной из важных концепций языка Haskell. На самом деле мы их уже использовали, осталось лишь разобраться в сути.</p>
+<h2 id="разбираемся">Разбираемся</h2>
+<p>Функторами называют такие типы, значения которых могут быть маппированы (mapped over). Помните стандартную функцию <code>map</code>, позволяющую последовательно применить функцию к каждому элементу списка? Вот это тот самый случай.</p>
+<p>Все функторы представлены стандартным классом <code>Functor</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span>
+    <span class="ot">fmap ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</code></pre></div>
+<p>Перед нами один-единственный метод <code>fmap</code>, который говорит: “Дайте мне функцию, принимающую значение <code>a</code> и возвращающую значение <code>b</code>, а ещё дайте значение <code>a</code> в функторной обёртке, а я верну вам значение <code>b</code> в такой же функторной обёртке”. Многие стандартные типы являются функторами.</p>
+<h2 id="зачем-это-нам">Зачем это нам</h2>
+<p>Функция <code>fmap</code> - это волшебница. Она говорит: “Дайте мне <del>волшебную палочку</del> функцию и <em>нечто</em>, а я прикоснусь функцией к этому <em>нечто</em> и изменю его”. Это нечто и есть функтор.</p>
+<p>Разумеется, говоря об изменении, я выражаюсь концептуально. Если мы видим строку:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap toLower [<span class="ch">'A'</span><span class="fu">..</span><span class="ch">'Z'</span>]</code></pre></div>
+<p>мы можем выразиться технически точно: “Функция <code>fmap</code> последовательно применит функцию <code>toLower</code> к каждому элементу списка, в результате чего будет сконструирован новый список со значениями, являющимися результатом применения функции <code>toLower</code> к элементам изначального списка”.</p>
+<p>Но так слишком длинно. Поэтому мы можем выразиться концептуально: “Функция <code>fmap</code> прикоснулась функцией <code>toLower</code> к списку и изменила его”. В этом и заключается фундаментальный смысл функторов: посредством функции <code>fmap</code> мы прикасаемся к ним некой другой функцией и изменяем их.</p>
+<p>Более того, такое изменение может касаться не только содержимого функтора, но и его типа. Например, если взять функтор типа <code>[Char]</code> и прикоснуться к нему такой функцией:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap toLower [<span class="ch">'A'</span><span class="fu">..</span><span class="ch">'Z'</span>]</code></pre></div>
+<p>на выходе у нас тоже получится функтор того же типа <code>[Char]</code>. Однако если прикоснуться такой функцией:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fmap digitToInt [<span class="ch">'1'</span><span class="fu">..</span><span class="ch">'9'</span>]</code></pre></div>
+<p>на выходе у нас получится функтор типа <code>[Int]</code>.</p>
+<h2 id="создаём-свой">Создаём свой</h2>
+<p>Пусть это будет год:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Year</span> value <span class="fu">=</span> <span class="dt">Year</span> value
+                  deriving <span class="dt">Show</span></code></pre></div>
+<p>Тип <code>Year</code> содержит в себе год. Параметризация в данном случае весьма полезна: значение года может быть задано как числом, так и строкой. И поскольку значение года может (с концептуальной точки зрения) меняться, сделаем тип <code>Year</code> функторным:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">Year</span> <span class="kw">where</span>
+    fmap magicWand (<span class="dt">Year</span> value) <span class="fu">=</span> <span class="dt">Year</span> (magicWand value)</code></pre></div>
+<p>Функция <code>magicWand</code> будет прикасаться не к году, а к его реальному содержимому. Например так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">increase ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+increase year <span class="fu">=</span> year <span class="fu">+</span> <span class="dv">1</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span>
+    print <span class="fu">$</span> fmap increase year
+    where year <span class="fu">=</span> <span class="dt">Year</span> <span class="dv">1981</span></code></pre></div>
+<p>Мы определили функцию <code>increase</code>, увеличивающую значение года на один. Казалось бы, зачем делать тип <code>Year</code> функторным? Ведь мы могли бы определить функцию, работающую с этим типом напрямую. Однако в этом случае мы жёстко привяжемся к типу <code>Year</code>. А фундаментальное преимущество функтора как раз в том и заключается, что функция, изменяющая его содержимое, ничего не знает о самом функторе.</p>
+<p>Следовательно, в качестве волшебной палочки, прикасающейся к нашему году, могут выступать совершенно посторонние функции. Это и открывает перед нами огромный творческий простор.</p>
+<h2 id="инфиксная-форма">Инфиксная форма</h2>
+<p>В стандартном модуле <code>Data.Functor</code> определён оператор необычного вида <code>(&lt;$&gt;)</code>, являющийся инфиксным аналогом функции <code>fmap</code>. Чуток перепишем наш пример с годом:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Functor</span>
+
+<span class="fu">...</span> 
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span>
+    print <span class="fu">$</span> increase <span class="fu">&lt;$&gt;</span> year
+    where year <span class="fu">=</span> <span class="dt">Year</span> <span class="dv">1981</span></code></pre></div>
+<p>Результат тот же самый, но инфиксная форма способна сделать код более читабельным.</p>
+<p>Вот, теперь вы знаете о функторах. Рассматривайте их тоже как своего рода проектный паттерн, унифицирующий применение разных функций к разным значениям.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

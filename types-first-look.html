@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Haskell отличается от большинства языков чрезвычайно трепетным отношением к типам. Настолько трепетным, что тип можно назвать краеугольным камнем Haskell-программы. В этой главе мы разберёмся, что же такое тип и почему он столь важен.</p>
+<h2 id="тип-как-идея">Тип как идея</h2>
+<p>Комьютерная программа оперирует некоторыми значениями. С точки зрения компьютера любое такое значение - это определённая совокупность байтов, не более чем. Но поскольку мы придаём конкретному значению некий понятный нам смысл, оперировать байтами нам было бы крайне затруднительно. Поэтому в программировании появилось понятие “тип”.</p>
+<p>Тип - это фундаментальная характеристика/свойство программной сущности, обладающей значением. Представим себе эту программную сущность как безликую коробку, в которую мы можем положить некие байты. Так вот тип - это метка на этой коробке, сообщающая нам о том, что может лежать в данной коробке, а что - нет. В этом случае мы оперируем уже не безликими байтами, но значениями, понятными человеку. Можно сказать, что тип - это “очеловечивание” значения, ведь компьютеру никакой тип не нужен (вспомним времена ассемблера). Так, если мы видим, что значение в Haskell-программе обладает типом <code>Int</code> - мы совершенно точно знаем, что в этой коробке живёт какое-то целое число (в диапазоне от <code>-9223372036854775808</code> до <code>9223372036854775807</code>), и ничто другое запихнуть в эту коробку нельзя.</p>
+<h2 id="сила-и-слабость">Сила и слабость</h2>
+<p>Практически во всех современных языках программирования типы присутствуют, однако типы типам рознь. Отличают два вида типизации: слабую (англ. weak) и сильную (англ. strong), иногда неверно переводимую как “строгая”. И при слабой, и при сильной типизации мы не можем запихнуть в “коробку” с типом <code>Int</code> значение типа <code>Double</code>, по причине принципиального различия между бинарным представлением этих типов. Но слабая типизация позволяет компилятору жульничать с типами.</p>
+<p>Приведу канонический пример подобного жульничества, из языков семейства C:</p>
+<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">double</span> coeff( <span class="dt">double</span> base ) {
+    <span class="kw">return</span> base * <span class="fl">4.9856</span>;
+}
+
+<span class="dt">int</span> main() {
+    <span class="dt">unsigned</span> <span class="dt">int</span> coeff_value = coeff(<span class="fl">122.045</span>);
+    ...
+}</code></pre></div>
+<p>Функция <code>coeff</code> возвращает значение типа <code>double</code>, однако вызывающий контекст почему-то ожидает значение типа <code>unsigned int</code>. Ну вот ошиблись мы, криво скопировали… В результате значение переменной <code>coeff_value</code> окажется вовсе не таким, каким мы ожидали его увидеть, потому что компилятор сжульничает, скрыто приведя тип <code>double</code> к типу <code>unsigned int</code>. В некоторых случаях он ругнётся предупреждением, но компиляция всё равно пройдёт успешно. И это фундаментальная проблема несогласованности типов в языках со слабой типизацией, ведь мы ожидали одно, а в итоге получили совсем другое. Надо ли говорить, что такого рода ошибки могут быть трудноуловимыми и крайне опасными?..</p>
+<p>Haskell - язык с сильной типизацией, поэтому в нём подобный код не имел бы ни малейших шансов пройти компиляцию. В этом языке исповедуется принцип бескомпромиссной согласованности типов, поэтому мы всегда получаем именно то, что ожидаем. А значит, мы не просто навесили “типовой ярлык” на каждое из значений, мы можем <em>доверять</em> этим ярлыкам. Жульничество с грубым приведением типа <code>A</code> к типу <code>B</code> невозможно в принципе, причём не только скрытое, но и явное. Нельзя взять значение типа <code>Char</code> и превратить его в целое число. И потому если функция должна вернуть число с плавающей точкой - расшибись, но будь добр принять его именно как число с плавающей точкой. Причём если ожидается тип <code>Double</code>, то даже тип <code>Float</code> не прокатит. Поэтому раз уж компиляция Haskell-программы завершилась успешно, значит все типы в нашем коде строго согласованы, и нас не поджидают никакие “странные сюрпризы”…</p>
+<h2 id="выведение-типов">Выведение типов</h2>
+<p>Система типов Haskell, помимо силы и статичности, характеризуется ещё одним полезным свойством, а именно выведением (англ. inference) типов. Это означает, что тип нашей “коробки” автоматически выводится/определяется на основе значения, которое мы туда запихиваем. Это избавляет нас от необходимости указывать тип явно, мы просто пишем, например, так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> coeff_value <span class="fu">=</span> coeff <span class="fl">122.045</span></code></pre></div>
+<p>В этом случае тип значения <code>coeff_value</code> автоматически будет выведен как <code>Double</code> и останется таким навсегда. Выведение типов делает наш код более простым и компактным.</p>
+<p>Впрочем, можно (а иногда и нужно) указать тип значения явно. Например, если мы хотим работать с числом меньшей точности, тогда можно написать так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> coeff_value <span class="fu">=</span> <span class="fl">122.045</span><span class="ot"> ::</span> <span class="dt">Float</span></code></pre></div>
+<p>В этом случае мы просим компилятор верить нам на слово и использовать именно тип <code>Float</code>. Однако помните, что компилятор не столь доверчив, как может показаться. Если мы попытаемся (случайно или по злому умыслу) написать так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> coeff_value <span class="fu">=</span> <span class="fl">122.045</span><span class="ot"> ::</span> <span class="dt">Int</span></code></pre></div>
+<p>компиляция гарантированно прервётся с ошибкой.</p>
+<p>Впрочем, раз уж мы говорим друг с другом откровенно, в Haskell существует специальная функция для грубого приведения значения произвольного типа <code>A</code> к значению произвольного типа <code>B</code>. Но по понятным причинам эта функция настолько опасна, что её использование крайне не рекомендовано, никогда и ни при каких обстоятельствах. Поэтому я даже не стану называть вам имя этой функции. И будет лучше, если вы прямо сейчас забудете о её существовании. Будем считать, что я рассказал вам об этой функции тихим шёпотом…</p>
+<h2 id="цена">Цена</h2>
+<p>У этой красивой медали есть и обратная сторона, а именно время компиляции: если в код проекта внесены изменения - нужно опять компилировать, дав компилятору время на всевозможные проверки. К сожалению, даже на современном компьютере компиляция Haskell-кода проходит хоть и быстро, но отнюдь не мгновенно. Это та цена, которую мы платим за надёжность нашего кода. Поэтому добрый вам совет: для сколь-нибудь серьёзной разработки на Haskell используйте компьютер помощнее.</p>
+<h2 id="компилятор---наш-друг">Компилятор - наш друг</h2>
+<p>В процессе работы с Haskell вы будете часто сталкиваться с ошибками компиляции, обусловленными проблемами с типами. Очень часто. Неимоверно часто. Иногда вам захочется обратиться к компилятору со всеми известными вам матерными выражениями. Не делайте этого, ведь компилятор - наш друг. Когда в нашей программе присутствует несогласованность типов, компилятор прямолинейно сообщает нам об этом. И это очень хорошо, потому что любая такая несогласованность - это бомба замедленного действия.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Тип программной сущности характеризует диапазон значений, которые мы можем запихнуть в эту сущность.</li>
+<li>Типизация делает наш код предсказуемым, а следовательно, надёжным и более простым в сопровождении.</li>
+<li>Система типов в Haskell - сильная, статическая, с выведением типов.</li>
+<li>Компилятор - наш друг, стоящий на страже качества нашего кода.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

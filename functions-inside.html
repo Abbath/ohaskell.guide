@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h1 id="функции-внутри">Функции внутри</h1>
+<p>В предыдущей главе я одним махом открыл вам много нового. Пришло время разбираться более детально. В этой главе рассмотрим содержимое функций. Ведь раз уж Haskell-программа состоит из выражений, а те, в свою очередь, представляют собой применение неких функций к неким аргументам, то можно сказать, что всё, происходящее внутри программы, происходит внутри функций. Именно поэтому содержимое функций представляет для нас исключительный интерес.</p>
+<p>В прошлой главе мы увидели простейшие функции, такие как <code>sum</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">sum<span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+sum x y <span class="fu">=</span> x <span class="fu">+</span> y</code></pre></div>
+<p>Вот её содержимое:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">x <span class="fu">+</span> y</code></pre></div>
+<p>Согласитесь, не очень интересно. Да, нужны и такие, но в реальных программах нужны штуки помощнее. Но прежде чем погрузиться в функции, познакомимся с некоторыми простейшими типами в Haskell, без них нам не обойтись.</p>
+<p>С типом <code>Int</code> вы уже знакомы, значения этого типа содержат обыкновенные целые числа. Тип <code>Double</code> предназначен для чисел с плавающей точкой. Значения типа <code>Char</code> - это Unicode-символы. Значение типа <code>String</code> - обычная строка. Значение типа <code>Bool</code> отражает истину (<code>True</code>) или ложь (<code>False</code>). Вот примеры:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dv">123</span>                  <span class="co">-- Int</span>
+
+<span class="fl">2.0678</span>               <span class="co">-- Double</span>
+
+<span class="ch">'A'</span>                  <span class="co">-- Char</span>
+
+<span class="st">&quot;Hello, Haskeller!&quot;</span>  <span class="co">-- String</span>
+
+<span class="dt">True</span>                 <span class="co">-- Bool, который истина</span>
+
+<span class="dt">False</span>                <span class="co">-- Bool, который ложь</span></code></pre></div>
+<p>Пока достаточно. В Haskell есть ещё несколько важных стандартных типов, но о них узнаем чуть позже. И кстати, вы уже второй раз видите конструкцию, состоящую из двух минусов <code>--</code>. Это - начало однострочного комментария. А между символами <code>{-</code> и <code>-}</code> живёт многострочный комментарий:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Я - однострочный комментарий, живу в единственной строке</span>
+
+<span class="co">{-</span>
+<span class="co">   А я - многострочный</span>
+<span class="co">   комментарий, содержащий нечто</span>
+<span class="co">   прелюбопытнейшее!</span>
+<span class="co">-}</span></code></pre></div>
+<p>Ну а теперь прыгнем в функции.</p>
+<h2 id="условие">Условие</h2>
+<p>Так выглядит условная конструкция:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> <span class="dt">CONDITION</span> <span class="kw">then</span> <span class="dt">EXPRESSION1</span> <span class="kw">else</span> <span class="dt">EXPRESSION2</span></code></pre></div>
+<p>где <code>CONDITION</code> - выражение, дающее ложь или истину, <code>EXPRESSION1</code> - выражение, используемое в случае <code>True</code>, <code>EXPRESSION2</code> - выражение, используемое в случае <code>False</code>. Пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">checkLocalhost ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+checkLocalhost ip <span class="fu">=</span>
+    <span class="kw">if</span> ip <span class="fu">==</span> <span class="st">&quot;127.0.0.1&quot;</span> <span class="fu">||</span> ip <span class="fu">==</span> <span class="st">&quot;0.0.0.0&quot;</span> <span class="fu">||</span> ip <span class="fu">==</span> <span class="st">&quot;::1&quot;</span>
+        <span class="kw">then</span> <span class="st">&quot;It's a localhost!&quot;</span>
+        <span class="kw">else</span> <span class="st">&quot;No, it's not a localhost.&quot;</span></code></pre></div>
+<p>Функция <code>checkLocalhost</code> применяется к единственному аргументу типа <code>String</code> и возвращает/вычисляет другое значение типа <code>String</code>. В качестве аргумента выступает строка, содержащая IP-адрес, а функция проверяет, не лежит ли в ней localhost. Оператор <code>||</code> - стандартый оператор логического «ИЛИ», а оператор <code>==</code> - стандартный оператор проверки на равенство.</p>
+<p>Теперь откроем наш модуль <code>app/Main.hs</code>, найдём функцию <code>main</code> и напишем следующее:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;127.0.0.1&quot;</span>)</code></pre></div>
+<p>Вспоминаем команду сборки, которую мы запускаем, находясь в корне нашего проекта:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> install</code></pre></div>
+<p>После сборки запускаем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">real-exe</span>
+<span class="kw">It</span><span class="st">'s a localhost!</span></code></pre></div>
+<p>А если перепишем так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;173.194.222.100&quot;</span>)</code></pre></div>
+<p>тогда при запуске увидим это:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">No</span>, it<span class="st">'s not a localhost.</span></code></pre></div>
+<p>Функция <code>putStrLn</code> - это стандартная функция, выводящая на консоль некую строку. В данном случае она вывела строку, возвращённую функцией <code>checkLocalhost</code>.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/immutability-n-purity.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="/immutability.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

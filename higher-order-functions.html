@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Функции высшего порядка (higher-order functions) занимают очень важное место в языке Haskell. Из предыдущих глав вы узнали, что чистые функции - это, в конечном итоге, значения. А раз это значения, значит их можно, во-первых, передавать другим функциям в качестве аргументов, а во-вторых, возвращать их из других функций. Так вот функцию, принимающую другую функцию в качестве аргумента и/или возвращающую другую функцию, называют <em>функцией высшего порядка</em>.</p>
+<h2 id="разоблачение-функций">Разоблачение функций</h2>
+<p>Помните, в рассказе о чистых функциях было упомянуто, что они могут принимать как один, так и множество аргументов? Пришло время признаться в обмане, ибо правда такова:</p>
+<blockquote>
+<p><strong>Чистые функции в Haskell всегда принимают только один аргумент.</strong> </p>
+</blockquote>
+<p>Постойте, но как же мы тогда смогли определить функции, принимающие по два и даже по три аргумента?</p>
+<p>Это была хитрость, и называется она “каррирование” (currying), иногда говорят “карринг”. Слово это знаменитое, ибо происходит от имени <a href="https://en.wikipedia.org/wiki/Haskell_Curry">Haskell Curry</a>. Каррирование - это превращение функции, принимающей множество аргументов, в функцию, принимающую эти аргументы по одному.</p>
+<p>Определим функцию деления двух чисел:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">divide ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
+divide arg1 arg2 <span class="fu">=</span> arg1 <span class="fu">/</span> arg2</code></pre></div>
+<p>Функция принимает два значения стандартного типа <code>Double</code> и возвращает результат деления первого значения на второе. Всё предельно просто. Но если мы заглянем “под капот” вызова этой функции:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print (divide <span class="fl">10.03</span> <span class="fl">2.1</span>)</code></pre></div>
+<p>то узнаем, что этот вызов происходит в два этапа:</p>
+<ol style="list-style-type: decimal">
+<li>Функция <code>divide</code> применяется к первому аргументу <code>10.03</code> и - внимание! - возвращает функцию типа <code>Double -&gt; Double</code>.</li>
+<li>Эта возвращённая функция, в свою очередь, применяется ко второму аргументу <code>2.1</code> и возвращает конечное значение <code>4.77</code>.</li>
+</ol>
+<p>Мы можем явно отразить эту “двухэтапность”, переписав вызов функции так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(divide <span class="fl">10.03</span>) <span class="fl">2.1</span></code></pre></div>
+<p>Функция применяется только к одному значению: сначала к <code>10.03</code>, а уже потом функция, возвращённая первым вызовом, применяется к <code>2.1</code>. Именно по причине такой “двухэтапности” объявление функции <code>divide</code> содержит две стрелочки вместо одной:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">divide ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span></code></pre></div>
+<p>С концептуальной точки зрения такое объявление звучит так: “Функция <code>divide</code> принимает два значения типа <code>Double</code> и возвращает значение типа <code>Double</code>”. Однако правильнее читать его так: “Функция <code>divide</code> применяется к первому значению типа <code>Double</code> и возвращает функцию типа <code>Double -&gt; Double</code>, которая применяется ко второму значению типа <code>Double</code> и возвращает конечное значение типа <code>Double</code>”. Кстати, правильное прочтение объявления можно отразить и в самом этом объявлении:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">divide ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>)</code></pre></div>
+<p>Теперь мы ясно видим, что на первом этапе происходит вызов функции от одного аргумента, возвращающей функцию типа <code>Double -&gt; Double</code>, а на втором этапе происходит вызов второй функции, возвращённой на первом этапе.</p>
+<p>По аналогии, если у нас есть функция, принимающая три аргумента:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">totalSum ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>
+totalSum arg1 arg2 arg3 <span class="fu">=</span> arg1 <span class="fu">+</span> arg2 <span class="fu">+</span> arg3</code></pre></div>
+<p>то её вызов:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print (totalSum <span class="fl">10.03</span> <span class="fl">2.1</span> <span class="fl">45.7</span>)</code></pre></div>
+<p>проходил бы в три этапа, и чтобы явно отразить этот факт, мы можем переписать объявление данной функции так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">totalSum ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">Double</span>))</code></pre></div>
+<p>а её вызов - так:  </p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">((totalSum <span class="fl">10.03</span>) <span class="fl">2.1</span>) <span class="fl">45.7</span></code></pre></div>
+<p>  И чтобы всё окончательно прояснилось, изучим один важный механизм.</p>
+<h2 id="частичное-применение-функции">Частичное применение функции</h2>
+<p>Несмотря на “двухэтапность” вызова функции <code>divide</code>, её тело будет выполнено один раз. Вызов один, просто он разделён на два последовательных шага. А чтобы понять суть этих шагов, изучим частичное применение функции (partial application).</p>
+<p>Функцию называют частично применённой, если количество аргументов, к которым она применена, оказалось меньше ожидаемого ею количества аргументов. И здесь нам пригодятся уже известные нам λ-функции.</p>
+<p>Применим функцию <code>divide</code> не к двум, а только к одному аргументу:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    let temporaryFunction <span class="fu">=</span> divide <span class="fl">10.03</span>  <span class="co">-- &quot;Запомнили&quot; первое значение...</span>
+    in
+    print (temporaryFunction <span class="fl">2.1</span>)   <span class="co">-- А вот теперь можем выполнить деление.</span></code></pre></div>
+<p>Теперь всё встало на свои места. Здесь наглядно показано, что же на самом деле означает выражение вида:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(divide <span class="fl">10.03</span>) <span class="fl">2.1</span></code></pre></div>
+<p>В результате первого вызова, когда мы применили функцию <code>divide</code> к первому аргументу, мы ещё не можем получить результат деления, ведь второго-то аргумента у нас пока нет. Вместо этого мы получили временную λ-функцию, которую для наглядности ассоциировали с выражением <code>temporaryFunction</code>. Эта временная λ-функция как бы запомнила значение первого аргумента, и только когда мы применим её ко второму аргументу, получим результат деления.</p>
+<p>По аналогии, вызов нашей функции <code>totalSum</code>, происходящий в три этапа, можно разложить так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    let firstFunction  <span class="fu">=</span> totalSum <span class="fl">1.0</span>       <span class="co">-- &quot;Запомнили&quot; первое значение...</span>
+        secondFunction <span class="fu">=</span> firstFunction <span class="fl">2.0</span>  <span class="co">-- &quot;Запомнили&quot; второе значение...</span>
+    in
+    print (secondFunction <span class="fl">3.0</span>)              <span class="co">-- А вот теперь можем складывать.</span></code></pre></div>
+<p>В процессе вызова у нас появилось уже две временные λ-функции, каждая из которых применялась к очередному аргументу и запоминала его. И только когда вторая промежуточная λ-функция была применена к третьему, последнему аргументу, мы и получили сумму.</p>
+<p>Так вот упомянутое выше каррирование работает благодаря механизму частичного применения функции. В самом деле, как бы мы смогли разложить функцию от двух аргументов на два одноаргументных шага? Только через частичное применение.</p>
+<h2 id="зачем-это-нужно">Зачем это нужно</h2>
+<p>В подавляющем большинстве случаев знать вышеизложенную информацию о каррировании функций и о частичном применении не обязательно. Основное преимущество каррирования лежит в академической плоскости: выводить математические доказательства гораздо легче, если договориться, что каждая из вычисляемых функций всегда принимает строго один аргумент и возвращает строго одно значение. Но нас-то с вами больше интересует аспект практический. И поэтому мы возвращаемся к рассмотрению функций высшего порядка (далее - ФВП).</p>
+<p>Формально функции <code>divide</code> и <code>totalSum</code> являются ФВП, в силу тех самых промежуточных λ-функций. Более того, все функции в Haskell, принимающие более одного аргумента, являются ФВП. Но все эти промежуточные λ-функции - всего лишь “подкапотные” дела, они скрыты от наших глаз. Гораздо больший интерес для нас представляют “настоящие” ФВП, которые явно объявлены как принимающие на вход функциональные значения и/или возвращающие функциональные значения.</p>
+<p>Рассмотрим небольшой пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Login</span>     <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">Password</span>  <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">AvatarURL</span> <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">UserId</span>    <span class="fu">=</span> <span class="dt">Integer</span>
+
+<span class="ot">userInfo ::</span> <span class="dt">Login</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+userInfo login password avatarURL userId <span class="fu">=</span>
+    <span class="st">&quot;Full info about user @&quot;</span> <span class="fu">++</span> (show userId) <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span>
+    <span class="st">&quot;\n login: &quot;</span> <span class="fu">++</span> login <span class="fu">++</span>
+    <span class="st">&quot;\n password: &quot;</span> <span class="fu">++</span> password <span class="fu">++</span>
+    <span class="st">&quot;\n avatar URL: &quot;</span> <span class="fu">++</span> avatarURL
+
+<span class="kw">type</span> <span class="dt">EmptyInfo</span>        <span class="fu">=</span> <span class="dt">Login</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">WithLogin</span>        <span class="fu">=</span>          <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">AndWithPassword</span>  <span class="fu">=</span>                      <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">AndWithAvatarURL</span> <span class="fu">=</span>                                   <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+
+<span class="ot">storeLoginIn ::</span> <span class="dt">EmptyInfo</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">WithLogin</span>
+storeLoginIn emptyInfo userId <span class="fu">=</span>
+    emptyInfo <span class="st">&quot;denis&quot;</span>
+
+<span class="ot">storePasswordIn ::</span> <span class="dt">WithLogin</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">AndWithPassword</span>
+storePasswordIn infoWithLogin userId <span class="fu">=</span> 
+    infoWithLogin <span class="st">&quot;123456789abc&quot;</span>
+
+<span class="ot">storeAvatarURLIn ::</span> <span class="dt">AndWithPassword</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">AndWithAvatarURL</span>
+storeAvatarURLIn infoWithPassword userId <span class="fu">=</span>
+    infoWithPassword <span class="st">&quot;http://dshevchenko.biz/denis_avatar.png&quot;</span>
+
+main <span class="fu">=</span>
+    let userId <span class="fu">=</span> <span class="dv">1234</span>
+        infoWithLogin <span class="fu">=</span> storeLoginIn userInfo userId
+        infoWithPassword <span class="fu">=</span> storePasswordIn infoWithLogin userId
+        infoWithAvatarURL <span class="fu">=</span> storeAvatarURLIn infoWithPassword userId
+        fullInfoAboutUser <span class="fu">=</span> infoWithAvatarURL userId
+    in
+    putStrLn fullInfoAboutUser</code></pre></div>
+<p>А теперь разберём это хозяйство по косточкам.</p>
+<p>Во-первых, появилась новая для нас конструкция:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">Login</span> <span class="fu">=</span> <span class="dt">String</span></code></pre></div>
+<p>Ключевое слово <code>type</code> добавляет псевдоним для уже известного типа, и теперь вместо типа <code>String</code> можно использовать идентификатор <code>Login</code>.</p>
+<p>Далее мы определили функцию:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">userInfo ::</span> <span class="dt">Login</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+<p>Тут всё просто: функция <code>userInfo</code> ожидает на вход логин, пароль, адрес аватара и идентификатор пользователя, а на выходе выдаёт некую описывающую строку. Обратите внимание и на двойной плюс:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">&quot;\n login: &quot;</span> <span class="fu">++</span> login</code></pre></div>
+<p>Это оператор конкатенации двух списков в один. А поскольку строка есть список символов, к ней этот оператор вполне применим.</p>
+<p>А вот теперь начинается самое интересное. Подразумевается, что изначально у нас имеется только идентификатор пользователя, а соответствующие ему логин, пароль и путь к аватару нам нужно откуда-то получить. К счастью, у нас есть три функции, каждая из которых знает, где взять логин, пароль и путь к аватару соответственно. И каждая из этих трёх функций является ФВП.</p>
+<p>Рассмотрим псевдонимы:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">EmptyInfo</span>        <span class="fu">=</span> <span class="dt">Login</span> <span class="ot">-&gt;</span> <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">WithLogin</span>        <span class="fu">=</span>          <span class="dt">Password</span> <span class="ot">-&gt;</span> <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">AndWithPassword</span>  <span class="fu">=</span>                      <span class="dt">AvatarURL</span> <span class="ot">-&gt;</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">AndWithAvatarURL</span> <span class="fu">=</span>                                   <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+<p>Каждый из них вводит упрощающее имя для функционального типа, образованного “урезанием” от типа функции <code>userInfo</code>. Обратите внимание: каждый последующий тип ожидает на один аргумент меньше, чем предыдущий тип. Эти псевдонимы задают типы для очередной промежуточной λ-функции, которые нужны, как вы уже догадались, для частичного применения функции <code>userInfo</code>.</p>
+<p>Рассмотрим первый вызов:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">infoWithLogin <span class="fu">=</span> storeLoginIn userInfo userId</code></pre></div>
+<p>Здесь мы передаём функцию <code>userInfo</code> в качестве первого аргумента функции <code>storeLoginIn</code>, внутри которой мы применяем переданную функцию <code>userInfo</code> к единственному аргументу, а именно к логину. Соответственно, на выходе из функции <code>storeLoginIn</code> мы получаем первую промежуточную λ-функцию, в которой мы сохранили значение логина (именно поэтому тип этой λ-функции ассоциирован со словом <code>WithLogin</code>).</p>
+<p>Далее следует вызов:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">infoWithPassword <span class="fu">=</span> storePasswordIn infoWithLogin userId</code></pre></div>
+<p>Здесь мы передаём нашу промежуточную λ-функцию в качестве первого аргумента функции <code>storePasswordIn</code>. Эта функция, в свою очередь, применяет переданную ей λ-функцию к единственному аргументу, а именно к паролю. Таким образом, на выходе из функции <code>storePasswordIn</code> мы имеем вторую промежуточную λ-функцию, в которой сохранены уже два значения: полученный на предыдущем вызове логин и на этом вызове - пароль.</p>
+<p>То же самое справедливо и для следующего вызова:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">infoWithAvatarURL <span class="fu">=</span> storeAvatarURLIn infoWithPassword userId</code></pre></div>
+<p>На выходе из функции <code>storeAvatarURLIn</code> мы получаем третью λ-функцию, в которой сохранены уже три значения: логин, пароль и путь к аватару.</p>
+<p>В итоге мы применяем эту третью λ-функцию к последнему нужному аргументу, а именно к идентификатору пользователя:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fullInfoAboutUser <span class="fu">=</span> infoWithAvatarURL userId</code></pre></div>
+<p>Здесь-то и происходит “полноценный” вызов функции <code>userInfo</code>, в результате которого мы и получаем описывающую строку:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Full</span> info about user @1234:
+ <span class="kw">login</span>: denis
+ <span class="kw">password</span>: 123456789abc
+ <span class="kw">avatar</span> URL: http://dshevchenko.biz/denis_avatar.png</code></pre></div>
+<p>Таким образом, функция <code>userInfo</code> была частично применена трижды, каждый раз получая очередной аргумент, и лишь к четвёртому применению она получила все необходимые ей аргументы. Это можно сравнить с конвейерной цепочкой, на каждом шаге которой эта функция получала очередной аргумент.</p>
+<p>Впрочем, нужны ли были такие сложности? Ведь мы можем передавать в каждую из этих трёх функций только значение <code>userId</code>, а возвращать никакую не промежуточную λ-функцию, а непосредственно логин, пароль и адрес аватара соответственно. Например, вместо функции <code>storeLoginIn</code> можно определить функцию <code>obtainLogin</code> следующего вида:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">obtainLogin ::</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> <span class="dt">Login</span>
+obtainLogin userId <span class="fu">=</span>
+    <span class="co">-- Получаем откуда-то логин и просто возвращаем его.</span></code></pre></div>
+<p>Ну а что если мы не хотим возвращать логин в явном виде? Ведь в случае с частичным применением мы упаковываем логин в промежуточную λ-функцию (то есть фактически прячем логин в неё), а в этом случае мы явно возвращаем его на показ всему миру. Первое решение может оказаться более приемлемым.</p>
+<p>Или другой пример:  </p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">UserId</span> <span class="fu">=</span> <span class="dt">Integer</span>
+<span class="kw">type</span> <span class="dt">Prefix</span> <span class="fu">=</span> <span class="dt">String</span>
+
+<span class="ot">obtainLogin ::</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> (<span class="dt">Prefix</span> <span class="ot">-&gt;</span> <span class="dt">String</span>)
+obtainLogin userId <span class="fu">=</span>
+    loginStorage <span class="st">&quot;denis&quot;</span>  <span class="co">-- Подразумевается, что логин как-то получен.</span>
+    where loginStorage login prefix <span class="fu">=</span> prefix <span class="fu">++</span> <span class="st">&quot;: &quot;</span> <span class="fu">++</span> login
+
+main <span class="fu">=</span>
+    let userId <span class="fu">=</span> <span class="dv">1234</span>
+    in
+    putStrLn ((obtainLogin userId) <span class="st">&quot;My login&quot;</span>)</code></pre></div>
+<p>  Рассмотрим функцию <code>obtainLogin</code> подробнее:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">obtainLogin ::</span> <span class="dt">UserId</span> <span class="ot">-&gt;</span> (<span class="dt">Prefix</span> <span class="ot">-&gt;</span> <span class="dt">String</span>)
+obtainLogin userId <span class="fu">=</span>
+    loginStorage <span class="st">&quot;denis&quot;</span>
+    where loginStorage login prefix <span class="fu">=</span> prefix <span class="fu">++</span> <span class="st">&quot;: &quot;</span> <span class="fu">++</span> login</code></pre></div>
+<p>Здесь мы, на основании полученного извне идентификатора пользователя, откуда-то извлекаем логин и сразу же прячем его в λ-функцию, тут же нами и созданную. В результате функция <code>obtainLogin</code> возвращает частично применённую функцию, которую мы вторично применяем к строке-префиксу - и в результате на выходе мы получаем готовый результат:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">My</span> login: denis</code></pre></div>
+<p>Вас, вероятно, интересует, почему я сказал о λ-функции? Вроде бы здесь нет нашего знакомого <code>\</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">where</span> loginStorage login prefix <span class="fu">=</span> prefix <span class="fu">++</span> <span class="st">&quot;: &quot;</span> <span class="fu">++</span> login</code></pre></div>
+<p>Однако это не важно, ведь такая запись идентична λ-форме:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">where</span> loginStorage <span class="fu">=</span> \login prefix <span class="ot">-&gt;</span> prefix <span class="fu">++</span> <span class="st">&quot;: &quot;</span> <span class="fu">++</span> login</code></pre></div>
+<p>Помните, выше я говорил, что тривиальную функцию лучше определять без объявления? Вот это тот самый случай.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>ФВП - это функция, принимающая другую функцию в качестве аргумента и/или возвращающая другую функцию.</li>
+<li>ФВП неразрывно связаны с механизмом каррирования, когда функция от нескольких аргументов превращается в набор функций от одного аргумента каждая. Поэтому любая функция, принимающая более одного аргумента, является ФВП.</li>
+<li>Каррирование базируется на частичном применении функции, когда функция принимает не все ожидаемые ею аргументы.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

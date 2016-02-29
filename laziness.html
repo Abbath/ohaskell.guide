@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>В языке Haskell по умолчанию используются ленивые вычисления. Ленивым называется такое вычисление, которое откладывается до тех пор, пока кому-нибудь не понадобится результат этого вычисления. Соответственно, если он не понадобился никому, то и вычисляться ничего не будет.</p>
+<h2 id="начнём-с-c">Начнём с C++</h2>
+<p>Допустим, нам нужен список из некоторого числа одинаковых IP-адресов. Да, в реальной жизни нам такое едва ли понадобится, но этот пример хорошо покажет суть ленивых вычислений.</p>
+<p>Функция, возвращающая список адресов, на C++ может выглядеть так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="kw">typedef</span> std::vector&lt;std::string&gt; IPAddresses;
+
+IPAddresses generate_addresses( size_t how_many,
+                                const std::string&amp; address ) {
+    const IPAddresses addresses( how_many, address );
+    return addresses;
+}</code></pre></div>
+<p>Теперь нам понадобилась функция, получающая заданное количество адресов из этого списка и выводящая их на экран. Например:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> take_and_print( size_t how_many,
+                     const IPAddresses&amp; addresses ) {
+    for( size_t i = <span class="dv">0</span>; i &lt; how_many; ++i ) {
+        std::cout &lt;&lt; addresses[i] &lt;&lt; std::endl;
+    }
+} 
+
+<span class="dt">int</span> main() {
+    take_and_print( <span class="dv">2</span>, generate_addresses( <span class="dv">100</span>, <span class="st">&quot;127.0.0.1&quot;</span> ) );
+}</code></pre></div>
+<p>Функция <code>take_and_print</code> получает список, возвращённый функцией <code>generate_addresses</code>, а потом печатает первые два адреса из этого списка. Вывод будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">127.0.0.1</span>
+<span class="kw">127.0.0.1</span></code></pre></div>
+<p>И всё бы хорошо, но из 100 созданных строк фактически потребовались лишь первые две.  Оставшиеся 98 строк были созданы абсолютно напрасно. Было затрачено время, была затрачена память - и всё впустую.</p>
+<p>Это - следствие строгости вычислений, присущей языку C++. Функция <code>generate_addresses</code> прямолинейна и сразу рвётся в бой. Сказали ей создать 100 адресов - получите 100. Скажут создать миллион - пожалуйста, вот вам миллион. Скажут миллиард - ну что ж, потерпите чуток, но будет вам и миллиард.</p>
+<p>Тем временем функция <code>take_and_print</code> столь же прямолинейна, и ей абсолютно наплевать на усилия трудолюбивой функции <code>generate_addresses</code>. Если ей сказали отобразить лишь первые два элемента полученного контейнера, именно это она и сделает. И ей без разницы, сколько там ещё осталось элементов, десять или полмиллиарда.</p>
+<p>Результатом строгости вычислений является лишняя работа. Но функции в Haskell, в отличие от своих трудолюбивых коллег из C++, терпеть не могут лишней работы.</p>
+<h2 id="вот-как-в-haskell">Вот как в Haskell</h2>
+<p>Откроем файл <code>Main.hs</code> и перепишем его:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print (take <span class="dv">2</span> (replicate <span class="dv">100</span> <span class="st">&quot;127.0.0.1&quot;</span>))</code></pre></div>
+<p>Функция <code>replicate</code> создаёт список из 100 адресов вида <code>127.0.0.1</code>, а функция <code>take</code> берёт 2 первых адреса из этого списка (о чём свидетельствует число 2, переданное ей в качестве первого аргумента). Функция <code>print</code> выводит результат на экран. Не обращайте внимания на синтаксические непонятности этого кода. В последующих главах они будут подробно разъяснены.</p>
+<p>Весь фокус в том, что функция <code>replicate</code> создаст список вовсе не из ста адресов, а всего из двух. Почему? Потому что именно столько понадобилось функции <code>take</code>.</p>
+<p>Функция <code>replicate</code> - лентяйка. Несмотря на то, что мы попросили её создать список из 100 строк, она смотрит по сторонам и думает: “Так-с, кому тут нужны мои строки? Ага, функции <code>take</code> нужны. И сколько же ей нужно? А-а, всего две. Ну так а чего я, глупая что ли, создавать сто строк, когда требуется всего две?! Вот тебе две строки и будь счастлива!”</p>
+<p>Да, трудолюбие - это хорошо, а лень - это плохо, однако в данном случае мне более симпатична функция-лентяйка. Она, как хороший рационализатор, делает не столько, сколько её попросили, а столько, сколько реально понадобилось. В этом и заключается суть ленивых вычислений в Haskell.</p>
+<p>Разумеется, если аппетиты функции <code>take</code> возрастут и она попросит первые пятьдесят элементов вместо первых двух, то функция <code>replicate</code> создаст список уже из пятидесяти строк. Столько, сколько нужно, и ни капли больше.</p>
+<p>Да, но откуда мы можем знать, что функция <code>replicate</code>  создаёт лишь столько IP-адресов, сколько потребовалось? А вдруг я вас обманываю? Давайте проверим.</p>
+<p>Ленивость языка Haskell позволяет нам оперировать бесконечно большими списками. Нет, не просто очень большими, но именно бесконечными. Перепишем наш пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print (take <span class="dv">2</span> (repeat <span class="st">&quot;127.0.0.1&quot;</span>))</code></pre></div>
+<p>Функция <code>repeat</code> создаст бесконечно большой список IP-адресов, элементами которого будет переданный ей адрес <code>127.0.0.1</code>. Да-да, бесконечно много одинаковых адресов. И вот если бы наша трудолюбивая функция <code>generate_addresses</code> из C++ захотела стать похожей на свою ленивую коллегу из Haskell, ей пришлось бы стать примерно такой:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">IPAddresses generate_addresses( size_t how_many,
+                                const std::string&amp; address ) {
+    IPAddresses addresses;
+    for(;;) {
+        addresses.push_back( address );
+    }
+
+    return addresses;
+}</code></pre></div>
+<p>И всё бы хорошо, но это намертво зависнет. И причиной тому служит уже известное нам трудолюбие функции <code>generate_addresses</code>. Сказали ей создать бесконечно большой список - будет создавать до последнего вздоха, ведь цикл <code>for</code> в данном случае не имеет выхода.</p>
+<p>Однако если мы соберём наш Haskell-проект и запустим его, то не будет никакого зависания, и на экран вновь выведутся уже знакомые нам два адреса. А всё потому, что функция <code>repeat</code> столь же ленива и рациональна, как и её коллега <code>replicate</code>. Да, мы попросили её создать бесконечно большой список, однако на деле она создаст список вовсе не бесконечный, а такой, который реально нужен. И если в данном случае нужен список только из двух строк - получите список из двух строк. Конечно, если бы потребовался список из миллиона строк - извольте, будет вам миллион.</p>
+<h2 id="аргументы">Аргументы</h2>
+<p>Ленивые вычисления распространяются и на работу с аргументами функции. И это очень полезное свойство Haskell.</p>
+<p>Вернёмся к C++. Пусть у нас есть функция, принимающая два аргумента. И в качестве этих двух аргументов используются уже известные нам списки IP-адресов:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> take_and_print_two_lists( <span class="dt">const</span> IPAddresses&amp; first_list,
+                               <span class="dt">const</span> IPAddresses&amp; second_list ) {
+    for( <span class="kw">auto</span> ip_address : first_list ) {
+        std::cout &lt;&lt; ip_address &lt;&lt; std::endl;
+    }
+
+    <span class="kw">for</span>( <span class="kw">auto</span> ip_address : second_list ) {
+        std::cout &lt;&lt; ip_address &lt;&lt; std::endl;
+    }
+} 
+
+<span class="dt">int</span> main() {
+    take_and_print_two_lists( generate_addresses( <span class="dv">1000</span>, <span class="st">&quot;127.0.0.1&quot;</span> ),
+                              generate_addresses( <span class="dv">2000</span>, <span class="st">&quot;22.34.47.65&quot;</span> ) );
+}</code></pre></div>
+<p>Итак, мы дважды вызываем функцию <code>generate_addresses</code>, в итоге в качестве первого аргумента функция <code>take_and_print_two_lists</code> принимает список из 1000 адресов, а в качестве второго - список из 2000 адресов. В итоге адреса из обоих списков будут выведены на экран.</p>
+<p>А теперь представим себе, что печатать адреса из второго списка нам больше не нужно:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp"><span class="dt">void</span> take_and_print_two_lists( <span class="dt">const</span> IPAddresses&amp; first_list,
+                               <span class="dt">const</span> IPAddresses&amp; second_list ) {
+    for( <span class="kw">auto</span> ip_address : first_list ) {
+        std::cout &lt;&lt; ip_address &lt;&lt; std::endl;
+    }
+} </code></pre></div>
+<p>Второй аргумент уже не используется. Вопрос: будет ли вызвана функция <code>generate_addresses</code>, создающая 2000 адресов? Ответ: конечно да! Ведь, как мы выяснили ранее, эта функция прямолинейна и трудолюбива. Сказали создать 2000 адресов - получите. Что же мы имеем в этом случае? Опять-таки лишнюю работу: целых 2000 адресов были созданы, а в итоге это оказалось никому не нужным. А если бы их было 10 миллионов?..</p>
+<p>В языках, похожих на C++, все аргументы вычисляются <em>до</em> их передачи в тело функции, независимо от того, используются ли значения этих аргументов или нет. В Haskell же аргументы вычисляются только в том случае, если они реально нужны в теле функции. Поэтому в Haskell функция <code>generate_addresses</code>, создающая 2000 адресов, не будет вызвана, ведь результат её работы никому не понадобился. Да здравствуют рационализм и оптимизация!</p>
+<p>А, кстати, вдруг я пошутил? Откуда мы знаем, что аргумент не будет вычислен в случае его неиспользуемости? А это очень легко проверить.</p>
+<p>В Haskell, как и в любом языке программирования, нельзя делить на 0. Воспользуемся же этим опасным трюком. Откроем файл <code>Main.hs</code> и напишем в нём следующее:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f x y <span class="fu">=</span> x <span class="fu">+</span> y
+
+main <span class="fu">=</span> print (f (<span class="dv">2</span> <span class="ot">`div`</span> <span class="dv">1</span>) (<span class="dv">3</span> <span class="ot">`div`</span> <span class="dv">0</span>))</code></pre></div>
+<p>Функция <code>f</code> принимает два аргумента и возвращает их сумму. И вот мы передаём ей в качестве первого аргумента результат деления 2 на 1, а в качестве второго - результат деления 3 на 0. Эта программа скомпилируется, но если вы её запустите, получите ожидаемую ошибку выполнения:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">./dist/build/Real/Real</span>
+<span class="kw">Real</span>: divide by zero</code></pre></div>
+<p>Функция <code>f</code> использует оба свои аргумента, а значит, оба выражения, результат которых будет передан в качестве этих аргументов, будут вычислены, и мы поймаем ошибку деления на 0. А теперь давайте чуток перепишем функцию <code>f</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f x y <span class="fu">=</span> x</code></pre></div>
+<p>Теперь эта функция просто возвращает значение своего первого аргумента, абсолютно игнорируя второй. Эта программа тоже скомпилируется, но при запуске мы увидим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">./dist/build/Real/Real</span>
+<span class="kw">2</span></code></pre></div>
+<p>Всё верно, перед нами первый аргумент функции <code>f</code>. Но вы спросите, куда же делась ошибка деления на 0? А никакого деления на 0 не было. Ведь второй аргумент функции <code>f</code> не используется, а следовательно, результат выражения:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dv">3</span> <span class="ot">`div`</span> <span class="dv">0</span>)</code></pre></div>
+<p>никому не понадобился. Ну а раз он никому не понадобился, то и вычислено это выражение не будет.</p>
+<h2 id="строгость">Строгость</h2>
+<p>Как было упомянуто выше, ленивость вычислений - это <em>умолчальное</em> поведение в Haskell. Однако иногда нам нужна строгость. Поэтому существуют способы избежать ленивого рационализма и действовать напролом. Но об этом будет рассказано в одной из следующих глав.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

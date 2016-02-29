@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Есть в Haskell один инструмент, важность и практичность которого невозможно переоценить. Называется он “сравнение с образцом” (pattern matching). А поскольку данное название очень часто транслитерируется, так же поступлю и я: буду называть его “паттерн матчинг”.</p>
+<p>Этот инструмент настолько полезен и элегантен, что когда вы влюбитесь в него (а это я вам гарантирую), вы удивитесь, как вы вообще могли жить без него раньше. В последующих главах мы будем очень часто использовать паттерн матчинг, а здесь разберём лишь суть.</p>
+<h2 id="суть">Суть</h2>
+<p>Собственно, название говорит само за себя - сравнение с образцом. Идея в том, что мы сравниваем некое выражение с неким образцом (шаблоном), с целью извлечения из этого выражения чего-нибудь интересного. И сразу пример.</p>
+<p>Вы ведь помните список? Сейчас я покажу вам, сколь изящно можно работать со списком с помощью паттерн матчинга.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
+<p>Как мы знаем, стандартная функция <code>head</code> (определённая в модуле <code>Prelude</code>) возвращает первый элемент непустого списка:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> head [<span class="dv">23</span>, <span class="dv">45</span>, <span class="dv">67</span>]</code></pre></div>
+<p>Вывод:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">23</span></code></pre></div>
+<p>А теперь давайте взглянем на код этой функции:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">head<span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> a
+head (x <span class="fu">:</span> _) <span class="fu">=</span> x</code></pre></div>
+<p>Хм… С объявлением всё понятно: принимаем список значений некоторого типа и возвращаем значение этого же тип. Но вот определение вызывает у нас вопрос. Круглые скобки вроде бы говорят нам о кортеже, однако функция работает со списком, а не с кортежем.</p>
+<p>Перед нами - один из классических случаев pattern matching. То, что мы приняли за кортеж, на самом деле является образцом, с которым и происходит сравнение. Взглянем повнимательнее:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(x <span class="fu">:</span> _) <span class="fu">=</span> x</code></pre></div>
+<p>Конструкция в круглых скобках - это концептуальный образец списка. Именно образец, потому-то здесь и нет квадратных скобок. Это удивляет, но лишь до тех пор, пока мы не вспомним, что назначение оператора <code>:</code> в том, чтобы добавлять свой левый операнд в начало списка, являющегося правым операндом. Это проясняет картину:</p>
+<pre><code>( x          :             _       )
+  некое      добавляется   некоего
+  значение   в начало      списка</code></pre>
+<p>В результате работы оператора <code>:</code> порождается новый список, однако в контексте данного образца нас это не интересует. Более того, нас даже не интересует содержимое списка, в начало которого мы добавляем <code>x</code>, поэтому мы используем пустышку <code>_</code>. Нас интересует исключительно <code>x</code>, ведь именно <code>x</code> ассоциируется с первым элементом того самого пустышечного списка. И чтобы завершить сравнение с образцом, мы объявляем равенство:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">head (x <span class="fu">:</span> _) <span class="fu">=</span> x</code></pre></div>
+<p>Теперь функция <code>head</code> вернёт нам тот самый <code>x</code>. А чтобы стало совсем понятно, подставим наш реальный список, и вот что получится:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">head (<span class="dv">23</span> <span class="fu">:</span> [<span class="dv">45</span>, <span class="dv">67</span>]) <span class="fu">=</span> <span class="dv">23</span>
+      <span class="co">--               --</span></code></pre></div>
+<p>Мы как бы говорим: “Пусть функция <code>head</code> вернёт нам <em>то</em>, что нужно было бы добавить в начало списка <code>[45, 67]</code>, чтобы получился список <code>[23, 45, 56]</code>”. А этим <em>то</em> и является значение 23.</p>
+<p>Кстати, имя <code>x</code> не является каким-то особенным. Мы могли бы использовать и любое другое имя:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">head<span class="ot"> ::</span> [a] <span class="ot">-&gt;</span> a
+head (firstElement <span class="fu">:</span> _) <span class="fu">=</span> firstElement</code></pre></div>
+<h2 id="дублируем-элемент">Дублируем элемент</h2>
+<p>Рассмотрим другой пример. Определим функцию, дублирующую первый элемент списка:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="ot">duplicateFirstElement ::</span> [a] <span class="ot">-&gt;</span> [a]
+duplicateFirstElement (x <span class="fu">:</span> xs) <span class="fu">=</span> x <span class="fu">:</span> x <span class="fu">:</span> xs
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> duplicateFirstElement [<span class="dv">23</span>, <span class="dv">45</span>, <span class="dv">67</span>]</code></pre></div>
+<p>Вывод:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">23</span>,23,45,67]</code></pre></div>
+<p>Рассмотрим сравнение в теле функции <code>duplicateFirstElement</code> внимательнее:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(x <span class="fu">:</span> xs) <span class="fu">=</span> x <span class="fu">:</span> x <span class="fu">:</span> xs</code></pre></div>
+<p>Имена <code>x</code> и <code>xs</code> в подобных образцах - не более чем дань традиции. А раз так, заменим их на более понятные:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(firstElement <span class="fu">:</span> otherElements) <span class="fu">=</span> firstElement <span class="fu">:</span> firstElement <span class="fu">:</span> otherElements</code></pre></div>
+<p>Теперь мы уже не может использовать пустышку <code>_</code>, поскольку нас <em>интересует</em> переданный нам список. И для большей ясности добавим наши реальные значения:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dv">23</span> <span class="fu">:</span> [<span class="dv">45</span>, <span class="dv">67</span>]) <span class="fu">=</span> <span class="dv">23</span> <span class="fu">:</span> <span class="dv">23</span> <span class="fu">:</span> [<span class="dv">45</span>, <span class="dv">67</span>] <span class="fu">=</span> [<span class="dv">23</span>, <span class="dv">23</span>, <span class="dv">45</span>, <span class="dv">67</span>]
+ <span class="co">--   ========    --   --   ========    --  --  ======</span></code></pre></div>
+<p>Полагаю, теперь всё предельно понятно.</p>
+<h2 id="несколько-образцов">Несколько образцов</h2>
+<p>Да, их может быть несколько. Определим функцию, берующую вершины из двух переданных ей списков и возвращающую кортеж, составленных из этих вершин:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="ot">takeTwoHeads ::</span> [a] <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> (a, a)
+takeTwoHeads (x <span class="fu">:</span> _) (y <span class="fu">:</span> _) <span class="fu">=</span> (x, y)
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> takeTwoHeads [<span class="dv">23</span>, <span class="dv">45</span>, <span class="dv">67</span>] [<span class="dv">89</span>, <span class="dv">93</span>]</code></pre></div>
+<p>Результат:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">(23</span>,89<span class="kw">)</span></code></pre></div>
+<p>Данное сравнение уже не требует пояснений:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">takeTwoHeads (x  <span class="fu">:</span> _       ) (y  <span class="fu">:</span> _   ) <span class="fu">=</span> (x,  y)
+
+takeTwoHeads (<span class="dv">23</span> <span class="fu">:</span> [<span class="dv">45</span>, <span class="dv">67</span>]) (<span class="dv">89</span> <span class="fu">:</span> [<span class="dv">93</span>]) <span class="fu">=</span> (<span class="dv">23</span>, <span class="dv">89</span>)
+              <span class="co">--              ==            --  ==</span></code></pre></div>
+<p>Как вы уже поняли, комбинировать образцы можно многими способами.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

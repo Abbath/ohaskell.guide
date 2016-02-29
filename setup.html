@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h1 id="приготовимся">Приготовимся</h1>
+<p>Мы не можем начать изучение языка без испытательного полигона. Установим Haskell.</p>
+<p>Сделать это можно несколькими способами, мы выберем самый удобный. Называется он <a href="http://haskellstack.org/">The Haskell Tool Stack</a>. Эта утилита - всё, что вам понадобится для работы с Haskell.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Haskell - кроссплатформенный язык, прекрасно работающий и в OS X, и в Linux, и даже в Windows. Однако в 2008 году я навсегда покинул мир Windows, поэтому все последующие примеры взаимодействия с командной строкой подразумевают Unix-way. Вся конфигурация и примеры кода опробованы мною на OX S Yosemite. </span>
+</div>
+<h2 id="устанавливаем">Устанавливаем</h2>
+<p>Идём <a href="http://docs.haskellstack.org/en/stable/install_and_upgrade.html">сюда</a> и скачиваем архив для нужной нам ОС. Распаковываем архив - и перед нами утилитка под названием <code>stack</code>. Для удобства располагаем её в каком-нибудь каталоге, доступном в <code>PATH</code>. Рекомендованный путь:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">~/.local/bin/</span></code></pre></div>
+<p>Если же вы живёте в мире Mac и пользуетесь <a href="http://brew.sh/">Homebrew</a> - вам ещё проще. Делаете:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">brew</span> update
+$ <span class="kw">brew</span> install haskell-stack</code></pre></div>
+<p>Всё.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> На момент написания книги я использовал <code>stack</code> версии 1.0.2. Если у вас более старая версия - обязательно обновитесь. Если же более новая - у вас теоретически что-нибудь может работать не совсем так, как описано ниже, поскольку <code>stack</code> активно разивается, добавляются новые возможности, может быть где и поломают обратную совместимость… </span>
+</div>
+<p>Главное (но не единственное), что умеет делать <code>stack</code>, это:</p>
+<ol style="list-style-type: decimal">
+<li>Разворачивать Haskell-инфраструктуру.</li>
+<li>Собирать проекты.</li>
+<li>Устанавливать библиотеки.</li>
+</ol>
+<p>Haskell-инфраструктура - экосистема, краеугольным камнем которой является компилятор <code>ghc</code> (Glasgow Haskell Compiler). Как было сказано ранее, Haskell - это компилируемый язык: приложение представляет собой обыкновенный исполняемый файл.</p>
+<p>Haskell-проект - среда для создания настоящих приложений и библиотек.</p>
+<p>Haskell-библиотеки - готовые решения, спасающие нас от изобретения сотен велосипедов.</p>
+<h2 id="разворачиваем-инфраструктуру">Разворачиваем инфраструктуру</h2>
+<p>Делаем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> setup</code></pre></div>
+<p>В результате на ваш компьютер будет установлена Haskell-инфраструктура последней стабильной версии. Жить всё это хозяйство будет в только что созданном скрытом каталоге <code>~/.stack/</code>. Именно поэтому устанавливать инфраструктуру для последующих Haskell-проектов вам уже не придётся: единожды развернули, используем всегда. Пока вам не нужно знать об устройстве этой инфраструктуры, воспринимайте её как данность: теперь на вашем компьютере живёт Haskell.</p>
+<h2 id="hi-world">Hi World</h2>
+<p>Создадим Haskell-проект:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> new real</code></pre></div>
+<p>Здесь <code>real</code> - название нашего проекта. В результате будет создан каталог <code>real</code>, внутри которого мы увидим это:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">.</span>
+├── <span class="kw">LICENSE</span>
+├── <span class="kw">Setup.hs</span>
+├── <span class="kw">app</span>
+│   └── <span class="kw">Main.hs</span>
+├── <span class="kw">real.cabal</span>
+├── <span class="kw">src</span>
+│   └── <span class="kw">Lib.hs</span>
+├── <span class="kw">stack.yaml</span>
+└── <span class="kw">test</span>
+    └── <span class="kw">Spec.hs</span></code></pre></div>
+<p>О содержимом проекта вам пока знать не нужно, просто соберём его:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> install</code></pre></div>
+<p>Запомните эту команду, мы будем использовать её постоянно. В результате её выполнения появится файл <code>real-exe</code>. А поскольку скопирован он будет в упомянутый выше каталог <code>~/.local/bin/</code>, мы сможем сразу же запустить программу:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">real-exe</span>
+<span class="kw">someFunc</span></code></pre></div>
+<p>Только что мы создали настоящий Haskell-проект и запустили нашу первую программу, выведшую строку “someFunc”. Но как же это работает? Пришла пора познакомится с модулями.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/this-book.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="/modules-minimum.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

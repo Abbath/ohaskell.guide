@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h1 id="неизменность-и-чистота">Неизменность и чистота</h1>
+<p>В предыдущей главе мы познакомились с функциями и выражениями, увидев близкую связь этих понятий. В этой главе мы узнаем, что значит «чисто функциональный» язык и почему в нём нет места оператору присваивания.</p>
+<h2 id="присваивание-не-не-слышал">«Присваивание? Не, не слышал…»</h2>
+<p>В мире Haskell нет места оператору присваивания. Этот факт, удивительный на первый взгляд, оказывается предельно простым и логичным, когда мы вспоминаем о математической природе функций в Haskell. Если каждая функция в конечном итоге представляет собою некое выражение, вычисляемое посредством применения каких-то других функций к каким-то другим аргументам - тогда нам просто не нужно ничего ничему присваивать.</p>
+<p>Вспомним, что присваивание (англ. assignment) пришло к нам из императивных языков. Суть императивного программирования (англ. imperative programming) в том, что программа воспринимается как набор инструкций, работа которых неразрывно связана с изменением состояния этой программы. Вот почему в императивных языках обязательно присутствует понятие «переменная». А раз есть переменные - должен быть и инструмент для изменения/перезаписи их значений, и этим инструментом является оператор присваивания.</p>
+<p>Однако существует принципиально иной подход к разработке, а именно декларативное программирование (англ. declarative programming). Haskell, как вы уже поняли, воплотил в себе именно этот подход, при котором программа воспринимается уже не как набор инструкций, а как набор - правильно! - выражений. А так как выражения вычисляются путём применения функций к аргументам (то есть, по сути, к другим выражениям), там нет места ни переменным, ни оператору присваивания. Любое конкретное значение в Haskell-программе, будучи созданным единожды, уже не может быть изменено, никогда и никем.</p>
+<p>Вы спросите, как же можно написать реальную программу на языке, в котором нельзя изменять данные?? Оказывается, можно. Да, нам не дано изменить уже созданное значение, однако мы можем создать на его основе новое значение. А обязанности по уничтожению уже не нужных данных возложены на встроенный в Haskell сборщик мусора (англ. garbage collector).</p>
+<p>Одна из фундаментальных проблем императивного программирования в том, что чем больше становится проект, тем сложнее уследить за состоянием великого множества переменных в нём. А в свете параллельного программирования эта проблема усугубляется в разы. В Haskell такой проблемы нет в принципе, ведь выражения, сколь бы много их ни было и сколь бы сложными они ни казались, всегда имеют дело с неизменными данными. Это непривычно, но чрезвычайно удобно.</p>
+<p>Вы спросите, а что же с байтами в памяти? Ведь там-то должны быть изменения?! Конечно должны. На самом низком, системном уровне все наши программы сводятся к совокупности правил перезаписи содержимого ячеек виртуальной памяти. Но на дворе 2016 год, и думать о ячейках памяти совсем не хочется. Разумеется, с точки зрения машинных инструкций программа, написанная на Haskell, мало чем отличается от программы, написанной на C. Но к счастью, мы с вами не должны думать об этом.</p>
+<p>А начнём мы с более глубокого, практического рассмотрения функций.</p>
+<p>В предыдущей главе я одним махом открыл вам много нового. Пришло время разбираться более детально. В этой главе мы узнаем о чистых функциях и о том, почему в Haskell из функций нет возврата.</p>
+<p>Чистыми (англ. pure) называют такие функции, у которых нет побочных эффектов (англ. side effects). Это означает, что значение, вычисляемое функцией, определяется исключительно аргументами. Например, функция <code>sum</code> из предыдущей главы является чистой, потому что результат её работы зависит только от значений двух её аргументов:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">sum<span class="ot"> ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+sum x y <span class="fu">=</span> x <span class="fu">+</span> y</code></pre></div>
+<p>Мы можем хоть миллион раз применить эту функцию к значениям <code>10</code> и <code>20</code> - на выходе мы гарантированно получим <code>30</code>, и ничто не может изменить этого факта. Отсюда вытекает важное свойство чистых функций: мы всегда можем заменить выражение</p>
+<h2 id="возврат-из-функции">Возврат из функции</h2>
+<p>В императивных языках, подобных C, существует особая инструкция <code>return</code>, предназначенная для явного возврата значения из функции. Поскольку функции там - это подпрограммы, наличие такой инструкции необходимо потому, что точек выхода/возврата из функции может быть несколько. Например, на C++ функция <code>checkLocalhost</code> могла бы выглядеть так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">std::string checkLocalhost(<span class="dt">const</span> std::string&amp; ip) {
+    <span class="kw">if</span>(ip == <span class="st">&quot;127.0.0.1&quot;</span> || ip == <span class="st">&quot;0.0.0.0&quot;</span> || ip == <span class="st">&quot;::1&quot;</span>) {
+        <span class="kw">return</span> <span class="st">&quot;It's a localhost!&quot;</span>;     <span class="co">// Выходим здесь...</span>
+    }
+
+    <span class="kw">return</span> <span class="st">&quot;No, it's not a localhost.&quot;</span>  <span class="co">// ... или здесь.</span>
+}</code></pre></div>
+<p>В Haskell не существует аналога инструкции <code>return</code>, поскольку единственной «точкой возврата» из функции является её конечный результат. Звучит необычно, поясню примером.</p>
+<p>Как мы знаем, применение функции - это выражение. А так как оперирует оно с неизменными данными, мы всегда можем заменить выражение своим конечным результатом. И ничего не сломается. Например, выражение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">checkLocalhost <span class="st">&quot;127.0.0.1&quot;</span></code></pre></div>
+<p>может быть заменено</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/expressions-n-functions.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="/functions-inside.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

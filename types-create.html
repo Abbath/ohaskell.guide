@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>В языке Haskell мало встроенных типов. Есть числа разные, символ, список и ещё чуток. Все же остальные типы, даже носящие статут стандартных, не являются встроенными, и потому компилятор ничего не знает о них. Вместо этого они определены в библиотеках, и это одна из важнейших черт Haskell: создавать новые типы здесь очень просто.</p>
+<h2 id="hello-world">Hello World</h2>
+<p>Определим тип <code>Transport</code> для двух распространённых протоколов транспортного уровня модели OSI:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Transport</span> <span class="fu">=</span> <span class="dt">TCP</span> <span class="fu">|</span> <span class="dt">UDP</span></code></pre></div>
+<p>Перед нами - предельно простой, но уже наш собственный тип. Рассмотрим его внимательнее.</p>
+<p>Ключевое слово <code>data</code> - это начало определение типа. Далее следует название типа, в данном случае <code>Transport</code>. Запомните эту важную деталь: название любого типа в Haskell всегда начинается с большой буквы. Затем идёт знак равенства (именно равенства, а никак не присваивания), после которого начинается фактическое описание типа, его “тело”. В данном случае оно состоит из двух простейших конструкторов. Конструктор значения (англ. data constructor) - это то, что строит значение данного типа. Здесь у нас два конструктора, <code>TCP</code> и <code>UDP</code>, каждый из которых строит значение типа <code>Transport</code>. И кстати, имя конструктора тоже обязано начинаться с большой буквы.</p>
+<p>Данное определение очень легко читается:</p>
+<pre><code>data  Transport  =    TCP  |    UDP
+
+тип   Transport  это  TCP  или  UDP</code></pre>
+<p>И теперь мы можем использовать тип <code>Transport</code>, а именно создавать соответствующие значения и что-то с ними делать. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> protocol <span class="fu">=</span> <span class="dt">TCP</span></code></pre></div>
+<p>Мы создали значение <code>protocol</code> типа <code>Transport</code>, использовав конструктор <code>TCP</code>. А можно и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> protocol <span class="fu">=</span> <span class="dt">UDP</span></code></pre></div>
+<p>Хотя мы использовали разные конструкторы, тип значения <code>protocol</code> в обоих случаях - <code>Transport</code>.</p>
+<p>Расширить такой тип предельно просто. Захотелось нам добавить SCTP (Stream Control Transmission Protocol) - пожалуйста:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Transport</span> <span class="fu">=</span> <span class="dt">TCP</span> <span class="fu">|</span> <span class="dt">UDP</span> <span class="fu">|</span> <span class="dt">SCTP</span></code></pre></div>
+<p>Добавили третий конструктор - появился третий способ создать значение типа <code>Transport</code>.</p>
+<h2 id="значение">Значение</h2>
+<p>А в самом деле, когда мы говорим о “значении” типа <code>Transport</code> - о каком в действительности значении идёт речь? Казалось бы, значения фактического вроде бы и нет: ни числа, ни строки, просто три конструктора. Так вот эти три конструктора и порождают собою три значения. Поэтому когда мы пишем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> protocol <span class="fu">=</span> <span class="dt">SCTP</span></code></pre></div>
+<p>мы создаём сущность типа <code>Transport</code> со значением <code>SCTP</code>. В данном случае значение - это и есть конструктор. Это простейший вид конструктора и называется он нульарным. Таким образом, тип <code>Transport</code> имеет три нульарных конструктора.</p>
+<p>Однако в большинстве случаев мы желаем иметь дело со значениями поинтереснее. В этом случае нульарным конструктором мы уже не обойдёмся. Оставим сетевые протоколы, рассмотрим другой пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPAddress</span> <span class="dt">String</span></code></pre></div>
+<p>Тип <code>IPAddress</code> использует один-единственный конструктор, но кое-что изменилось. Во-первых, имена типа и конструктора совпадают. Это вполне легально, и во многих Haskell-проектах вы часто будете видеть типы с одноимёнными конструкторами. Во-вторых, конструктор уже не нульарный, потому что имеет одно значение типа <code>String</code>. Такой конструктор называют унарным, и вот как мы будем создавать значения типа <code>IPAddress</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> ip <span class="fu">=</span> <span class="dt">IPAddress</span> <span class="st">&quot;127.0.0.1&quot;</span></code></pre></div>
+<p>Значение <code>ip</code> наполнено уже нашим собственным строковым содержимым. С концептуальной точки зрения тип <code>IPAddress</code> теперь можно рассматривать как контейнер, внутри которого лежит наша строка, содержащая IP-адрес.</p>
+<p>Расширим тип <code>IPAddress</code>, сделав его более современным:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPv4</span> <span class="dt">String</span> <span class="fu">|</span> <span class="dt">IPv6</span> <span class="dt">String</span></code></pre></div>
+<p>Теперь у нас два конструктора, отражающие разные IP-версии. Это позволит нам создавать значение типа <code>IPAddress</code> так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> ip <span class="fu">=</span> <span class="dt">IPv4</span> <span class="st">&quot;127.0.0.1&quot;</span></code></pre></div>
+<p>или так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> ip <span class="fu">=</span> <span class="dt">IPv6</span> <span class="st">&quot;2001:0db8:0000:0042:0000:8a2e:0370:7334&quot;</span></code></pre></div>
+<p>Конечно, нульарные конструкторы можно совмещать с унарными. Вот пример использования: когда мы работаем с IP-адресом, очень часто нам требуется <code>localhost</code>. Так вот чтобы явно не писать <code>&quot;127.0.0.1&quot;</code> и <code>&quot;0:0:0:0:0:0:0:1&quot;</code>, введём ещё два конструктора:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPv4</span> <span class="dt">String</span> <span class="fu">|</span> <span class="dt">IPv4Localhost</span> <span class="fu">|</span> <span class="dt">IPv6</span> <span class="dt">String</span> <span class="fu">|</span> <span class="dt">IPv6Localhost</span></code></pre></div>
+<p>Поскольку значения <code>localhost</code> стандартизованы и всегда одни и те же, нам нет нужды указывать их явно. Вместо этого, когда нам понадобится IPv4-localhost, пишем так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> ip <span class="fu">=</span> <span class="dt">IPv4Localhost</span></code></pre></div>
+<p>И всем сразу понятно: значение <code>ip</code> соответствует <code>&quot;127.0.0.1&quot;</code>.</p>
+<p>И кстати, о стилистике. В Haskell-мире определение типа с несколькими конструкторами принято писать так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPv4</span> <span class="dt">String</span>
+               <span class="fu">|</span> <span class="dt">IPv4Localhost</span>
+               <span class="fu">|</span> <span class="dt">IPv6</span> <span class="dt">String</span>
+               <span class="fu">|</span> <span class="dt">IPv6Localhost</span></code></pre></div>
+<p>Вертикальные черты, отражающие концептуальные “ИЛИ”, выровнены вертикально и строго под знаком равенства. Нет, вы вовсе не обязаны писать так же, просто во многих Haskell-проектах вы увидите именно такое форматирование.</p>
+<p>И да, раз уж мы видели нульарный и унарный конструкторы, логично предположить, что существуют также и бинарные, и тернарные и т.д. Так оно и есть:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">EndPoint</span> <span class="fu">=</span> <span class="dt">EndPoint</span> <span class="dt">String</span> <span class="dt">Int</span></code></pre></div>
+<p>Тип <code>EndPoint</code> представлен единственным бинарным конструктором, принимающим два значения, строковое для IP-адреса и целочисленное для порта:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> googlePoint <span class="fu">=</span> <span class="dt">EndPoint</span> <span class="st">&quot;173.194.122.211&quot;</span> <span class="dv">80</span></code></pre></div>
+<p>Можно сказать, что тип <code>EndPoint</code> представляет собой контейнер с двумя ячейками, строковой и целочисленной.</p>
+<h2 id="типы-как-кирпичи">Типы как кирпичи</h2>
+<p>Не кажется ли вам, что с типом <code>EndPoint</code> что-то не так? Да, из названия типа следует, что строка тут - это не просто какая-то строка, это сетевой адрес. Но откуда мы знаем, что там именно IP-адрес? А может программист напишет так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> googlePoint <span class="fu">=</span> <span class="dt">EndPoint</span> <span class="st">&quot;www.google.com&quot;</span> <span class="dv">80</span></code></pre></div>
+<p>Однако в ряде случаев это может быть неприемлемым решением. Выход? Так оно у нас уже есть, взгляните выше! Мы же определили тип <code>IPAddress</code>, так почему же не воспользоваться им? Переписываем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">EndPoint</span> <span class="fu">=</span> <span class="dt">EndPoint</span> <span class="dt">IPAddress</span> <span class="dt">Int</span></code></pre></div>
+<p>Вот, так гораздо лучше! Такой тип уже содержит в себе “документацию”: теперь мы точно знаем, что создавать значения типа <code>EndPoint</code> следует именно с IP-адресом. Например:</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

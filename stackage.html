@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h1 id="stackage">Stackage</h1>
+<p>В предыдущей главе мы познакомились с Hackage, репозиторием Haskell-пакетов. Теперь же настало время познакомится со “стабильным Hackage”.</p>
+<h2 id="проблема">Проблема</h2>
+<p>В станодавние времена существовала в мире Haskell большая проблема, связанная с пакетами, и называлась она “dependency hell”. Вот в чём её суть.</p>
+<p>Как вы уже поняли, каждый из Haskell-пакетов тоже имеет ряд зависимостей от неких других пакетов, и эти зависимости перечислены в его <code>.cabal</code>-файле. Зависимость может быть указана “версионной вилкой”, например:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">  <span class="kw">http-client</span>  <span class="kw">&gt;</span>= 0.3 <span class="kw">&amp;&amp;</span> <span class="kw">&lt;</span> <span class="kw">0.5</span></code></pre></div>
+<p>Это означает, что данный пакет зависит от пакета <code>http-client</code> любой версии, входящей в промежуток от <code>0.3</code> включительно до <code>0.5</code>. Однако зависимость может быть указана точно:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">  <span class="kw">http-client</span>  == 0.3.6.1</code></pre></div>
+<p>В этом случае нам нужна версия <code>0.3.6.1</code> и никакая другая. Вот тут-то нас и поджидает ад.</p>
+<p>Допустим, наш проект зависит от двух пакетов, <code>A</code> и <code>B</code>, каждый из которых в свою очередь зависит от третьего пакета <code>C</code>. Но к сожалению, звёзды оказались неблагосклонны к нашему проекту, и выяснилось, что пакет <code>A</code> зависит от пакета <code>C</code> версии <code>1.8.1</code>, в то время как пакет <code>B</code> - от пакета <code>C</code> версии <code>2.0.0</code>… Эту проблему пытались решить несколькими способами, но самым удобным оказался способ под названием <code>Stackage</code>.</p>
+<h2 id="что-это-такое">Что это такое?</h2>
+<p>Название Stackage происходит от слияния слов “Stable” и “Hackage”. Идея в том, чтобы предоставить разработчику надёжный набор пакетов, на который гарантированно можно положиться.</p>
+<p>В основе этой идеи лежит LTS Haskell snapshot, или LTS-снимок (от Long-Term Support). LTS-снимок представляет собой большой список пакетов жёстко заданных версий. И подобраны эти версии таким образом, чтобы все пакеты были версионно совместимы друг с другом. Гарантированно и железобетонно. То есть, возвращаясь к нашему примеру, если в LTS-снимке перечислены пакеты <code>A</code> и <code>B</code>, то их версии подобраны так, чтобы они зависели от одной и той же версии пакета <code>C</code>. В этом случае у нас никогда не возникнет никаких версионных коллизий.</p>
+<p>Откроем файл <code>stack.yaml</code> в корне нашего проекта и найдём там строчку вида:</p>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">resolver:</span> lts-5.2</code></pre></div>
+<p>В этой строке мы задаём номер LTS-снимка, используемого в данном проекте. Да, у каждого снимка есть собственный номер, или, если хотите, версия. В данном случае мы объявляем, что наш проект “живёт” в рамках LTS-снимка под номером <code>5.2</code>. Это означает, что если наш проект зависит от пакета <code>text</code>, то не от абы какой версии <code>text</code>, но именно от версии <code>1.2.2.0</code>, ведь именно эта версия упомянута в данном LTS-снимке.</p>
+<p>Кстати, содержимое снимка <code>5.2</code> можно посмотреть <a href="https://www.stackage.org/lts-5.2">здесь</a>. В конце адреса меняем номер - и видим содержимое другого снимка.</p>
+<h2 id="неизменность">Неизменность</h2>
+<p>LTS-снимки хороши и тем, что неизменны. В упомянутом снимке <code>5.2</code> перечислены 1766 пакетов конкретных версий, и так оно будет всегда. Следовательно, если члены команды Haskell-разработчиков, работающие на одним и тем же проектом, используют один и тот же снимок - у всех у них всё будет компилироваться. Сегодня, завтра и через пять лет. Создатели Stackage провозгласили это одним из девизов данной идеи: “То, что работает сегодня, должно работать и завтра”.</p>
+<h2 id="утилита-stack">Утилита stack?</h2>
+<p>Да, совершенно верно: уже знакомая нам утилита <code>stack</code> является частью проекта Stackage, оттого и схожесть в названии. Поэтому, используя <code>stack</code>, вы уже используете какой-то LTS-снимок.</p>
+<h2 id="а-если-не-из-репозитория">А если не из репозитория?</h2>
+<p>В самом деле, представим себе такую ситуацию. Некий разработчик сделал полезную Haskell-библиотеку, но не стал включать её в единый репозиторий, а вместо этого поселил её в своём GitHub-профиле. А нам эта библиотека очень уж приглянулась. Как же включить её в проект? Открываем <code>stack.yaml</code> и пишем:</p>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="kw">-</span> <span class="fu">location:</span>
+    <span class="fu">git:</span> https://github.com/user/project.git
+    <span class="fu">commit:</span> 018919f43854b1d6f30d4270f5471db807ac1a41</code></pre></div>
+<p>Думаю, тут всё понятно без комментариев: пакет будет вытянут из данного репозитория (с использованием указанного коммита), собран и включён в наш проект. И не забудьте включить имя данного пакета в списке зависимостей в <code>.cabal</code>-файле.</p>
+<h2 id="ещё-почитать">Ещё почитать</h2>
+<p>Я написал небольшую <a href="http://ruhaskell.org/posts/utils/2015/07/13/from-cabal-to-stack.html">обзорную статью</a>, посвящённую <code>stack</code> и работе с LTS-снимками.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/immutability.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="/immutability.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

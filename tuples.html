@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Кортеж (англ. tuple) - очень простая структура данных. Он тоже хранит в себе набор элементов, однако к списку не имеет никакого отношения. Главная особенность - гетерогенность: кортеж способен хранить в себе элементы разных типов.</p>
+<p>Вот как он выглядит:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>)  <span class="co">-- Кортеж из двух строк.</span></code></pre></div>
+<p>Гетерогенность позволяет нам написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Denis&quot;</span>, <span class="fl">1.234</span>, <span class="ch">'a'</span>)  <span class="co">-- Три элемента - три типа.</span></code></pre></div>
+<p>Кстати, из гетерогенность кортежа вытекает важная особенность его типа. Например, если у нас есть два списка, различных по размеру:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Vasil`evich&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>]
+[<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>]</code></pre></div>
+<p>тип обоих этих списков одинаков, а именно <code>[String]</code>. Тип списка не зависит от количества элементов в нём.</p>
+<p>С кортежами всё обстоит совершенно иначе. Если у нас есть два кортежа, различных по длине:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Vasil`evich&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>)
+(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>)</code></pre></div>
+<p>типы этих кортежей абсолютно разные: тип первого - <code>(String, String, String)</code>, а тип второго - <code>(String, String)</code>. Тип кортежа неразрывно связан с его размером. Поэтому если функцию, в качестве аргумента ожидающую кортеж из двух строк, применить к кортежу из трёх строк, компилятор выразит свой категорический протест:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Could</span> not match expected type <span class="kw">`(String</span>, String<span class="kw">)`</span>
+             <span class="kw">with</span> actual type <span class="kw">`(</span>[<span class="kw">Char</span>], [Char], [Char]<span class="kw">)`</span></code></pre></div>
+<p>Оно и понятно: ожидали кортеж из двух строк, а тут вдруг - из трёх!</p>
+<p>Кортеж может быть и пустым, то есть не содержать в себе ни одного элемента:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">()</code></pre></div>
+<h2 id="что-с-ним-можно-делать">Что с ним можно делать</h2>
+<p>Единственное, что можно сделать с кортежем - извлечь хранящиеся в нём элементы. Всё. И сразу пример.</p>
+<p>Одним из наиболее распространённых случаев использования кортежа в реальном коде считается возврат из функции нескольких значений разного типа. Вот так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">endpoint ::</span> (<span class="dt">String</span>, <span class="dt">Int</span>)
+endpoint <span class="fu">=</span> (<span class="st">&quot;127.0.0.1&quot;</span>, <span class="dv">8080</span>)</code></pre></div>
+<p>Итак, вот наша константа (или, если угодно, константная функция), возвращающая двухэлементный кортеж (обычно называемый парой) с IP-адресом и портом. Теперь воспользуемся этими значениями:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> (host, port) <span class="fu">=</span> endpoint
+    print <span class="fu">$</span> host <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span> show port</code></pre></div>
+<p>Здесь, используя уже знакомый нам паттерн матчинг, мы вытащили оба элемента из кортежа:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> (host, port) <span class="fu">=</span> endpoint</code></pre></div>
+<p>Поскольку мы точно знаем, что перед нами пара, первым элементом которой является хост, а вторым - порт, мы смогли явно указать это в левом образце. Как вы понимаете, мы не обязаны вытаскивать оба значения, можно обойтись и одним:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> (_, port) <span class="fu">=</span> endpoint</code></pre></div>
+<p>Существуют также две стандартные функции <code>fst</code> и <code>snd</code>, предназначенные для извлечения первого и второго элементов пары соответственно. С ними наш пример изменится:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> host <span class="fu">=</span> fst endpoint
+        port <span class="fu">=</span> snd endpoint
+    print <span class="fu">$</span> host <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span> show port</code></pre></div>
+<p>Получилось длиннее. Можно, конечно, и короче:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    print <span class="fu">$</span> fst endpoint <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span> show (snd endpoint)</code></pre></div>
+<p>Код уменьшился, но стал хуже: из него теперь не ясно, что является первым элементом пары, а что - вторым. Да и вообще, на практике функциями <code>fst</code> и <code>snd</code> пользуются весьма редко, потому что, как вы могли убедиться, паттерн матчинг проще. Более того, сами функции <code>fst</code> и <code>snd</code> реализованы через паттерн матчинг, взгляните на их определение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fst<span class="ot"> ::</span> (a, b) <span class="ot">-&gt;</span> a
+fst (x, _) <span class="fu">=</span> x      <span class="co">-- Второй элемент игнорируем...</span>
+
+snd<span class="ot"> ::</span> (a, b) <span class="ot">-&gt;</span> b
+snd (_, y) <span class="fu">=</span> y      <span class="co">-- Первый элемент игнорируем...</span></code></pre></div>
+<p>И как вы уже догадались, увеличение числа элементов кортежа никак не меняет принцип работы с ним. Вот пример функции, отображающей выборочную информацию о пользователе:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">FirstName</span> <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">LastName</span>  <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">Email</span>     <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">BirthYear</span> <span class="fu">=</span> <span class="dt">Int</span>
+<span class="kw">type</span> <span class="dt">UserInfo</span> <span class="fu">=</span> (<span class="dt">FirstName</span>, <span class="dt">LastName</span>, <span class="dt">Email</span>, <span class="dt">BirthYear</span>)
+
+showUserEmail <span class="fu">=</span> <span class="dt">UserInfo</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+showUserEmail (_, _, email, _) <span class="fu">=</span> <span class="st">&quot;User's email is '&quot;</span> <span class="fu">++</span> email <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
+<p>Здесь мы определили тип-псевдоним для четырёхэлементного кортежа, содержащего соответственно имя, фамилию, почту и год рождения пользователя. Далее, в функции <code>showUserEmail</code> мы использовали паттерн матчинг, потому что точно знаем, что аргументом является четырёхэлементный кортеж. А поскольку здесь нас интересует лишь почта, идущая третьей по счёту, мы явно отображаем это в левом образце, игнорируя прочие три значения.</p>
+<p>Строго говоря, существуют готовые пакеты для извлечения элементов из многоэлементных кортежей без явного паттерн матчинга. Например, пакет <a href="http://hackage.haskell.org/package/tuple">tuple</a>. Установив его, мы сможем переписать пример с почтой так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Tuple.Select</span>
+
+<span class="fu">...</span>
+
+showUserEmail <span class="fu">=</span> <span class="dt">UserInfo</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+showUserEmail userInfo <span class="fu">=</span> <span class="st">&quot;User's email is '&quot;</span> <span class="fu">++</span> sel3 userInfo <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
+<p>Функция <code>sel3</code>, как следует из её названия, выбирает третий по счёту элемент кортежа.</p>
+<p>С одной стороны, подобный пакет полезен, ведь если бы у нас был кортеж, скажем, из десяти элементов, то явный образец получился бы достаточно длинным (и неудобным в использовании). С другой стороны, в реальных Haskell-проектах многоэлементные кортежи встречаются крайне редко, поэтому явный паттерн матчинг в 99% случаев является наилучшим решением.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Кортеж - это структура данных, позволяющая хранить значения разных типов.</li>
+<li>Тип кортежа определяется количеством и типом хранящихся в нём значений.</li>
+<li>Единственное, что мы можем сделать с кортежем - извлечь из него значения, если таковые имеются.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Ну вот мы и добрались до состояния. Трансформер <code>StateT</code> знаменит не меньше своих собратьев <code>ReaderT</code> и <code>WriterT</code>, столь же часто используется в реальных проектах, столь же удобен, но при этом обладает дополнительными возможностями.</p>
+<h2 id="суть">Суть</h2>
+<p><code>StateT</code> - это состояние. Фактически, это <code>ReaderT</code> и <code>WriterT</code> в одном флаконе, поскольку предоставляет группе функций общее значение, предназначенное как для чтения, так и для изменения. А учитывая, что вы уже умеете работать и с читателем, и с писателем, с состоянием у вас не возникнет ни малейших трудностей. Перейдём к примеру.</p>
+<h2 id="украшаем-отчёт">Украшаем отчёт</h2>
+<p>Возьмём пример со сбором информации о файле и украсим его:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span>
+<span class="kw">import </span><span class="dt">System.Directory</span> 
+<span class="kw">import </span><span class="dt">System.FilePath</span> 
+<span class="kw">import </span><span class="dt">System.Posix</span> 
+
+<span class="kw">type</span> <span class="dt">Environment</span> <span class="fu">=</span> <span class="dt">String</span>
+<span class="kw">type</span> <span class="dt">FileInfoCloud</span> <span class="fu">=</span> <span class="dt">StateT</span> <span class="dt">Environment</span> <span class="dt">IO</span> <span class="dt">String</span>
+
+indent <span class="fu">=</span> <span class="st">&quot;  &quot;</span>
+delimiter <span class="fu">=</span> <span class="st">&quot;, \n&quot;</span>
+
+<span class="ot">obtainLanguage ::</span> FilePath <span class="ot">-&gt;</span> <span class="dt">FileInfoCloud</span>
+obtainLanguage path <span class="fu">=</span> <span class="kw">do</span>
+    modify (<span class="fu">++</span> indent <span class="fu">++</span> <span class="kw">case</span> takeExtension path <span class="kw">of</span>
+                             <span class="st">&quot;.c&quot;</span>   <span class="ot">-&gt;</span> <span class="st">&quot;C&quot;</span>
+                             <span class="st">&quot;.cpp&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;C++&quot;</span>
+                             <span class="st">&quot;.hs&quot;</span>  <span class="ot">-&gt;</span> <span class="st">&quot;Haskell&quot;</span>
+                             <span class="st">&quot;.m&quot;</span>   <span class="ot">-&gt;</span> <span class="st">&quot;Objective-C&quot;</span>
+                             _      <span class="ot">-&gt;</span> <span class="st">&quot;Unknown&quot;</span>)
+    modify (<span class="fu">++</span> delimiter)
+    return path
+
+<span class="ot">obtainModificationDate ::</span> FilePath <span class="ot">-&gt;</span> <span class="dt">FileInfoCloud</span>
+obtainModificationDate path <span class="fu">=</span> <span class="kw">do</span>
+    date <span class="ot">&lt;-</span> liftIO <span class="fu">$</span> getModificationTime path
+    modify (<span class="fu">++</span> indent <span class="fu">++</span> show date <span class="fu">++</span> delimiter)
+    return path
+
+<span class="ot">obtainSize ::</span> FilePath <span class="ot">-&gt;</span> <span class="dt">FileInfoCloud</span>
+obtainSize path <span class="fu">=</span> <span class="kw">do</span>
+    status <span class="ot">&lt;-</span> liftIO <span class="fu">$</span> getFileStatus path
+    modify (<span class="fu">++</span> indent <span class="fu">++</span> (show <span class="fu">$</span> fileSize status) <span class="fu">++</span> <span class="st">&quot; bytes&quot;</span>)
+    return path
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> path <span class="fu">=</span> <span class="st">&quot;/Users/dshevchenko/main.cpp&quot;</span>
+    info <span class="ot">&lt;-</span> execStateT (obtainLanguage path 
+                        <span class="fu">&gt;&gt;=</span> obtainModificationDate
+                        <span class="fu">&gt;&gt;=</span> obtainSize) 
+                       <span class="st">&quot;&quot;</span> <span class="co">-- Пустое &quot;облако&quot; для записи...</span>
+    putStrLn <span class="fu">$</span> <span class="st">&quot;Info about &quot;</span> <span class="fu">++</span> path <span class="fu">++</span> <span class="st">&quot;:\n&quot;</span>
+               <span class="fu">++</span> info</code></pre></div>
+<p>Результат будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Info</span> about /Users/dshevchenko/main.cpp:
+  <span class="kw">C++</span>,
+  <span class="kw">2014-03-29</span> 20:59:29 UTC,
+  <span class="kw">1835</span> bytes </code></pre></div>
+<p>Так гораздо красивее, не правда ли? Сравните с предыдущим вариантом:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Info</span> about /Users/dshevchenko/main.cpp:
+<span class="kw">C++</span>, 2014-03-29 20:59:29 UTC, 1835 bytes</code></pre></div>
+<p>Теперь разберёмся, как же нам удалось сделать такую красоту. К тому же, как вы успели заметить, мы внесли совсем немного изменений, по сравнению с примером с <code>WriterT</code>.</p>
+<p>Рассмотрим наш первый анализатор:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">obtainLanguage ::</span> FilePath <span class="ot">-&gt;</span> <span class="dt">FileInfoCloud</span>
+obtainLanguage path <span class="fu">=</span> <span class="kw">do</span>
+    modify (<span class="fu">++</span> indent <span class="fu">++</span> <span class="kw">case</span> takeExtension path <span class="kw">of</span>
+                             <span class="st">&quot;.c&quot;</span>   <span class="ot">-&gt;</span> <span class="st">&quot;C&quot;</span>
+                             <span class="st">&quot;.cpp&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;C++&quot;</span>
+                             <span class="st">&quot;.hs&quot;</span>  <span class="ot">-&gt;</span> <span class="st">&quot;Haskell&quot;</span>
+                             <span class="st">&quot;.m&quot;</span>   <span class="ot">-&gt;</span> <span class="st">&quot;Objective-C&quot;</span>
+                             _      <span class="ot">-&gt;</span> <span class="st">&quot;Unknown&quot;</span>)
+    modify (<span class="fu">++</span> delimiter)
+    return path</code></pre></div>
+<p>Функция <code>tell</code> исчезла, а её место заняла новая функция <code>modify</code>. Трансформер <code>StateT</code> даёт нам три основные функции для работы с общим значением, парящем в “облаке”:</p>
+<ul>
+<li><code>get</code> извлекает значение из “облака”;</li>
+<li><code>modify</code> изменяет значение в облаке, путём применения к нему некой функции;</li>
+<li><code>put</code> кладёт новое значение в “облако”, перезаписывая старое.</li>
+</ul>
+<p>Воспользовавшись услугами функции <code>modify</code>, мы украсили сохраняемую в “облаке” строку: в начало добавили отступ, а в конец дописали запятую с переводом строки.</p>
+<p>Теперь взглянем на нашу обновлённую <code>main</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> path <span class="fu">=</span> <span class="st">&quot;/Users/dshevchenko/main.cpp&quot;</span>
+    info <span class="ot">&lt;-</span> execStateT (obtainLanguage path 
+                        <span class="fu">&gt;&gt;=</span> obtainModificationDate
+                        <span class="fu">&gt;&gt;=</span> obtainSize) 
+                       <span class="st">&quot;&quot;</span> <span class="co">-- Пустое &quot;облако&quot; для записи...</span>
+    putStrLn <span class="fu">$</span> <span class="st">&quot;Info about &quot;</span> <span class="fu">++</span> path <span class="fu">++</span> <span class="st">&quot;:\n&quot;</span>
+               <span class="fu">++</span> info</code></pre></div>
+<p>Тут всё почти так же. <code>execStateT</code> запускает “облако” и возвращает собранную анализаторами строку. Правда, “заготовку” для облака мы всё-таки должны предоставить, пусть даже и в виде пустой строки. Впрочем, можно было и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> path <span class="fu">=</span> <span class="st">&quot;/Users/dshevchenko/main.cpp&quot;</span>
+    info <span class="ot">&lt;-</span> execStateT (obtainLanguage path 
+                        <span class="fu">&gt;&gt;=</span> obtainModificationDate
+                        <span class="fu">&gt;&gt;=</span> obtainSize) 
+                       <span class="fu">$</span> <span class="st">&quot;Info about &quot;</span> <span class="fu">++</span> path <span class="fu">++</span> <span class="st">&quot;:\n&quot;</span>
+    putStrLn info</code></pre></div>
+<p>Мы сразу добавили общий префикс к нашей информационной строке, а собираемая анализаторами информация будет постепенно дописываться в конец. Результат будет точно таким же.</p>
+<p>Существует три варианта функций запуска работы с трансформером <code>StateT</code>:</p>
+<ul>
+<li><code>runStateT</code> возвращает знакомую нам пару, первым элементом которой идёт результат работы функций, а вторым - “облачное” значение;</li>
+<li><code>evalStateT</code> возвращает только результат работы функций;</li>
+<li><code>execStateT</code> возвращает только “облачное” значение.</li>
+</ul>
+<h2 id="и-наша-монада-state">И наша монада State</h2>
+<p>Уверен, вы уже догадались: монада <code>State</code> является простейшим вариантом трансформера <code>StateT</code>. Вот уже знакомое нам определение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">State</span> s <span class="fu">=</span> <span class="dt">StateT</span> s <span class="dt">Identity</span></code></pre></div>
+<p>Следовательно, если внутренняя монада нам не нужна, <code>StateT</code> можно спокойно заменить на <code>State</code>. Всё точно так же, как в случае с <code>Reader</code> и <code>Writer</code>.</p>
+<h2 id="составное-облако">Составное облако</h2>
+<p>До сих пор в нашем “облаке” висело простое значение. Давайте слегка усложним его, воспользовавшись уже известным нам составным типом. В самом деле, зачем явно передавать путь к файлу в виде аргумента, если можно запихнуть его в наше “облако”? Сделаем это.</p>
+<p>Для начала определим информационный тип и обновим “облачный” тип:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">FileInfo</span> <span class="fu">=</span> <span class="dt">FileInfo</span> {<span class="ot"> path ::</span> FilePath
+                         ,<span class="ot"> info ::</span> <span class="dt">String</span>
+                         }
+
+<span class="kw">type</span> <span class="dt">Environment</span> <span class="fu">=</span> <span class="dt">FileInfo</span>
+<span class="kw">type</span> <span class="dt">FileInfoCloud</span> <span class="fu">=</span> <span class="dt">StateT</span> <span class="dt">Environment</span> <span class="dt">IO</span> ()</code></pre></div>
+<p>Первым полем в составном типе <code>FileInfo</code> идёт путь к файлу, вторым - информационная строка. Теперь изменим <code>main</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    <span class="kw">let</span> aPath <span class="fu">=</span> <span class="st">&quot;/Users/dshevchenko/main.cpp&quot;</span>
+        initInfo <span class="fu">=</span> <span class="dt">FileInfo</span> { path <span class="fu">=</span> aPath
+                            , info <span class="fu">=</span> <span class="st">&quot;Info about &quot;</span> <span class="fu">++</span> aPath <span class="fu">++</span> <span class="st">&quot;:\n&quot;</span>
+                            }
+    fileInfo <span class="ot">&lt;-</span> execStateT (obtainLanguage
+                            <span class="fu">&gt;&gt;</span> obtainModificationDate
+                            <span class="fu">&gt;&gt;</span> obtainSize)
+                           initInfo  <span class="co">-- Размещаем в нашем &quot;облаке&quot;...</span>
+    putStrLn <span class="fu">$</span> info fileInfo</code></pre></div>
+<p>Создаём подготовительный информационный объект <code>initInfo</code>, сразу поместив в него путь к исследуемому файлу и информационную строку. И когда мы размещаем <code>initInfo</code> в нашем “облаке”, каждая из функций-анализаторов получает доступ как к пути (первому полю), так и к информационной строке (второму полю).</p>
+<p>Изменим наш первый анализатор:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">obtainLanguage ::</span> <span class="dt">FileInfoCloud</span>
+obtainLanguage <span class="fu">=</span> <span class="kw">do</span>
+    fileInfo <span class="ot">&lt;-</span> get  <span class="co">-- Извлекаем информационный объект из &quot;облака&quot;...</span>
+    <span class="kw">let</span> currentInfo <span class="fu">=</span> info fileInfo  <span class="co">-- Вытащили текущую информацию...</span>
+        pathToFile <span class="fu">=</span> path fileInfo   <span class="co">-- Вытащили путь к файлу...</span>
+        infoWithLanguage <span class="fu">=</span> currentInfo 
+                           <span class="fu">++</span> indent 
+                           <span class="fu">++</span> <span class="kw">case</span> takeExtension pathToFile <span class="kw">of</span>
+                                  <span class="st">&quot;.c&quot;</span>   <span class="ot">-&gt;</span> <span class="st">&quot;C&quot;</span>
+                                  <span class="st">&quot;.cpp&quot;</span> <span class="ot">-&gt;</span> <span class="st">&quot;C++&quot;</span>
+                                  <span class="st">&quot;.hs&quot;</span>  <span class="ot">-&gt;</span> <span class="st">&quot;Haskell&quot;</span>
+                                  <span class="st">&quot;.m&quot;</span>   <span class="ot">-&gt;</span> <span class="st">&quot;Objective-C&quot;</span>
+                                  _      <span class="ot">-&gt;</span> <span class="st">&quot;Unknown&quot;</span>
+                           <span class="fu">++</span> delimiter
+    put <span class="fu">$</span> fileInfo { info <span class="fu">=</span> infoWithLanguage }</code></pre></div>
+<p>Здесь задействованы все три базовые функции работы со <code>StateT</code>. Сначала мы извлекаем информационный объект из “облака” с помощью функции <code>get</code> и получаем его текущие поля. Затем мы создаём строку <code>infoWithLanguage</code> с указанием языка программирования. И в завершении обновляем информацию. Обратите внимание на эту строку:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">   put <span class="fu">$</span> fileInfo { info <span class="fu">=</span> infoWithLanguage }</code></pre></div>
+<p>Здесь мы воспользовались уже знакомой нам конструкций с фигурными скобками. В результате поле <code>info</code> было заменено только что созданной <code>infoWithLanguage</code>. И сразу после этого мы поместили обновлённый информационный объект обратно в “облако”, с помощью функции <code>put</code>.</p>
+<p>Кстати, вы заметили ещё одно изменение в <code>main</code>? Взгляните вот на эту цепочку:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">execStateT (obtainLanguage
+            <span class="fu">&gt;&gt;</span> obtainModificationDate
+            <span class="fu">&gt;&gt;</span> obtainSize)
+           initInfo</code></pre></div>
+<p>Оператор <code>(&gt;&gt;=)</code> исчез, уступив своё место оператору <code>(&gt;&gt;)</code>. А иначе и быть не может. Вспомним наш “облачный” тип:</p>
+<pre><code>type FileInfoCloud = StateT Environment IO ()
+                                        |
+                                        Здесь теперь пустышка...</code></pre>
+<p>Во внутренней <code>IO</code>-обёртке теперь ничего нет, ведь от анализатора к анализатору никакое значение уже не передаётся, поскольку всё происходит в “облачном” информационном объекте. Поэтому оператор последовательный связки и был заменён оператором “затем”.</p>
+<p>Не скажу, что пример с составным облаком получился проще. Да, мы избавились от необходимости явно передавать путь к исследуемому файлу в виде аргумента. Но зато нам потребовался новый составной тип, к тому же пришлось работать не только с <code>modify</code>, но и с <code>get</code> и с <code>put</code>. Главное, что мы убедились: в “облаке” может лежать сложный объект. Кстати, именно этот подход задействован в уже упомянутом пакете <code>direct-fastcgi</code>, когда <code>ReaderT</code> хранит в себе составной объект с параметрами веб-запроса.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Трансформер <code>StateT</code> - это <code>ReaderT</code> и <code>WriterT</code> в одном флаконе.</li>
+<li>Функции <code>get</code>, <code>modify</code> и <code>put</code> позволяют соответственно получить, изменить и переписать наше “облачное” значение.</li>
+<li>Монада <code>State</code> - это простейший вариант трансформера <code>StateT</code>.</li>
+<li>Функции <code>runStateT</code>, <code>evalStateT</code> и <code>execStateT</code> используются в зависимости от того, что нас интересует: только результат работы наших функций, только “облачное” значение или же и то и другое.</li>
+<li>В “облаке”, созданном <code>StateT</code>, можно расположить составной объект, что позволяет упростить сигнатуры функций, использующих “облачное” значение.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Мы все стремимся создавать программные системы, свободные от ошибок. И всё же иногда они появляются, а значит, нам приходится иметь с ними дело. Поговорим об исключениях, тем более что знать о них необходимо: многие пакеты из Hackage содержат код, кидающийся этими самыми исключениями.</p>
+<p>Прежде всего, нам понадобится модуль <code>Control.Exception</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Exception</span></code></pre></div>
+<p>Этот стандартный модуль предназначен для кидания и ловли исключений, причём как стандартных, так и наших собственных. Важно отметить: мы можем бросить исключение как из чистых функций, так и из функций с побочными эффектами, однако поймать его в чистой функции мы не сможем.</p>
+<h2 id="проблема-с-файлом">Проблема с файлом</h2>
+<p>Чаще всего мы будем сталкиваться с исключениями, брошенными из функций, взаимодействующих с внешним миром. Канонический пример: мы хотим прочесть содержимое файла, который отсутствует:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    fileContent <span class="ot">&lt;-</span> readFile <span class="st">&quot;Users/shevchenko/test.c&quot;</span>  <span class="co">-- Неверный путь...</span>
+    putStrLn fileContent</code></pre></div>
+<p>Вывод будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Real</span>: Users/shevchenko/test.c: openFile: does not exist (No such file or directory)</code></pre></div>
+<p>Функция <code>readFile</code> бросила исключение, ведь сообщить о проблеме с файлом она может только так. Исключение, не найдя преград на своём пути, было поймано уже на самом верхнем уровне приложения, после чего сообщение об ошибке было выведено нам, а само приложение скоропостижно скончалось.</p>
+<h2 id="ловим">Ловим</h2>
+<p>Итак:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Exception</span> 
+
+<span class="ot">tryToOpenFile ::</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+tryToOpenFile path <span class="fu">=</span>
+    readFile path <span class="ot">`catch`</span> possibleErrors
+    where
+        <span class="ot">possibleErrors ::</span> <span class="dt">IOException</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+        possibleErrors error <span class="fu">=</span> return <span class="fu">$</span> show error
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    fileContent <span class="ot">&lt;-</span> tryToOpenFile <span class="st">&quot;Users/shevchenko/test.c&quot;</span>
+    putStrLn fileContent</code></pre></div>
+<p>Теперь у нас есть функция <code>tryToOpenFile</code>, которая открывает файл по заданному пути, но делает это осторожно, используя функцию <code>catch</code>. Как вы уже поняли, функция catch, определённая в модуле <code>Control.Exception</code>, умеет ловить исключения. Вот её объявление:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">catch<span class="ot"> ::</span> <span class="dt">Exception</span> e <span class="ot">=&gt;</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> (e <span class="ot">-&gt;</span> <span class="dt">IO</span> a) <span class="ot">-&gt;</span> <span class="dt">IO</span> a</code></pre></div>
+<p>Функция принимает два аргумента: первым идёт <code>IO</code>-действие, вторым идёт функция-обработчик. Если действие бросило исключение, отражённое полиморфным типом <code>e</code>, это исключение будет передано обработчику.</p>
+<p>Обратите внимание: тип исключения входит в контекст класса Exception, определённого в том же модуле <code>Control.Exception</code>. Любое исключение в вашем приложении обязано входить в контекст этого класса.</p>
+<p>Для большей читабельности мы используем инфиксную запись функции <code>catch</code>, с которой гармонирует имя нашего обработчика:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">readFile path <span class="ot">`catch`</span> possibleErrors</code></pre></div>
+<p>Если при чтении файла возникла проблема, соответствующее исключение поступает на вход нашего обработчика:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">possibleErrors ::</span> <span class="dt">IOException</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+possibleErrors error <span class="fu">=</span> return <span class="fu">$</span> show error</code></pre></div>
+<p>Обработчик принимает значение типа <code>IOException</code>. В теле обработчика мы стрингифицируем полученное исключение, а затем готовую строку, содержащую описание произошедшей ошибки, заворачиваем в действие <code>IO String</code>. Если же нас не устраивает уже имеющееся сообщение об ошибке - предоставим своё:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">possibleErrors error <span class="fu">=</span> return <span class="st">&quot;Unable to open this file. Please check it.&quot;</span></code></pre></div>
+<p>Это сообщение и будет выведено на экран в случае возникновения проблемы.</p>
+<h2 id="ловим-наоборот">Ловим наоборот</h2>
+<p>Перепишем нашу функцию:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">tryToOpenFile ::</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+tryToOpenFile path <span class="fu">=</span>
+    handle possibleErrors (readFile path)  <span class="co">-- То же самое, но наоборот.</span>
+    where
+        <span class="ot">possibleErrors ::</span> <span class="dt">IOException</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+        possibleErrors error <span class="fu">=</span> return <span class="st">&quot;Aaaaa!!! Please check file.&quot;</span></code></pre></div>
+<p>Мы заменили функцию <code>catch</code> на функцию <code>handle</code>. Никакой разницы между этими функциями нет, за исключением порядка следования аргументов: <code>catch</code> принимает обработчик вторым по счёту, а <code>handle</code> - первым. Таким образом, <code>catch</code> читабельнее в инфиксной форме, а <code>handle</code> - в простой. Так что выбирайте на вкус.</p>
+<h2 id="пытаемся">Пытаемся</h2>
+<p>Стандартная функция <code>try</code> использует иной подход. Вот пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Exception</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    result <span class="ot">&lt;-</span> try <span class="fu">$</span> readFile<span class="ot"> path ::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">IOException</span> <span class="dt">String</span>)
+    case result <span class="kw">of</span>
+        <span class="dt">Left</span> exception <span class="ot">-&gt;</span> putStrLn <span class="fu">$</span> <span class="st">&quot;Fault: &quot;</span> <span class="fu">++</span> show exception
+        <span class="dt">Right</span> content <span class="ot">-&gt;</span> putStrLn content
+    where path <span class="fu">=</span> <span class="st">&quot;Users/dshevchenko/test.c&quot;</span></code></pre></div>
+<p>Разберём по полочкам.</p>
+<p>Объявление функции <code>try</code> выглядит так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">try ::</span> <span class="dt">Exception</span> e <span class="ot">=&gt;</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> (<span class="dt">Either</span> e a)</code></pre></div>
+<p>Эта функция принимает наше <code>IO</code>-действие, а возвращает другое <code>IO</code>-действие, которое в свою очередь возвращает значение стандартного типа <code>Either e a</code>. <code>Either</code> - это конструктор типа, предназначенный для хранения одного из двух значений, каждое из которых соответствует хорошему результату и плохому. Обратите внимание, мы явно указали тип значения, возвращённого функцией <code>try</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">try <span class="fu">$</span> readFile<span class="ot"> path ::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">IOException</span> <span class="dt">String</span>)</code></pre></div>
+<p>Мы сказали: “Пусть действие, возвращённое функцией <code>try</code>, вернёт нам значение типа <code>Either IOException String</code>, в котором будет лежать либо значение типа <code>IOException</code> (в случае, если при чтении файла что-то случилось), либо значение типа <code>String</code> с содержимым файла”.</p>
+<p>Далее смотрим, получилось ли у нас:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">case</span> result <span class="kw">of</span>
+    <span class="dt">Left</span> exception <span class="ot">-&gt;</span> putStrLn <span class="fu">$</span> <span class="st">&quot;Fault: &quot;</span> <span class="fu">++</span> show exception
+    <span class="dt">Right</span> content <span class="ot">-&gt;</span> putStrLn content</code></pre></div>
+<p>Тип <code>Either</code> имеет два конструктора, <code>Left</code> и <code>Right</code>. В нашем случае это можно изобразить так:</p>
+<pre><code>Either IOException String</code></pre>
+<p>        |           |         Left        Right</p>
+<p>Используя эти два конструктора, мы можем понять, что же произошло. Конструкция <code>case-of</code> поможет нам. Мы говорим: “Если <code>result</code> соответствует левому значению - это значение типа <code>IOException</code>. Что-то пошло не так, выводим исключение на экран! Ну а если <code>result</code> соответствует правому значению - перед нами <code>String</code>. Всё прошло успешно, выводим на экран содержимое прочитанного файла”.</p>
+<h2 id="в-чистом-мире">В чистом мире</h2>
+<p>Иногда нам нужно поймать исключение, брошенное из чистой функции. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Exception</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    result <span class="ot">&lt;-</span> try <span class="fu">$</span> <span class="dv">2</span> <span class="ot">`div`</span> <span class="dv">0</span><span class="ot"> ::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">SomeException</span> <span class="dt">Integer</span>)
+    case result <span class="kw">of</span>
+        <span class="dt">Left</span> exception <span class="ot">-&gt;</span> putStrLn <span class="fu">$</span> <span class="st">&quot;Fault: &quot;</span> <span class="fu">++</span> show exception
+        <span class="dt">Right</span> value <span class="ot">-&gt;</span> print value</code></pre></div>
+<p>Здесь мы попытались проверить результат деления числа 2 на ноль. К сожалению, этот код не пройдёт компиляцию. Ведь функция <code>try</code> ожидает на вход <code>IO</code>-действие, однако стандартная функция <code>div</code> чиста и возвращает обыкновенное число. Следовательно, нам нужен маленький трюк:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Exception</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    result <span class="ot">&lt;-</span> try <span class="fu">$</span> evaluate <span class="fu">$</span> <span class="dv">2</span> <span class="ot">`div`</span> <span class="dv">0</span>
+                    <span class="ot">::</span> <span class="dt">IO</span> (<span class="dt">Either</span> <span class="dt">SomeException</span> <span class="dt">Integer</span>)
+    case result <span class="kw">of</span>
+        <span class="dt">Left</span> exception <span class="ot">-&gt;</span> putStrLn <span class="fu">$</span> <span class="st">&quot;Fault: &quot;</span> <span class="fu">++</span> show exception
+        <span class="dt">Right</span> value <span class="ot">-&gt;</span> print value</code></pre></div>
+<p>Мы обернули вызов функции <code>div</code> в стандартную функцию <code>evaluate</code>. Теперь всё скомпилируется, и при запуске мы получим ожидаемое нами гневное сообщение:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Fault</span>: divide by zero</code></pre></div>
+<p>Функция <code>evaluate</code> объявлена так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">evaluate ::</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> a</code></pre></div>
+<p>Эта функция играет роль адаптера: она как бы превращает результат в <code>IO</code>-действие, возвращающее этот результат. И после того, как функция <code>div</code> вернула нам обыкновенное число, функция <code>evaluate</code> обернула это число в действие, ожидаемое функцией <code>try</code>.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Исключение может быть брошено из любой функции, но обработать его мы сможем только в IO-функции.</li>
+<li>Функция <code>catch</code> ловит исключение и передаёт его обработчику.</li>
+<li>Функция <code>handle</code> - зеркальная сестра функции <code>catch</code>.</li>
+<li>Функция <code>try</code> работает в сотрудничестве с конструктором типа <code>Either</code>. Анализируя порождённое этим типом значение, мы поймём, возникла ли проблема в интересующей нас функции, или всё прошло гладко.</li>
+<li>Для работы с <code>try</code> чистую функцию следует поместить в <code>evaluate</code>-обёртку.</li>
+</ol>
+<p>Почти готово. Но наше рассмотрение исключений не было бы полным без изучения наших собственных исключений.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

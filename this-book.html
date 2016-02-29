@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h1 id="об-этой-книге">Об этой книге</h1>
+<p>В последние годы заметно возросло число число книг, посвящённых Haskell, и это радует. Каждая из них преследует свою цель, и поэтому трудно сказать, какая из них лучше. Цель этой книги в том, чтобы дать вам понимание фундаментальных основ Haskell. Без усвоения этих основ двигаться вперёд не получится.</p>
+<p>Как было сказано в предыдущей главе, порог вхождения в Haskell весьма высок, и в первую очередь в силу непохожести этого языка на остальных. Важно отметить, что с определённой точки зрения программировать на Haskell очень просто, но лишь после того, как вы близко познакомились с Тремя Китами Haskell, имена которых: <strong>Функция</strong>, <strong>Тип</strong> и <strong>Класс типов</strong>. Всё в этом языке зиждется на этих трёх основах. Именно поэтому рассмотрение оных - важнейшая цель настоящей книги. И именно поэтому объём её относительно невелик, ведь, к счастью для нас, разобраться с этими основами не так уж и тяжело. Особенно учитывая тот факт, что сфокусированы мы будем не на академизме, а на практичности.</p>
+<p>Разумеется, помимо Трёх Китов, в Haskell есть много чего другого. В частности, ленивая стратегия вычислений, жёсткое отделение чистого кода от кода с побочными эффектами, великолепная способность к параллельному и конкурентному программированию. Однако без понимания Трёх Китов путь к высотам Haskell для вас закрыт.</p>
+<p>И ещё, добрый вам совет: не пытайтесь понять Haskell-термины, опираясь на ваш предыдущий опыт. Например, в ряде ОО-языков понятия «тип» и «класс» фактически взаимозаменяемы, в то время как в Haskell эти понятия абсолютно различны. Попытайтесь, хоть это и тяжело, учить Haskell как бы с нуля, с чистого листа. Если же Haskell будет вашим первым языком программирования, тогда я искренне рад за вас, ведь вам не придётся ломать сознание.</p>
+<h2 id="про-теорию-категорий-раз-и-навсегда">Про теорию категорий, раз и навсегда</h2>
+<p>Не имея шансов обойти эту тему стороной, сразу расставлю точки над «ё».</p>
+<p>Действительно, язык Haskell имеет глубокие математические корни. И несколько важных понятий в Haskell родом из раздела современной математики, называемого теорией категорий. Однако вам знать эту самую теорию, к счастью, необязательно. Математическое происхождение таких понятий, как «функтор» или «монада», с которыми мы познакомимся чуть позже, не обязывает нас знакомиться с научными корнями этих понятий. Главное - увидеть, как эти понятия пригодятся нам в нашей повседневной работе.</p>
+<p>Я вовсе не против ознакомления с теорией. Знать корни - это неплохо. Однако знакомство с теорией едва ли сделает вас лучшим практиком. Я могу сравнить это с музыкой, на примере гитары. Знание истории происхождения нотной записи, или истоков названия нот, или имени изобретателя первой испанской гитары - всё это весьма любопытно, но это знание не способно улучшить ваши навыки игры на гитаре. Ведь для того, чтобы научиться играть на гитаре, необходимо - спасибо, Кэп! - играть на гитаре. Вот этим мы и займёмся - Практикой.</p>
+<h2 id="только-основы">Только основы</h2>
+<p>Я намеренно сузил круг рассматриваемых здесь тем. Эта книга посвящена основам, она далеко не обо всём, что есть в современном Haskell. Поэтому не ждите от неё рассмотрения специфических тем. Например, Haskell действительно силён в области параллельного и конкурентного программирования, однако здесь вы не найдёте ни строчки об этом. Да и зачем, если этим важным темам посвящена отдельная книга, да ещё и <a href="http://www.ozon.ru/context/detail/id/27292818/">переведённая на русский</a>?</p>
+<p>Вы не встретите здесь ни примеров реализации 3D-движка, ни рассказа о работе с PostgreSQL, ни повествования о проектировании игры для Android. Да, всё это можно делать на Haskell, но этим интересным темам посвящены другие книги/статьи/заметки/твиты и т.п.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/haskell-faq.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="/setup.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

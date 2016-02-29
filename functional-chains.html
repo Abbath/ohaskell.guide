@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>В отношении функций часто можно сказать: “Один в поле не воин”. В этой главе мы рассмотрим два удобных способа комбинирования функций. Сразу скажу, что комбинированию функций в Haskell уделено очень большое значение.</p>
+<h2 id="пример-с-url">Пример с URL</h2>
+<p>Известно, что вид URL обязан соответствовать особым правилам. Но в реальной жизни это не всегда так, поэтому иногда URL необходимо приводить к правильному виду. Вот как это может выглядеть:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="kw">import </span><span class="dt">Data.Char</span>
+<span class="kw">import </span><span class="dt">Data.List</span>
+<span class="kw">import </span><span class="dt">Data.String.Utils</span>
+
+<span class="ot">addPrefix ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+addPrefix url <span class="fu">=</span>
+    if prefix <span class="ot">`isPrefixOf`</span> url <span class="kw">then</span> url <span class="kw">else</span> prefix <span class="fu">++</span> url
+    where prefix <span class="fu">=</span> <span class="st">&quot;http://&quot;</span>
+
+encodeAllSpaces <span class="fu">=</span> replace <span class="st">&quot; &quot;</span> <span class="st">&quot;%20&quot;</span>  <span class="co">-- Заменяем все пробелы на %20.</span>
+
+makeItLowerCase <span class="fu">=</span> map toLower  <span class="co">-- Переводим символы строки в нижний регистр.      </span>
+
+main <span class="fu">=</span>
+    putStrLn (addPrefix (encodeAllSpaces (makeItLowerCase url)))
+    where url <span class="fu">=</span> <span class="st">&quot;www.SITE.com/test me/Start page&quot;</span></code></pre></div>
+<p>Вывод будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">http</span>://www.site.com/test%20me/start%20page</code></pre></div>
+<p>Вы, вероятно, обратили внимание на две необычные строки:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">encodeAllSpaces <span class="fu">=</span> replace <span class="st">&quot; &quot;</span> <span class="st">&quot;%20&quot;</span>
+
+makeItLowerCase <span class="fu">=</span> map toLower</code></pre></div>
+<p>Что это? Вроде бы похоже на функции, определённые без объявления, но где же тут аргументы? А они здесь не нужны. Чтобы стало понятнее, напишем одну из них с аргументом:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">makeItLowerCase url <span class="fu">=</span> map toLower url</code></pre></div>
+<p>Это - полная форма записи функции. Но мы можем сократить её, убрав аргумент. Почему? Потому что такой инструкцией:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">makeItLowerCase <span class="fu">=</span> map toLower</code></pre></div>
+<p>мы объявляем: “Всё, теперь <code>makeItLowerCase</code> - это псевдоним для записи <code>map toLower</code>. Поэтому везде, где мы напишем <code>makeItLowerCase arg</code>, мы будем подразумевать запись <code>map toLower arg</code>”. То есть <code>makeItLowerCase</code> просто заменяется записью <code>map toLower</code>.</p>
+<p>Кстати, функция <code>replace</code> живёт в модуле <code>Data.String.Utils</code>, являющемся частью пакета <code>MissingH</code>. Находясь в корне проекта, выполните знакомую команду:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> install MissingH</code></pre></div>
+<p>Итак, у нас имеются три функции, каждая из которых делает с нашим URL простую исправительную операцию: <code>makeItLowerCase</code> переводит все символы в нижний регистр, <code>encodeAllSpaces</code> заменяет пробелы строкой <code>&quot;%20&quot;</code>, <code>addPrefix</code> добавляет префикс, если таковой отсутствует. И мы строим из этих трёх функций цепочку, на входе которой - неправильный URL, а на выходе - исправленный URL. Рассмотрим эту цепочку поближе:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">addPrefix (encodeAllSpaces (makeItLowerCase url))</code></pre></div>
+<p>Каждая из функций принимает на вход URL и возвращает уже обработанный ею URL, поступающий на вход следующей функции.</p>
+<p>И всё бы хорошо, но есть в такой цепочке один минус - многовато круглых скобок (да простят меня программисты Lisp). Проблема усугубилась бы, если бы функций-исправителей было не три, а больше. Существует два способа сделать такую цепочку красивее.</p>
+<h2 id="композиция-функций">Композиция функций</h2>
+<p>В Haskell существует особая операция - композиция функций (function composition). Выглядит эта операция как точка. Её назначение - компоновать функции в цепочку. Вот так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(addPrefix <span class="fu">.</span> encodeAllSpaces <span class="fu">.</span> makeItLowerCase) url</code></pre></div>
+<p>Наши три функции объединяются в цепочку, на вход которой подаётся неправильный <code>url</code>. Результат такой композиции будет точно таким же, как если бы мы написали так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">addPrefix (encodeAllSpaces (makeItLowerCase url))</code></pre></div>
+<p>Можно сказать, что композиция создала стек из наших трёх функций: перечислены они слева направо, а вызываться будут справа налево. Таким образом, строка <code>url</code> как бы едет по конвейеру, заезжая в него с правого края и выезжая с левого. А чтобы не запутаться с порядком, мысленно подставьте на место точки фразу “будет вызвана после”:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(addPrefix <span class="st">&quot;будет вызвана после&quot;</span> encodeAllSpaces <span class="st">&quot;будет вызвана после&quot;</span> makeItLowerCase) url</code></pre></div>
+<h2 id="функция-применения">Функция применения</h2>
+<p>Есть ещё одна особая операция, подобная композиции, а именно применение функций (function application). Иногда её называют “функцией аппликации”. Выглядит она как значок доллара. Её назначение такое же - компоновать функции в цепочку. Вот так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">addPrefix <span class="fu">$</span> encodeAllSpaces <span class="fu">$</span> makeItLowerCase url</code></pre></div>
+<p>Здесь мы обошлись вообще без скобок. И такое написание также аналогично исходному:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">addPrefix (encodeAllSpaces (makeItLowerCase url))</code></pre></div>
+<p>Здесь тоже получился стек из функций: перечислены слева направо, а вызываются справа налево. Такой вызов справа налево называют ещё правоассоциативным (right-associative).</p>
+<h2 id="вместе">Вместе</h2>
+<p>Вероятно, вам интересно, а в чём же разница между этими двумя способами? Ведь и первый и второй предназначены для комбинирования функций.</p>
+<p>Главное различие состоит в том, что конструкция применения позволяет объединять не только функции, но также функцию с её аргументом:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">$</span> <span class="st">&quot;Hi master!&quot;</span></code></pre></div>
+<p>Композиция не позволила бы нам проделать такой фокус. Но вы спросите, зачем это нужно?</p>
+<p>Рассмотрим вот такой вызов:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print (<span class="st">&quot;Hi master '&quot;</span> <span class="fu">++</span> name <span class="fu">++</span> <span class="st">&quot;', have a nice day!&quot;</span>)</code></pre></div>
+<p>Функция <code>print</code> готова работать исключительно с одним аргументом, поэтому три литерала, объединяющиеся в один, необходимо взять в скобки. Однако значительно удобнее написать так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print    <span class="fu">$</span>           <span class="st">&quot;Hi master '&quot;</span> <span class="fu">++</span> name <span class="fu">++</span> <span class="st">&quot;', have a nice day!&quot;</span>
+       функция  применение  <span class="fu">-------</span> выражение, порождающее аргумент <span class="fu">------</span></code></pre></div>
+<p>Мы избавились от скобок, объединив функцию и её аргумент в маленькую цепочку. Именно благодаря такому свойству композиция и применение часто используются вместе:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">addPrefix <span class="fu">.</span> encodeAllSpaces <span class="fu">.</span> makeItLowerCase <span class="fu">$</span> url</code></pre></div>
+<p>Точка объединяет функции, а доллар привязывает их комбинацию к единственному аргументу. Кстати, в реальных Haskell-проектах чаще всего используется именно такая “бесскобочная” форма вызова. И в последующих главах мы будет делать так же.</p>
+<h2 id="в-сухом-остатке">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Композиция функций компонует функции в цепочку.</li>
+<li>Применение функций также компонует функции в цепочку, а также позволяет объединять функцию с её аргументом.</li>
+<li>Совместное использование применения и композиции упрощает код, избавляя нас от лишних круглых скобок.</li>
+</ol>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

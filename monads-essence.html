@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Произнесите это слово: “монада”. Вам страшно? Нет?? Быть не может! Вам должно быть страшно. Все знают, что монады - это самое страшное и самое сложное что есть в языке Haskell!</p>
+<p>Позвольте открыть вам тайну: ничего страшного в этих монадах нет.</p>
+<h2 id="почему-их-так-боятся">Почему их так боятся</h2>
+<p>Термин “монада” (от греческого μονάς, “единица”) пришло в Haskell из мира математики, а именно из теории категорий. Послушайте, как это звучит:</p>
+<blockquote>
+<p>Монада может быть определена через общее понятие моноида в моноидальной категории. Монада над категорией K - это моноид в моноидальной категории эндофункторов End(K).</p>
+</blockquote>
+<p>Вот поэтому их и боятся: с таким же успехом это определение могло быть написано на китайском. Лично я понял из него чуть меньше чем ничего. Конечно, я прекрасно понял бы его, если бы был знаком с той самой теорией категорий. К счастью, понять суть монад можно и без изучения этой теории.</p>
+<h2 id="определение">Определение</h2>
+<p>Монады - это механизм, привносящий императивный подход в чисто функциональный язык. Вот и всё. Если нам нужно связать некие шаги в чёткую последовательную цепочку - значит нам нужен монадический механизм.</p>
+<p>Впрочем, разве мы не говорили об императивном подходе, рассматривая do-нотацию и взаимодействия с внешним миром? Говорили. Потому что упомянутый в предыдущих главах тип <code>IO</code> имеет самое прямое отношения к монадам. А если вспомнить, что ни одно приложение на Haskell не может обойтись без взаимодействия с внешним миром, становится ясно: даже однострочное приложение уровня “Hello World” использует монадический механизм.</p>
+<h2 id="иллюстрация">Иллюстрация</h2>
+<p>Если вы используете Unix-подобную операционную систему, откройте терминал и введите:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">cd</span> /usr/lib
+$ <span class="kw">ls</span> <span class="kw">|</span> <span class="kw">grep</span> xml</code></pre></div>
+<p>Обратите внимание на вторую команду. Это - Unix-канал, связывающий две системные утилиты, а если точнее, связывающий не утилиты, а результаты работы этих утилит. Взгляните:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">ls</span>         <span class="kw">|</span>      <span class="kw">grep</span> xml
+
+процесс <span class="kw">1</span>  канал  процесс 2</code></pre></div>
+<p>Когда первый процесс, соответствующий утилите <code>ls</code>, выполнится, он вернёт текст, отображающий содержимое текущего каталога. Этот текст поступает на вход Unix-канала и затем, выходя из него, поступает на вход второго процесса, соответствующего утилите <code>grep</code>. Второй процесс фильтрует полученный текст по слову <code>&quot;xml&quot;</code> и возвращает некий результат.</p>
+<p>Таким образом, Unix-канал создал цепочку из двух звеньев, на выходе из которой мы получаем итоговое “значение”, явившееся результатом последовательного выполнения двух “вычислений”. И эта цепочка характеризуется двумя важными свойствами: последовательность и изоляция.</p>
+<p>Последовательность даёт нам твёрдую уверенность в том, что до тех пор, пока утилита <code>ls</code> не завершит свою работу, мы не перейдём к утилите <code>grep</code>. Да, с технической точки зрения обе эти утилиты запускаются одновременно и работают параллельно, но для нас с вами их взаимодействие выглядит именно как последовательность: сначала завершили <code>ls</code>, а потом перешли к <code>grep</code>.</p>
+<p>А изоляция обеспечивает взаимодействие звеньев, ничего не знающих друг о друге. Утилита <code>ls</code> не догадывается о том, что результат её работы будет подан на вход утилите <code>grep</code>. Да и утилита <code>grep</code> остаётся в полном неведении о том, что имеет дело с результатом работы утилиты <code>ls</code>. Взаимодействие двух этих утилит стало возможным только благодаря тому, что обе они имеют дело с общим “типом данных”, а именно с текстом: утилита слева от канала возвращает текст, а утилита справа от канала принимает текст.</p>
+<p>В этом и заключается простая суть монадического механизма: связать в последовательную цепочку вычисления, ничего друг о друге не знающие. Теперь вы понимаете, почему работа с вводом и выводом неразрывно связана с монадами, ведь <code>IO</code> - это и есть одна из монад. Рассмотрим <code>IO</code> внимательнее.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>

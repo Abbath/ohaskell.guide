@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Книга о прекрасном и удивительном языке. Для обыкновенных программистов.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+
+        <link rel="icon" href="./static/images/favicon.ico">
+
+        <title>#ohaskell</title>
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+
+        <!-- Compiled and minified CSS -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+
+        <!-- Compiled and minified JavaScript -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js"></script>
+
+        <!-- Own css and js -->
+        <link href="./static/css/default.css" rel="stylesheet">
+        <script src="./static/js/default.js"></script>
+
+        <script>
+          window.___gcfg = {
+            lang: 'ru'
+          };
+        </script>
+
+        <script src="https://apis.google.com/js/platform.js" async defer>
+        </script>
+    </head>
+
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a href="./" class="brand-logo center">
+                        #ohaskell
+                    </a>
+
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <!-- <i class="material-icons">toc</i> -->
+                        <i class="fa fa-list-ul" style="font-size: 30px;"></i>
+                    </a>
+
+                    <ul class="side-nav" id="mobile-demo">
+                        <!-- % -->
+                        <li><a href="./haskell-faq.html">Первые вопросы</a></li>
+                        <li><a href="./this-book.html">Об этой книге</a></li>
+                        <li><a href="./setup.html">Приготовимся</a></li>
+                        <li><a href="./modules-minimum.html">Модули: знакомство</a></li>
+                        <li><a href="./hackage.html">Hackage</a></li>
+                        <li><a href="./expressions-n-functions.html">Мир выражений и функций</a></li>
+                        <li><a href="./immutability-n-purity.html">Неизменность и чистота</a></li>
+                        <li><a href="./functions-inside.html">Функции внутри</a></li>
+                        <li><a href="./immutability.html">Функции: цепочки</a></li>
+                        <li><a href="./immutability.html">Функции: лень</a></li>
+                        <li><a href="./immutability.html">ФВП</a></li>
+                        <li><a href="./immutability.html">Типы: знакомство</a></li>
+                        <li><a href="./immutability.html">Типы: творим данные</a></li>
+                        <li><a href="./immutability.html">Типы: творим типы</a></li>
+                        <li><a href="./immutability.html">Классы: знакомство</a></li>
+                        <li><a href="./immutability.html">Классы: творим</a></li>
+                        <li><a href="./immutability.html">Функтор</a></li>
+                        <li><a href="./immutability.html">Функтор: наш</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор</a></li>
+                        <li><a href="./immutability.html">Аппликативный функтор: наш</a></li>
+                        <li><a href="./immutability.html">Монада</a></li>
+                        <li><a href="./immutability.html">Монада: наша</a></li>
+                        <li><a href="./immutability.html">Трансформер</a></li>
+                        <li><a href="./immutability.html">Трансформер: наш</a></li>
+                        <li><a href="./stackage.html">Stackage</a></li>
+                        <li><a href="./immutability.html">Форматирование кода</a></li>
+                        <li><a href="./immutability.html">Заключение</a></li>
+                        <!-- % -->
+                    </ul>
+
+                    <ul id="nav-mobile" class="right">
+                        <li><a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank"><span class="fa fa-github"></span></a></li>
+                        <li><a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору"><span class="fa fa-envelope-o"></span></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+
+        <div class="container">
+            <p>Раз уж монады <code>IO</code> самые распространённые, и ни одно приложение не может без них обойтись, дальнейшие рассуждения о монадах продолжим на их примере.</p>
+<h2 id="класс-типов-monad">Класс типов Monad</h2>
+<p>Все монады представлены в лице класса типов <code>Monad</code>. Вот из чего он состоит:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monad</span> m <span class="kw">where</span>
+    (<span class="fu">&gt;&gt;=</span>)  <span class="ot">::</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b
+    (<span class="fu">&gt;&gt;</span>)   <span class="ot">::</span> m a <span class="ot">-&gt;</span> m b <span class="ot">-&gt;</span> m b
+    <span class="ot">return ::</span> a <span class="ot">-&gt;</span> m a
+    fail   <span class="ot">::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> m a</code></pre></div>
+<p>Поскольку мы решили использовать в качестве примера монаду <code>IO</code>, для наглядности заменим полиморфный тип <code>m</code> реальным:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Monad</span> <span class="dt">IO</span> <span class="kw">where</span>
+    (<span class="fu">&gt;&gt;=</span>)  <span class="ot">::</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">IO</span> b) <span class="ot">-&gt;</span> <span class="dt">IO</span> b
+    (<span class="fu">&gt;&gt;</span>)   <span class="ot">::</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> b <span class="ot">-&gt;</span> <span class="dt">IO</span> b
+    <span class="ot">return ::</span> a <span class="ot">-&gt;</span> <span class="dt">IO</span> a
+    fail   <span class="ot">::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> a</code></pre></div>
+<p>Вспоминая пример с Unix-каналом, мы теперь понимаем, что <code>IO</code>-действие - это монадическая обёртка для результатов функций, взаимодействующих с внешним миром.</p>
+<p>Исследуем эти четыре метода.</p>
+<h2 id="компоновка">Компоновка</h2>
+<p>Метод <code>(&gt;&gt;=)</code> - это оператор последовательной компоновки (sequentially composition). Иногда его ещё называют оператором связывания (bind). Именно этот оператор играет роль Unix-канала из нашей иллюстрации: он связывает два <code>IO</code>-действия воедино, извлекая результат, возвращённый левым действием, и передавая его в качестве аргумента правому действию.</p>
+<p>Рассмотрим объявление этого метода:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="fu">&gt;&gt;=</span>)  <span class="ot">::</span> <span class="dt">IO</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">IO</span> b) <span class="ot">-&gt;</span> <span class="dt">IO</span> b</code></pre></div>
+<p>Первый аргумент - это <code>IO</code>-действие, которое, выполнив свою работу, вернёт значение некоторого типа <code>a</code>. Второй аргумент - это функция, принимающая значение типа <code>a</code> в качестве аргумента и возвращающая <code>IO</code>-действие, которое, выполнив свою работу, вернёт значение некоторого типа <code>b</code>. А чтобы стало понятнее, позвольте мне прямо сейчас разоблачить do-нотацию.</p>
+<p>Ключевое слово do - это всего лишь синтаксический сахар для монадических операторов. Возьмём простейших пример двух последовательных действий:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    text <span class="ot">&lt;-</span> getLine
+    putStrLn <span class="fu">$</span> <span class="st">&quot;You said '&quot;</span> <span class="fu">++</span> text <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
+<p>А вот как этот код выглядит “по-настоящему”, без do-нотации:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> getLine <span class="fu">&gt;&gt;=</span> \text <span class="ot">-&gt;</span> putStrLn <span class="fu">$</span> <span class="st">&quot;You said '&quot;</span> <span class="fu">++</span> text <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
+<p>Теперь всё встало на свои места:</p>
+<pre><code>getLine    &gt;&gt;=  \text   -&gt; putStrLn $ &quot;You said '&quot; ++ text ++ &quot;'&quot;
+
+IO String  &gt;&gt;=  (String -&gt; IO ()) </code></pre>
+<p>Когда “запускается” функция <code>getLine</code>, возвращающая <code>IO</code>-монаду, содержащую полученную от пользователя строку, оператор <code>&gt;&gt;=</code> вытаскивает эту строку из монады и сразу же передаёт её в качестве аргумента λ-функции, “запускающей” функцию <code>putStrLn</code>, которая в свою очередь вернёт другую <code>IO</code>-монаду.</p>
+<p>Это именно то, что мы наблюдали в нашем примере с Unix-каналом:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">ls</span> <span class="kw">|</span> <span class="kw">grep</span> xml</code></pre></div>
+<p>Функция <code>getLine</code> заняла место утилиты <code>ls</code>, а λ-функция заняла место утилиты <code>grep</code>.</p>
+<h2 id="затем">Затем</h2>
+<p>Монадический оператор <code>&gt;&gt;</code> - это оператор “затем” (then). Это простейший случай связывания: действия связываются без извлечения значений. Вот такое связывание с do-нотацией:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> <span class="kw">do</span>
+    putStrLn <span class="st">&quot;Denis&quot;</span>
+    putStrLn <span class="st">&quot;Shevchenko&quot;</span></code></pre></div>
+<p>А вот - без неё:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn <span class="st">&quot;Denis&quot;</span> <span class="fu">&gt;&gt;</span> putStrLn <span class="st">&quot;Shevchenko&quot;</span></code></pre></div>
+<p>Именно поэтому этот оператор и называется “затем”. Мы говорим: “Сначала выведи на экран имя, а затем - фамилию”. Никакой передачи значения здесь не происходит, ведь стоящая слева от оператора функция <code>putStrLn</code> возвращает пустое действие <code>IO ()</code>.</p>
+<p>Если вспомнить аналогию с Unix-терминалом, это можно изобразить так:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">whoami</span> <span class="kw">;</span> <span class="kw">pwd</span></code></pre></div>
+<p>Оператор связки команд (command concatenator), представленный точкой с запятой - это и есть подобие оператора “затем”. Сначала запускается <code>whoami</code>, а затем запускается <code>pwd</code>, никакой передачи значения слева направо тут нет.</p>
+<h2 id="return">return</h2>
+<p>Метод <code>return</code> вам уже знаком. Теперь мы понимаем, что английское слово “return” хорошо отражает действие этой функции: она возвращает значение в монадическую обёртку. Вспомните наш пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">obtainTextFromUser ::</span> <span class="dt">IO</span> <span class="dt">String</span>
+obtainTextFromUser <span class="fu">=</span> <span class="kw">do</span>
+    putStrLn <span class="st">&quot;Enter your text, please: &quot;</span>
+    firstText <span class="ot">&lt;-</span> getLine
+    return <span class="fu">$</span> <span class="st">&quot;'&quot;</span> <span class="fu">++</span> firstText <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
+<p>Функция <code>getLine</code> вернёт нам монаду, из которой оператор компоновки вытащит введённую пользователем строку. Эта строка поступит на вход λ-функции, которая в свою очередь создаст новую строку на основе строки, введённой пользователем, после чего - внимание! - функция <code>return</code> вернёт эту новоиспечённую строку обратно в <code>IO</code>-монаду. Вытащили значение из монады, что-то с ним сделали, а потом вернули в монаду.</p>
+<p>Вы спросите, в чём же разница между <code>return</code> и упомянутой в главе об исключениях функцией <code>evaluate</code>? Разница в том, что функция <code>evaluate</code> заворачивает значение исключительно в монаду <code>IO</code>, в то время как функция <code>return</code> - в любую монаду, в зависимости от контекста. Рассматривайте <code>evaluate</code> как частный случай <code>return</code> для <code>IO</code>.</p>
+<h2 id="fail">fail</h2>
+<p>О методе <code>fail</code> мы говорить не будем. Во-первых, этот метод не имеет отношения к концептуальной сути монад. А во-вторых, поговаривают, будто в грядущем стандарте Haskell 2014 этот метод будет вообще убран из класса <code>Monad</code>.</p>
+<p>Вот и всё. Теперь вы знаете простую суть монад. В принципе, монадический механизм - это всего лишь паттерн проектирования, унифицирующий процесс связывания вычислений.</p>
+
+<div style="padding-top: 45px;"><div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left"></span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col s6">
+        <div class="center-align">
+            <!-- An element a visitor can click if they <3 comments! -->
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right"></span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;"><div>
+
+<!-- The empty element required for Disqus to loads comments into -->
+<div id="disqus_thread" style="padding-top: 30px;"></div>
+
+<!--
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+    var disqus_shortname = 'ohaskell'; // required: replace example with your forum shortname
+
+    /* * * DON'T EDIT BELOW THIS LINE * * */
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+-->
+
+
+        </div>
+    </body>
+</html>
