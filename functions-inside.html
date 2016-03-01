@@ -141,6 +141,19 @@ main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;1
 <p>тогда при запуске увидим это:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">No</span>, it<span class="st">'s not a localhost.</span></code></pre></div>
 <p>Функция <code>putStrLn</code> - это стандартная функция, выводящая на консоль некую строку. В данном случае она вывела строку, возвращённую функцией <code>checkLocalhost</code>.</p>
+<h2 id="возврат-из-функции">Возврат из функции</h2>
+<p>В императивных языках, подобных C, существует особая инструкция <code>return</code>, предназначенная для явного возврата значения из функции. Поскольку функции там - это подпрограммы, наличие такой инструкции необходимо потому, что точек выхода/возврата из функции может быть несколько. Например, на C++ функция <code>checkLocalhost</code> могла бы выглядеть так:</p>
+<div class="sourceCode"><pre class="sourceCode cpp"><code class="sourceCode cpp">std::string checkLocalhost(<span class="dt">const</span> std::string&amp; ip) {
+    <span class="kw">if</span>(ip == <span class="st">&quot;127.0.0.1&quot;</span> || ip == <span class="st">&quot;0.0.0.0&quot;</span> || ip == <span class="st">&quot;::1&quot;</span>) {
+        <span class="kw">return</span> <span class="st">&quot;It's a localhost!&quot;</span>;     <span class="co">// Выходим здесь...</span>
+    }
+
+    <span class="kw">return</span> <span class="st">&quot;No, it's not a localhost.&quot;</span>  <span class="co">// ... или здесь.</span>
+}</code></pre></div>
+<p>В Haskell не существует аналога инструкции <code>return</code>, поскольку единственной «точкой возврата» из функции является её конечный результат. Звучит необычно, поясню примером.</p>
+<p>Как мы знаем, применение функции - это выражение. А так как оперирует оно с неизменными данными, мы всегда можем заменить выражение своим конечным результатом. И ничего не сломается. Например, выражение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">checkLocalhost <span class="st">&quot;127.0.0.1&quot;</span></code></pre></div>
+<p>может быть заменено</p>
 
 <div style="padding-top: 45px;"><div>
 <div class="row">
