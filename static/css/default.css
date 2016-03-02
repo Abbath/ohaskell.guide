@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic|Ubuntu+Mono:400,700,400italic);
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic|Source+Code+Pro:400,600);
 
 body {
     color: #002b36;
@@ -141,7 +141,7 @@ a {
 
 .monospace-follow {
     font-size: 19px;
-    font-family: 'Ubuntu Mono', monospace;
+    font-family: 'Source Code Pro', monospace;
 }
 
 .dropdown-menu {
@@ -209,8 +209,8 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: red; font-weight: bold; }
 
 pre.sourceCode {
-    font-family: 'Ubuntu Mono', monospace !important;
-    font-size: 100% !important;
+    font-family: 'Source Code Pro', monospace !important;
+    font-size: 90% !important;
     border: 1px solid #eee8d5; /* Параметры границы */
     border-radius: 3px;
     background: #eee8d5; /* Цвет фона */
@@ -220,12 +220,12 @@ pre.sourceCode {
 }
 
 .sourceCode code {
-    font-family: 'Ubuntu Mono', monospace !important;
+    font-family: 'Source Code Pro', monospace !important;
 }
 
 p>code {
-    font-family: 'Ubuntu Mono', monospace !important;
-    font-size: 100% !important;
+    font-family: 'Source Code Pro', monospace !important;
+    font-size: 90% !important;
     border-radius: 3px;
     border: 1px solid #eee8d5; /* Параметры границы */
     background: #eee8d5; /* Цвет фона */
@@ -237,7 +237,7 @@ p>code {
 }
 
 li>code {
-    font-family: 'Ubuntu Mono', monospace !important;
+    font-family: 'Source Code Pro', monospace !important;
     font-size: 100% !important;
     border-radius: 3px;
     border: 1px solid #FBE7D8; /* Параметры границы */
