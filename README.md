@@ -3,11 +3,7 @@
 О Haskell по-человечески
 ========================
 
-Ваша первая книга об удивительном и прекрасном языке программирования Haskell.
-
-Живёт [онлайн](http://www.ohaskell.guide/).
-
-Создана с помощью блистательных [Materialize](http://materializecss.com/), [Hakyll](https://jaspervdj.be/hakyll/) и [pandoc](http://pandoc.org/).
+Ваша первая книга об удивительном и прекрасном языке программирования Haskell. Живёт [онлайн](http://www.ohaskell.guide/). Создана с помощью блистательных [Materialize](http://materializecss.com/), [Hakyll](https://jaspervdj.be/hakyll/) и [pandoc](http://pandoc.org/).
 
 Вопросы, предложения и критику просьба направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге).
 
