@@ -311,3 +311,10 @@ pre.sourceCode span.co {
     padding-left: 15px;
 }
 
+.get-button {
+    width: 120px;
+}
+
+.get-button-separator {
+    padding-bottom: 25px;
+}
