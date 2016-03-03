@@ -14,4 +14,5 @@
 1. [Основной сайт](http://ruhaskell.org/)
 2. [Чат](https://gitter.im/ruHaskell/forall)
 3. [/r/ruhaskell](https://www.reddit.com/r/ruhaskell/)
-4. [Google+](https://plus.google.com/communities/117343381540538069054)
+4. [Twitter](https://twitter.com/ruHaskell)
+5. [Google+](https://plus.google.com/communities/117343381540538069054)
