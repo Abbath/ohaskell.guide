@@ -9,11 +9,11 @@
 
 Создана с помощью блистательных [Materialize](http://materializecss.com/), [Hakyll](https://jaspervdj.be/hakyll/) и [pandoc](http://pandoc.org/).
 
-Вопросы, предложения и критику просьба направлять [прямиком мне](mailto:me@dshevchenko.biz).
+Вопросы, предложения и критику просьба направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге).
 
 ### ruHaskell
 
-Книга написана при поддержке русскоязычного сообщества Haskell-разработчиков ruHaskell. Мы живём здесь:
+Книга написана при поддержке русскоязычного сообщества Haskell-разработчиков. Мы живём здесь:
 
 1. [Основной сайт](http://ruhaskell.org/)
 2. [Чат](https://gitter.im/ruHaskell/forall)
