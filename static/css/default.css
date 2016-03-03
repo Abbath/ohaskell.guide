@@ -1,9 +1,9 @@
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic|Source+Code+Pro:400,600);
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Source+Code+Pro:400,600);
 
 body {
     color: #002b36;
     font-size: 17px;
-    font-family: 'PT Sans', sans-serif;
+    font-family: 'PT Serif', sans-serif;
     background: #fdf6e3;
     text-align: justify;
 }
@@ -31,6 +31,10 @@ h3 {
     font-weight: 500 !important;
     padding-top: 15px;
     padding-bottom: 10px;
+}
+
+.sans {
+    font-family: 'PT Sans', sans-serif;
 }
 
 div#logo .navbar-brand {
