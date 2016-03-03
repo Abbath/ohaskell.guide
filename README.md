@@ -11,10 +11,11 @@
 
 Вопросы, предложения и критику просьба направлять [прямиком мне](mailto:me@dshevchenko.biz).
 
-## ruHaskell
+### ruHaskell
 
 Книга написана при поддержке русскоязычного сообщества Haskell-разработчиков ruHaskell. Мы живём здесь:
 
 1. [Основной сайт](http://ruhaskell.org/)
 2. [Чат](https://gitter.im/ruHaskell/forall)
 3. [/r/ruhaskell](https://www.reddit.com/r/ruhaskell/)
+4. [Google+](https://plus.google.com/communities/117343381540538069054)
