@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Source+Code+Pro:400,600);
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Ubuntu+Mono:400,400italic,700&subset=latin,cyrillic);
 
 body {
     color: #002b36;
@@ -68,7 +68,7 @@ nav .brand-logo {
 }
 
 .smaller-text {
-    font-size: 90%;
+    font-size: 100%;
 }
 
 a {
@@ -145,7 +145,7 @@ a {
 
 .monospace-follow {
     font-size: 19px;
-    font-family: 'Source Code Pro', monospace;
+    font-family: 'Ubuntu Mono', monospace;
 }
 
 .dropdown-menu {
@@ -171,27 +171,6 @@ a:hover {
     /* border-bottom: 1px #999 solid; */
 }
 
-.post-title {
-    float:left;
-}
-
-.post-date {
-    text-align: right;
-    color: #777;
-    font-size: 16px;
-}
-
-.gsc-control-cse {
-    font-family: Arial, sans-serif;
-    border-color: #F4F6FF !important;
-    background-color: #F4F6FF !important;
-}
-
-div#searchForm {
-    text-align: center !important;
-    padding-top: 40px;
-}
-
 /* Loosely based on pygment's default colors */
 table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
    { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
@@ -213,8 +192,8 @@ pre.sourceCode span.re { }
 pre.sourceCode span.er { color: red; font-weight: bold; }
 
 pre.sourceCode {
-    font-family: 'Source Code Pro', monospace !important;
-    font-size: 90% !important;
+    font-family: 'Ubuntu Mono', monospace !important;
+    font-size: 100% !important;
     border: 1px solid #eee8d5; /* Параметры границы */
     border-radius: 3px;
     background: #eee8d5; /* Цвет фона */
@@ -224,12 +203,25 @@ pre.sourceCode {
 }
 
 .sourceCode code {
-    font-family: 'Source Code Pro', monospace !important;
+    font-family: 'Ubuntu Mono', monospace !important;
 }
 
 p>code {
-    font-family: 'Source Code Pro', monospace !important;
-    font-size: 90% !important;
+    font-family: 'Ubuntu Mono', monospace !important;
+    font-size: 100% !important;
+    border-radius: 3px;
+    border: 1px solid #eee8d5; /* Параметры границы */
+    background: #eee8d5; /* Цвет фона */
+    padding-left: 3px;
+    padding-right: 3px;
+    padding-top: 1px;
+    padding-bottom: 1px;
+    color: #000;
+}
+
+span>code {
+    font-family: 'Ubuntu Mono', monospace !important;
+    font-size: 100% !important;
     border-radius: 3px;
     border: 1px solid #eee8d5; /* Параметры границы */
     background: #eee8d5; /* Цвет фона */
@@ -241,7 +233,7 @@ p>code {
 }
 
 li>code {
-    font-family: 'Source Code Pro', monospace !important;
+    font-family: 'Ubuntu Mono', monospace !important;
     font-size: 100% !important;
     border-radius: 3px;
     border: 1px solid #FBE7D8; /* Параметры границы */
@@ -305,10 +297,6 @@ input.gsc-search-button-v2{
 .side-nav a {
     text-align: left;
     font-size: 16px;
-}
-
-pre.sourceCode span.co {
-    font-style: normal !important;
 }
 
 .author {
