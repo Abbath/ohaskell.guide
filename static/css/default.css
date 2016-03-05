@@ -1,312 +1,309 @@
+
 @import url(https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Ubuntu+Mono:400,400italic,700&subset=latin,cyrillic);
-
-body {
-    color: #002b36;
-    font-size: 17px;
-    font-family: 'PT Serif', sans-serif;
-    background: #fdf6e3;
-    text-align: justify;
+body
+{
+  color            : rgb(88,110,117);
+  font-size        : 17px;
+  font-family      : "PT Serif", serif;
+  background-color : rgb(253,246,227);
+  text-align       : justify;
 }
 
-h1 {
-    color: #586e75;
-    font-size: 30px;
-    text-align: center;
-    font-weight: 500 !important;
-    padding-bottom: 35px;
-    padding-top: 40px;
+h1
+{
+  color          : rgb(88,110,117);
+  font-size      : 30px;
+  text-align     : center;
+  padding-top    : 40px;
+  padding-bottom : 35px;
 }
 
-h2 {
-    color: #586e75;
-    font-size: 22px !important;
-    font-weight: 500 !important;
-    padding-top: 30px;
-    padding-bottom: 20px;
+h2
+{
+  color          : rgb(88,110,117);
+  font-size      : 22px;
+  text-align     : left;
+  padding-top    : 30px;
+  padding-bottom : 20px;
 }
 
-h3 {
-    color: #586e75;
-    font-size: 20px !important;
-    font-weight: 500 !important;
-    padding-top: 15px;
-    padding-bottom: 10px;
+h3
+{
+  color          : rgb(88,110,117);
+  font-size      : 20px;
+  text-align     : left;
+  padding-top    : 15px;
+  padding-bottom : 10px;
 }
 
-.sans {
-    font-family: 'PT Sans', sans-serif;
+
+p > code
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  text-align       : center;
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
 }
 
-div#logo .navbar-brand {
-    padding-top: 16px;
+
+span > code
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  text-align       : center;
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
 }
 
-.navbar a, .navbar-header a {
-    border-bottom: 0 !important;
-    text-decoration: none !important;
+
+li > code
+{
+  color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
+  text-align       : center;
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
 }
 
-nav {
-    opacity: 0.9;
-    background-color: #2aa198;
+a
+{
+  color : rgb(38,139,210);
 }
 
-nav ul a {
-    font-size: 26px;
+a:hover
+{
+  text-decoration : none;
 }
 
-nav .brand-logo {
-    font-size: 26px;
+a:visited
+{
+  text-decoration : none;
 }
 
-.side-nav li {
-    padding: 0 !important;
+a:active
+{
+  text-decoration : none;
 }
 
-.side-nav a {
-    font-size: 18px !important;
+blockquote
+{
+  margin-left  : 0;
+  padding-left : 20px;
+  color        : rgb(119,119,119);
+  border-left  : solid 5px rgb(238,110,115);
 }
 
-.smaller-text {
-    font-size: 100%;
+.cover-title
+{
+  color       : rgb(88,110,117);
+  font-size   : 48px;
+  padding-top : 15px;
 }
 
-a {
-    color: #268bd2;
+.cover-v2
+{
+  color          : rgb(88,110,117);
+  font-size      : 20px;
+  padding-bottom : 70px;
 }
 
-.navbar-default {
-    background-color: #FFF;
-    border-color: #E7E7E7;
-    opacity: 0.91;
+.sans
+{
+  font-family : "PT Sans", sans-serif;
 }
 
-.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
-    color: #222;
+.get-button
+{
+  width : 120px;
 }
 
-.chapter-arrow {
-    font-size: 21px;
+.get-button-separator
+{
+  padding-bottom : 25px;
 }
 
-.cover-title {
-    font-size: 48px;
-    padding-bottom: 15px;
-    color: #586e75;
+.smaller-text
+{
+  font-size : 100%;
 }
 
-.cover-v2 {
-    font-size: 20px;
-    padding-bottom: 70px;
-    color: #586e75;
+
+.side-nav a
+{
+  text-align : left;
+  font-size  : 17px;
 }
 
-.community-title {
-    padding-top: 25px;
-    font-size: 17px;
+.side-nav li
+{
+  padding : 0 0 0 0;
 }
 
-.main-menu {
-    padding-top: 15px;
-    text-align: center;
-    font-size: 19px;
+nav
+{
+  opacity          : 0.9;
+  background-color : rgb(42,161,152);
 }
 
-.main-menu-links-separator {
-    padding-left: 25px;
+nav .brand-logo
+{
+  font-size : 26px;
 }
 
-.intro {
-    padding-bottom: 41px;
-    padding-left: 35px;
-    padding-right: 35px;
-    border-bottom: solid 1px #ccc;
-    color: #444;
+
+nav ul a
+{
+  font-size : 26px;
 }
 
-.clear-button {
-    padding-top: 24px;
+
+div#logo .navbar-brand
+{
+  font-size : 16px;
 }
 
-.clear-button a {
-    text-decoration: none !important;
-    border-bottom: 0 !important;
+
+.navbar a
+{
+  border-bottom   : solid 0 rgb(0,0,0);
+  text-decoration : none;
 }
 
-.footer-links-separator {
-    padding-left: 10px;
+
+.navbar-header a
+{
+  border-bottom   : solid 0 rgb(0,0,0);
+  text-decoration : none;
 }
 
-.powered-by {
-    padding-top: 30px;
-    padding-bottom: 30px;
-    text-align: right;
+.navbar-default
+{
+  background-color : rgb(255,255,255);
+  border-color     : rgb(231,231,231);
+  opacity          : 0.91;
 }
 
-.monospace-follow {
-    font-size: 19px;
-    font-family: 'Ubuntu Mono', monospace;
+.navbar-default .navbar-nav > li > a:hover
+{
+  color : rgb(34,34,34);
 }
 
-.dropdown-menu {
-    font-size: 15px;
+.navbar-default .navbar-nav > li > a:focus
+{
+  color : rgb(34,34,34);
 }
 
-blockquote {
-    margin-left: 0 !important;
-    padding-left: 20px !important;
-    color: #777;
-    border-left: 5px solid #ee6e73;
+.author
+{
+  padding-left : 15px;
 }
 
-a, a:visited, a:active {
-    /* color: #2d3644; */
-    text-decoration: none;
-    /* border-bottom: 1px #333 dotted; */
+.chapter-arrow
+{
+  font-size : 21px;
 }
 
-a:hover {
-    /* color: #5493ff; */
-    text-decoration: none;
-    /* border-bottom: 1px #999 solid; */
+
+.sourceCode code
+{
+  font-family : "Ubuntu Mono", monospace;
 }
 
-/* Loosely based on pygment's default colors */
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode, table.sourceCode pre
-   { margin: 0; padding: 0; border: 0; vertical-align: baseline; border: none; }
-td.lineNumbers { border-right: 1px solid #AAAAAA; text-align: right; color: #AAAAAA; padding-right: 5px; padding-left: 5px; }
-td.sourceCode { padding-left: 5px; }
-pre.sourceCode { }
-pre.sourceCode span.kw { color: #007020; font-weight: bold; }
-pre.sourceCode span.dt { color: #902000; }
-pre.sourceCode span.dv { color: #40a070; }
-pre.sourceCode span.bn { color: #40a070; }
-pre.sourceCode span.fl { color: #40a070; }
-pre.sourceCode span.ch { color: #4070a0; }
-pre.sourceCode span.st { color: #4070a0; }
-pre.sourceCode span.co { color: #60a0b0; font-style: italic; }
-pre.sourceCode span.ot { color: #007020; }
-pre.sourceCode span.al { color: red; font-weight: bold; }
-pre.sourceCode span.fu { color: #06287e; }
-pre.sourceCode span.re { }
-pre.sourceCode span.er { color: red; font-weight: bold; }
-
-pre.sourceCode {
-    font-family: 'Ubuntu Mono', monospace !important;
-    font-size: 100% !important;
-    border: 1px solid #eee8d5; /* Параметры границы */
-    border-radius: 3px;
-    background: #eee8d5; /* Цвет фона */
-    padding: 7px; /* Поля вокруг текста */
-    margin-top: 18px;
-    margin-bottom: 18px;
+pre.sourceCode
+{
+  color            : rgb(0,0,0);
+  font-family      : "Ubuntu Mono", monospace;
+  font-size        : 100%;
+  border-radius    : 3px 3px 3px 3px;
+  border           : solid 1px rgb(238,232,213);
+  background-color : rgb(238,232,213);
+  padding          : 7px 7px 7px 7px;
+  margin-top       : 18px;
+  margin-bottom    : 18px;
 }
 
-.sourceCode code {
-    font-family: 'Ubuntu Mono', monospace !important;
+pre.sourceCode span.kw
+{
+  color       : rgb(0,112,32);
+  font-weight : bold;
 }
 
-p>code {
-    font-family: 'Ubuntu Mono', monospace !important;
-    font-size: 100% !important;
-    border-radius: 3px;
-    border: 1px solid #eee8d5; /* Параметры границы */
-    background: #eee8d5; /* Цвет фона */
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    color: #000;
+pre.sourceCode span.dt
+{
+  color : rgb(144,32,0);
 }
 
-span>code {
-    font-family: 'Ubuntu Mono', monospace !important;
-    font-size: 100% !important;
-    border-radius: 3px;
-    border: 1px solid #eee8d5; /* Параметры границы */
-    background: #eee8d5; /* Цвет фона */
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    color: #000;
+pre.sourceCode span.dv
+{
+  color : rgb(64,160,112);
 }
 
-li>code {
-    font-family: 'Ubuntu Mono', monospace !important;
-    font-size: 100% !important;
-    border-radius: 3px;
-    border: 1px solid #FBE7D8; /* Параметры границы */
-    background: #fdf6e3; /* Цвет фона */
-    padding-left: 3px;
-    padding-right: 3px;
-    padding-top: 1px;
-    padding-bottom: 1px;
-    color: #000;
+pre.sourceCode span.bn
+{
+  color : rgb(64,160,112);
 }
 
-#gsc-iw-id1{
-    height: 30px;
-    border-color: #898989;
+pre.sourceCode span.fl
+{
+  color : rgb(64,160,112);
 }
 
-input.gsc-search-button-v2{
-    width: 71px;
-    height: 29px;
+pre.sourceCode span.ch
+{
+  color : rgb(64,112,160);
 }
 
-.gsc-search-button {
-    display: none;
+pre.sourceCode span.st
+{
+  color : rgb(64,112,160);
 }
 
-.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
-    background-color: #F5F3EE;
-    color: #000;
+pre.sourceCode span.co
+{
+  color      : rgb(96,160,176);
+  font-style : italic;
 }
 
-.custom-tabs {
-    margin-bottom: 35px;
+pre.sourceCode span.ot
+{
+  color : rgb(0,112,32);
 }
 
-.links-divider {
-    padding-top: 6px;
+pre.sourceCode span.al
+{
+  color       : rgb(255,0,0);
+  font-weight : bold;
 }
 
-.links-group-title {
-    font-size: 20px;
-    padding-bottom: 15px;
+pre.sourceCode span.fu
+{
+  color : rgb(6,40,126);
 }
 
-.links-indent {
-    padding-left: 15px;
+pre.sourceCode span.er
+{
+  color       : rgb(255,0,0);
+  font-weight : bold;
 }
 
-.tag-in-title {
-    color: #777;
-}
 
-.chapters-selector {
-    font-size: 32px;
-}
-
-.chapters-selector a {
-    text-decoration: none !important;
-    border-bottom: none !important;
-}
-
-.side-nav a {
-    text-align: left;
-    font-size: 16px;
-}
-
-.author {
-    padding-left: 15px;
-}
-
-.get-button {
-    width: 120px;
-}
-
-.get-button-separator {
-    padding-bottom: 25px;
-}
+/* Generated with Clay, http://fvisser.nl/clay */
