@@ -2,7 +2,7 @@
 @import url(https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Ubuntu+Mono:400,400italic,700&subset=latin,cyrillic);
 body
 {
-  color            : rgb(88,110,117);
+  color            : rgb(0,43,54);
   font-size        : 17px;
   font-family      : "PT Serif", serif;
   background-color : rgb(253,246,227);
@@ -123,6 +123,7 @@ blockquote
 {
   color          : rgb(88,110,117);
   font-size      : 20px;
+  padding-top    : 20px;
   padding-bottom : 70px;
 }
 
