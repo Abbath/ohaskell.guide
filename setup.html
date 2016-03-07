@@ -99,54 +99,53 @@
         <div class="container">
             <h1 id="приготовимся">Приготовимся</h1>
 <p>Мы не можем начать изучение языка без испытательного полигона. Установим Haskell.</p>
-<p>Сделать это можно несколькими способами, мы выберем самый удобный. Называется он <a href="http://haskellstack.org/">The Haskell Tool Stack</a>. Эта утилита - всё, что вам понадобится для работы с Haskell.</p>
+<p>Сделать это можно несколькими способами, мы выберем самый удобный. Называется он <a href="http://haskellstack.org/">The Haskell Tool Stack</a>. Эта утилита — всё, что вам понадобится для работы с Haskell.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Haskell - кроссплатформенный язык, прекрасно работающий и в OS X, и в Linux, и даже в Windows. Однако в 2008 году я навсегда покинул мир Windows, поэтому все последующие примеры взаимодействия с командной строкой подразумевают Unix-way. Вся конфигурация и примеры кода опробованы мною на OX S Yosemite. </span>
+<span class="white-text"> Haskell — кроссплатформенный язык, работающий и в OS X, и в Linux, и даже в Windows. Однако в 2008 году я навсегда покинул мир Windows, поэтому все последующие примеры взаимодействия с командной строкой подразумевают Unix-way. Вся конфигурация и примеры кода опробованы мною на OX S Yosemite. </span>
 </div>
 <h2 id="устанавливаем">Устанавливаем</h2>
-<p>Идём <a href="http://docs.haskellstack.org/en/stable/install_and_upgrade.html">сюда</a> и скачиваем архив для нужной нам ОС. Распаковываем архив - и перед нами утилитка под названием <code>stack</code>. Для удобства располагаем её в каком-нибудь каталоге, доступном в <code>PATH</code>. Рекомендованный путь:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">~/.local/bin/</span></code></pre></div>
-<p>Если же вы живёте в мире Mac и пользуетесь <a href="http://brew.sh/">Homebrew</a> - вам ещё проще. Делаете:</p>
+<p>Идём <a href="http://docs.haskellstack.org/en/stable/install_and_upgrade.html">сюда</a> и скачиваем архив для нужной нам ОС. Распаковываем архив — и перед нами утилита под названием <code>stack</code>. Для удобства располагаем её в каком-нибудь каталоге, доступном в <code>PATH</code>. Рекомендованный путь — <code>~/.local/bin/</code>.</p>
+<p>Если же вы живёте в мире Mac и пользуетесь <a href="http://brew.sh/">Homebrew</a> — вам ещё проще. Делаете:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">brew</span> update
 $ <span class="kw">brew</span> install haskell-stack</code></pre></div>
 <p>Всё.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> На момент написания книги я использовал <code>stack</code> версии 1.0.2. Если у вас более старая версия - обязательно обновитесь. Если же более новая - у вас теоретически что-нибудь может работать не совсем так, как описано ниже, поскольку <code>stack</code> активно разивается, добавляются новые возможности, может быть где и поломают обратную совместимость… </span>
+<span class="white-text"> На момент написания книги я использовал <code>stack</code> версии 1.0.2. Если у вас более старая версия — непременно обновитесь. Если же более новая — у вас теоретически что-нибудь может работать не совсем так, как описано ниже, поскольку <code>stack</code> активно разивается, добавляются новые возможности, может быть где и поломают обратную совместимость. </span>
 </div>
 <p>Главное (но не единственное), что умеет делать <code>stack</code>, это:</p>
 <ol style="list-style-type: decimal">
-<li>Разворачивать Haskell-инфраструктуру.</li>
+<li>Разворачивать инфраструктуру.</li>
 <li>Собирать проекты.</li>
 <li>Устанавливать библиотеки.</li>
 </ol>
-<p>Haskell-инфраструктура - экосистема, краеугольным камнем которой является компилятор <code>ghc</code> (Glasgow Haskell Compiler). Как было сказано ранее, Haskell - это компилируемый язык: приложение представляет собой обыкновенный исполняемый файл.</p>
-<p>Haskell-проект - среда для создания настоящих приложений и библиотек.</p>
-<p>Haskell-библиотеки - готовые решения, спасающие нас от изобретения сотен велосипедов.</p>
+<p>Haskell-инфраструктура — экосистема, краеугольным камнем которой является компилятор GHC (Glasgow Haskell Compiler). Как было сказано ранее, Haskell — это компилируемый язык: приложение представляет собой обыкновенный исполняемый файл.</p>
+<p>Haskell-проект — среда для создания приложений и библиотек.</p>
+<p>Haskell-библиотеки — готовые решения, спасающие нас от изобретения велосипедов.</p>
 <h2 id="разворачиваем-инфраструктуру">Разворачиваем инфраструктуру</h2>
 <p>Делаем:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> setup</code></pre></div>
-<p>В результате на ваш компьютер будет установлена Haskell-инфраструктура последней стабильной версии. Жить всё это хозяйство будет в только что созданном скрытом каталоге <code>~/.stack/</code>. Именно поэтому устанавливать инфраструктуру для последующих Haskell-проектов вам уже не придётся: единожды развернули, используем всегда. Пока вам не нужно знать об устройстве этой инфраструктуры, воспринимайте её как данность: теперь на вашем компьютере живёт Haskell.</p>
+<p>В результате на ваш компьютер будет установлена инфраструктура последней стабильной версии. Жить всё это хозяйство будет в только что созданном каталоге <code>~/.stack/</code>. Именно поэтому устанавливать инфраструктуру для последующих Haskell-проектов вам уже не придётся: единожды развернули, используем всегда. Пока вам не нужно знать об устройстве этой инфраструктуры, воспринимайте её как данность: теперь на вашем компьютере живёт Haskell.</p>
 <h2 id="hi-world">Hi World</h2>
-<p>Создадим Haskell-проект:</p>
+<p>Создадим наш первый Haskell-проект:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> new real</code></pre></div>
-<p>Здесь <code>real</code> - название нашего проекта. В результате будет создан каталог <code>real</code>, внутри которого мы увидим это:</p>
+<p>Здесь <code>real</code> — название проекта. В результате будет создан каталог <code>real</code>, внутри которого мы увидим это:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">.</span>
 ├── <span class="kw">LICENSE</span>
 ├── <span class="kw">Setup.hs</span>
 ├── <span class="kw">app</span>
-│   └── <span class="kw">Main.hs</span>
-├── <span class="kw">real.cabal</span>
+│   └── <span class="kw">Main.hs</span> <span class="kw">&lt;</span>- Главный модуль
+├── <span class="kw">real.cabal</span>  <span class="kw">&lt;</span>- Сборочный файл
 ├── <span class="kw">src</span>
-│   └── <span class="kw">Lib.hs</span>
+│   └── <span class="kw">Lib.hs</span>  <span class="kw">&lt;</span>- Вспомогательный модуль
 ├── <span class="kw">stack.yaml</span>
 └── <span class="kw">test</span>
     └── <span class="kw">Spec.hs</span></code></pre></div>
-<p>О содержимом проекта вам пока знать не нужно, просто соберём его:</p>
+<p>О содержимом проекта вам пока знать не нужно, просто соберём его командой:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> install</code></pre></div>
-<p>Запомните эту команду, мы будем использовать её постоянно. В результате её выполнения появится файл <code>real-exe</code>. А поскольку скопирован он будет в упомянутый выше каталог <code>~/.local/bin/</code>, мы сможем сразу же запустить программу:</p>
+<p>Запомните эту команду, мы будем использовать её постоянно. В результате её выполнения появится файл <code>real-exe</code>. А поскольку скопирован он будет в упомянутый выше каталог <code>~/.local/bin/</code>, мы сможем сразу запустить программу:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">real-exe</span>
 <span class="kw">someFunc</span></code></pre></div>
-<p>Только что мы создали настоящий Haskell-проект и запустили нашу первую программу, выведшую строку “someFunc”. Но как же это работает? Пришла пора познакомится с модулями.</p>
+<p>Вот мы и создали Haskell-проект и запустили нашу первую программу, выведшую строку <code>&quot;someFunc&quot;</code>. Но как же это работает? Пришла пора познакомится с фундаментальной единицей проекта — модулем.</p>
 <div style="padding-top: 45px;">
     
 </div>
