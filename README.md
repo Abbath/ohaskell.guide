@@ -1,6 +1,6 @@
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.ru"><img alt="Лицензия Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x15.png" /></a>
-
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/ruHaskell/forall)
+
+<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.ru"><img alt="Лицензия Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/80x31.png" /></a>
 
 О Haskell по-человечески
 ========================
