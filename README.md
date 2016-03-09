@@ -1,3 +1,5 @@
+[![Packagist](https://img.shields.io/packagist/l/doctrine/orm.svg)](https://github.com/denisshevchenko/ohaskell.guide/blob/master/LICENSE)
+
 [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/ruHaskell/forall)
 
 О Haskell по-человечески

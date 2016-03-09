@@ -57,23 +57,18 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./modules-minimum.html">
-                                Модули: знакомство
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./hackage.html">
-                                Hackage
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./expressions-n-functions.html">
-                                Мир выражений и функций
+                            <a href="./whales-n-turtle.html">
+                                Киты и Черепаха
                             </a>
                         </li>
                         <li>
                             <a href="./immutability-n-purity.html">
                                 Неизменность и чистота
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./hackage.html">
+                                Hackage
                             </a>
                         </li>
                     </ul>
@@ -146,6 +141,34 @@ $ <span class="kw">brew</span> install haskell-stack</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">real-exe</span>
 <span class="kw">someFunc</span></code></pre></div>
 <p>Вот мы и создали Haskell-проект и запустили нашу первую программу, выведшую строку <code>&quot;someFunc&quot;</code>. Но как же это работает? Пришла пора познакомится с фундаментальной единицей проекта — модулем.</p>
+<h2 id="модули-первый-взгляд">Модули: первый взгляд</h2>
+<p>Настоящие проекты никогда не состоят из одного-единственного файла. Познакомимся с модулями.</p>
+<p>Файлы, содержащие Haskell-код — это и есть модули. Один файл — один модуль. В Haskell нет заголовочных файлов: каждый из модулей рассматривается как самостоятельная единица проекта, содержащая в себе разные полезные вещи. А чтобы воспользоваться этими вещами, необходимо один модуль импортировать в другой.</p>
+<p>Откроем модуль <code>src/Lib.hs</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Lib</span>
+    ( someFunc
+    ) <span class="kw">where</span>
+
+<span class="ot">someFunc ::</span> <span class="dt">IO</span> ()
+someFunc <span class="fu">=</span> putStrLn <span class="st">&quot;someFunc&quot;</span></code></pre></div>
+<p>В первой строке объявлено, что имя этого модуля — <code>Lib</code>. Далее, в круглых скобках упомянуто содержимое данного модуля, а именно имя функции <code>someFunc</code>. Затем, после ключевого слова <code>where</code>, мы видим определение функции <code>someFunc</code>. Пока вам не нужно знать о синтаксисе данной конструкции, в следующих главах мы разберём его тщательнейшим образом.</p>
+<p>Как вы уже поняли, расширение <code>.hs</code> — стандартное расширения для модулей.</p>
+<p>Теперь откроем модуль <code>app/Main.hs</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="kw">import </span><span class="dt">Lib</span>      <span class="co">-- Импортируем модуль Lib...</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> someFunc <span class="co">-- Используем его содержимое...</span></code></pre></div>
+<p>Это — модуль <code>Main</code>, главный модуль нашего приложения, ведь именно здесь определена функция <code>main</code>. С помощью директивы <code>import</code> мы включаем сюда модуль <code>Lib</code> и можем работать с содержимым этого модуля.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Запомните модуль <code>Main</code>, с ним мы будем работать чаще всего. Все примеры исходного кода, которые вы увидите на страницах этой книги, живут именно в модуле <code>Main</code>, если не оговорено обратное. </span>
+</div>
+<h2 id="имена-модулей">Имена модулей</h2>
+<p>Есть два правила.</p>
+<p>Во-первых, имя модуля должно начинаться с большой буквы.</p>
+<p>Во-вторых, имя модуля должно совпадать с именем соответствующего ему файла. Именно поэтому файл, содержащий модуль <code>Main</code>, назван <code>Main.hs</code>. Это, кстати, очень удобно, помогает избегать путаницы.</p>
+<p>Всё. В будущих главах вы узнаете о модулях кое-что ещё, но пока достаточно этого. Теперь пора познакомится с пакетами, ведь мы будем использовать их в наших проектах постоянно.</p>
 <div style="padding-top: 45px;">
     
 </div>
@@ -168,7 +191,7 @@ $ <span class="kw">brew</span> install haskell-stack</code></pre></div>
     </div>
     <div class="col s3">
         <div class="right">
-            <a href="/modules-minimum.html" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/whales-n-turtle.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-right">
                     
                 </span>

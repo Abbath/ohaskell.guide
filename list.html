@@ -57,23 +57,18 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./modules-minimum.html">
-                                Модули: знакомство
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./hackage.html">
-                                Hackage
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./expressions-n-functions.html">
-                                Мир выражений и функций
+                            <a href="./whales-n-turtle.html">
+                                Киты и Черепаха
                             </a>
                         </li>
                         <li>
                             <a href="./immutability-n-purity.html">
                                 Неизменность и чистота
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./hackage.html">
+                                Hackage
                             </a>
                         </li>
                     </ul>
@@ -188,6 +183,180 @@ main <span class="fu">=</span> print <span class="fu">$</span> nonEmptyNamesFrom
 <li>Список - это набор значений одного типа.</li>
 <li>Мы не можем изменить уже созданный список, мы можем лишь создать на его основе другой список.</li>
 <li>С элементами списка можно совершать различные манипуляции.</li>
+</ol>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">title: Генераторы списков</td>
+</tr>
+<tr class="even">
+<td align="left">prevChapter: /ru/about-lists/tuples.html</td>
+</tr>
+<tr class="odd">
+<td align="left">nextChapter: /ru/about-user-types/index.html</td>
+</tr>
+</tbody>
+</table>
+<p>Понятие “list comprehension” в русскоязычной документации чаще всего переводится как “генератор списка”. Строго говоря, это не лучший перевод, но я не смог подобрать ничего лучшего.</p>
+<p>Речь пойдёт об одной хитрой конструкции, предназначенной для прохода по элементам списка(ов) и применения к ним некоторых действий, в результате чего будет создан (сгенерирован) новый список. Да-да, это похоже на уже известные нам функции <code>map</code> и <code>filter</code>, однако есть некоторые дополнительные вкусности.</p>
+<h2 id="хитрый-список">Хитрый список</h2>
+<p>Вот как это выглядит:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
+
+main <span class="fu">=</span> print [toUpper c <span class="fu">|</span> c <span class="ot">&lt;-</span> <span class="st">&quot;http&quot;</span>]</code></pre></div>
+<p>На выходе получим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="st">&quot;HTTP&quot;</span></code></pre></div>
+<p>Рассмотрим поближе:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[toUpper c <span class="fu">|</span> c <span class="ot">&lt;-</span> <span class="st">&quot;http&quot;</span>]</code></pre></div>
+<p>Мы видим квадратные скобки… То есть перед нами список? Ну почти. Перед нами - генератор списка. Скелет такой конструкции можно представить так:</p>
+<pre><code>[OPERATION ELEM | ELEM &lt;- LIST]</code></pre>
+<p>где <code>LIST</code> - список, <code>ELEM</code> - элемент этого списка, а <code>OPERATION</code> - функция, применяемая к каждому элементу. Мы говорим: “Возьми список <code>LIST</code>, последовательно пройдись по всем его элементам и примени к каждому из них функцию <code>OPERATION</code>”. В результате значения, возвращаемые функцией <code>OPERATION</code>, породят новый список.</p>
+<p>В данном случае мы пройдём по всем символам строки <code>http</code> и применим к каждому из её символов функцию <code>toUpper</code>, которая в свою очередь переведёт этот символ в верхний регистр. В результате мы получим новую строку <code>&quot;HTTP&quot;</code>.</p>
+<h2 id="добавляем-предикат">Добавляем предикат</h2>
+<p>Мы можем добавить предикат в эту конструкцию. Тогда её скелет станет таким:</p>
+<pre><code>[OPERATION ELEM | ELEM &lt;- LIST, PREDICATE]</code></pre>
+<p>В этом случае мы говорим: “Возьми список <code>LIST</code>, последовательно пройдись по всем его элементам и примени функцию <code>OPERATION</code> только к тем элементам, которые удовлетворят предикату <code>PREDICATE</code>”.</p>
+<p>Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
+
+main <span class="fu">=</span> print [toUpper c <span class="fu">|</span> c <span class="ot">&lt;-</span> <span class="st">&quot;http&quot;</span>, c <span class="fu">==</span> <span class="ch">'t'</span>]</code></pre></div>
+<p>На выходе будет:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="st">&quot;TT&quot;</span></code></pre></div>
+<p>Мы прошлись по всем четырём символам строки <code>http</code>, но функция <code>toUpper</code> была применена только к тем символам, которые удовлетворили предикату <code>c == 't'</code>. Именно поэтому на выходе мы получили строку лишь из этих двух символов.</p>
+<p>Предикатов, кстати, может быть несколько. Например, так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
+
+main <span class="fu">=</span> print [toUpper c <span class="fu">|</span> c <span class="ot">&lt;-</span> <span class="st">&quot;http&quot;</span>, c <span class="fu">/=</span> <span class="ch">'h'</span>, c <span class="fu">/=</span> <span class="ch">'p'</span>]</code></pre></div>
+<p>Вывод в этом случае будет таким же:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="st">&quot;TT&quot;</span></code></pre></div>
+<p>Здесь два предиката, <code>c /= 'h'</code> и <code>c /= 'p'</code>. Они соединяются в единый предикат через логическое “И”, поэтому мы можем написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[toUpper c <span class="fu">|</span> c <span class="ot">&lt;-</span> <span class="st">&quot;http&quot;</span>, c <span class="fu">/=</span> <span class="ch">'h'</span> <span class="fu">&amp;&amp;</span> c <span class="fu">/=</span> <span class="ch">'p'</span>]</code></pre></div>
+<p>Результат будет таким же.</p>
+<p>Обратите внимание на комбинацию символов <code>/=</code>. Это функция проверки на неравенство, аналог оператора <code>!=</code> в языке C. Кстати, он тоже носит математический окрас. Сравните:</p>
+<pre><code>/=   -- Haskell-форма
+≠    -- математическая форма</code></pre>
+<p>Симпатично, не правда ли? Прямое сходство, мы лишь передвинули перечеркивающую косую палочку.</p>
+<h2 id="больше-списков">Больше списков</h2>
+<p>Мы можем использовать генератор для совместной работы с несколькими списками. Скелет в этом случае будет таким:</p>
+<pre><code>[OPERATION_with_ELEMs | ELEM1 &lt;- LIST1, ..., ELEMN &lt;- LISTN ]</code></pre>
+<p>Здесь мы работаем сразу с <code>N</code> списками, а <code>OPERATION_with_ELEMs</code> представляет собой функцию, в которую передаются все элементы наших списков. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    print [prefix <span class="fu">++</span> name <span class="fu">|</span> name <span class="ot">&lt;-</span> names, prefix <span class="ot">&lt;-</span> namePrefix]
+    <span class="kw">where</span> names <span class="fu">=</span> [<span class="st">&quot;James&quot;</span>, <span class="st">&quot;Victor&quot;</span>, <span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Michael&quot;</span>]
+          namePrefix <span class="fu">=</span> [<span class="st">&quot;Mr. &quot;</span>]</code></pre></div>
+<p>На выходе получим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;Mr. James&quot;</span>,<span class="st">&quot;Mr. Victor&quot;</span>,<span class="st">&quot;Mr. Denis&quot;</span>,<span class="st">&quot;Mr. Michael&quot;</span>]</code></pre></div>
+<p>Мы последовательно прошлись по всем элементам списков <code>names</code> и <code>namePrefix</code>. Обратите внимание, в списке <code>namePrefix</code> лишь один префикс. Вот что будет, если префиксов два:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    print [prefix <span class="fu">++</span> name <span class="fu">|</span> name <span class="ot">&lt;-</span> names, prefix <span class="ot">&lt;-</span> namePrefix]
+    <span class="kw">where</span> names <span class="fu">=</span> [<span class="st">&quot;James&quot;</span>, <span class="st">&quot;Victor&quot;</span>, <span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Michael&quot;</span>]
+          namePrefix <span class="fu">=</span> [<span class="st">&quot;Mr. &quot;</span>, <span class="st">&quot;sir &quot;</span>] <span class="co">-- Теперь префиксов два</span></code></pre></div>
+<p>В этом случае на выходе будет:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;Mr. James&quot;</span>,<span class="st">&quot;sir James&quot;</span>,<span class="st">&quot;Mr. Victor&quot;</span>,<span class="st">&quot;sir Victor&quot;</span>,<span class="st">&quot;Mr. Denis&quot;</span>,<span class="st">&quot;sir Denis&quot;</span>,<span class="st">&quot;Mr. Michael&quot;</span>,<span class="st">&quot;sir Michael&quot;</span>]</code></pre></div>
+<p>В этом случае мы последовательно использовали <em>каждый</em> элемент из списка <code>names</code> и <em>каждый</em> элемент из списка <code>namePrefix</code>.</p>
+<h2 id="добавляем-условие">Добавляем условие</h2>
+<p>Предикат не всегда применим к элементам списка. В ряде случаев нам нужно условие. Добавим его:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
+    print [<span class="kw">if</span> car <span class="fu">==</span> <span class="st">&quot;Bentley&quot;</span> <span class="kw">then</span> <span class="st">&quot;Wow!&quot;</span> <span class="kw">else</span> <span class="st">&quot;Good!&quot;</span> <span class="fu">|</span> car <span class="ot">&lt;-</span> cars]
+    <span class="kw">where</span> cars <span class="fu">=</span> [<span class="st">&quot;Mercedes&quot;</span>,
+                  <span class="st">&quot;BMW&quot;</span>,
+                  <span class="st">&quot;Bentley&quot;</span>,
+                  <span class="st">&quot;Audi&quot;</span>,
+                  <span class="st">&quot;Bentley&quot;</span>]</code></pre></div>
+<p>Результат:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;Good!&quot;</span>,<span class="st">&quot;Good!&quot;</span>,<span class="st">&quot;Wow!&quot;</span>,<span class="st">&quot;Good!&quot;</span>,<span class="st">&quot;Wow!&quot;</span>]</code></pre></div>
+<p>Мы прошлись по списку марок автомобилей и применили к каждой из них условие, которое вернуло строку <code>&quot;Wow!&quot;</code> или строку <code>&quot;Good!&quot;</code>.</p>
+<h2 id="добавляем-локальное-выражение">Добавляем локальное выражение</h2>
+<p>Мы можем добавить сюда и локальное выражение с помощью уже известного нам <code>let</code>. Например так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
+
+main <span class="fu">=</span> print [toUpper c <span class="fu">|</span> c <span class="ot">&lt;-</span> <span class="st">&quot;http&quot;</span>,
+                          <span class="kw">let</span> hletter <span class="fu">=</span> <span class="ch">'h'</span> <span class="kw">in</span> c <span class="fu">/=</span> hletter]</code></pre></div>
+<p>Промежуточное значение может быть использовано во избежание дубляжа при наличии нескольких предикатов.</p>
+<h2 id="пример">Пример</h2>
+<p>Разберём более практичный пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.List</span>
+
+<span class="ot">checkGooglerBy ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+checkGooglerBy email <span class="fu">=</span>
+    <span class="kw">if</span> <span class="st">&quot;gmail.com&quot;</span> <span class="ot">`isSuffixOf`</span> email
+    <span class="kw">then</span> nameFrom email <span class="fu">++</span> <span class="st">&quot; is a Googler!&quot;</span>
+    <span class="kw">else</span> email
+    <span class="kw">where</span> nameFrom fullEmail <span class="fu">=</span> takeWhile (<span class="fu">/=</span> <span class="ch">'@'</span>) fullEmail
+
+main <span class="fu">=</span> print [checkGooglerBy email <span class="fu">|</span> email <span class="ot">&lt;-</span> [<span class="st">&quot;adam@gmail.com&quot;</span>,
+                                               <span class="st">&quot;bob@yahoo.com&quot;</span>,
+                                               <span class="st">&quot;richard@gmail.com&quot;</span>,
+                                               <span class="st">&quot;elena@yandex.ru&quot;</span>,
+                                               <span class="st">&quot;denis@gmail.com&quot;</span>]]</code></pre></div>
+<p>Результат:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="st">&quot;adam is a Googler!&quot;</span>,<span class="st">&quot;bob@yahoo.com&quot;</span>,<span class="st">&quot;richard is a Googler!&quot;</span>,<span class="st">&quot;elena@yandex.ru&quot;</span>,<span class="st">&quot;denis is a Googler!&quot;</span>]</code></pre></div>
+<p>Мы проанализировали список email-адресов, и заменили все gmail-адреса фразой, начинающейся с имени пользователя.</p>
+<p>Рассмотрим эту строку:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">takeWhile (<span class="fu">/=</span> <span class="ch">'@'</span>) fullEmail</code></pre></div>
+<p>Скелет стандартной функции <code>takeWhile</code> можно отобразить так:</p>
+<pre><code>takeWhile PREDICATE LIST</code></pre>
+<p>Здесь мы говорим: “Последовательно забирай (take) элементы из списка <code>LIST</code> до тех пор (While), пока <code>PREDICATE</code>, применённый к этим элементам, возвращает <code>True</code>. Если наткнёшься на элемент, не соответствующий этому предикату, немедленно прекращай работу и возвращай список из ранее полученных элементов”. Нам нужно извлечь имя пользователя из его email-адреса, а значит, мы бежим по email до тех пор, пока символы не равны <code>'@'</code>, что и отражается предикатом <code>(/= '@')</code>. Как только натыкаемся на собачку - возвращаем всё, находящееся перед ней.</p>
+<h2 id="в-сухом-остатке-1">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Генератор списка - это конструкция, порождающая новый список из одного или нескольких имеющихся списов.</li>
+<li>Новый список порождается в результате применения различных функций к элементам имеющегося списка/списков.</li>
+</ol>
+<table>
+<tbody>
+<tr class="odd">
+<td align="left">title: Диапазоны</td>
+</tr>
+<tr class="even">
+<td align="left">prevChapter: /ru/about-lists/lists-at-a-glance.html</td>
+</tr>
+<tr class="odd">
+<td align="left">nextChapter: /ru/about-lists/tuples.html</td>
+</tr>
+</tbody>
+</table>
+<p>Диапазон - это конструкция, автоматически создающая список по заданному признаку.</p>
+<h2 id="суть">Суть</h2>
+<p>Если нам нужно создать список целых чисел от 1 до 10, мы можем написать так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>]</code></pre></div>
+<p>а можем просто задать диапазон:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]</code></pre></div>
+<p>Готово. Разумеется, такой фокус можно проделать не только с числами. Например, вот так мы получим список всех букв английского алфавита в нижнем регистре:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print [<span class="ch">'a'</span><span class="fu">..</span><span class="ch">'z'</span>]</code></pre></div>
+<p>На выходе получим красивый список символов (то есть обыкновенную строку):</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="st">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span></code></pre></div>
+<h2 id="умные-диапазоны">Умные диапазоны</h2>
+<p>Диапазоны можно задавать весьма гибко. Например, так мы можем получить список всех чётных чисел от 2 до 30:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print [<span class="dv">2</span>,<span class="dv">4</span><span class="fu">..</span><span class="dv">30</span>]</code></pre></div>
+<p>Мы задали шаг между значениями элементов, а остальные значения были созданы уже автоматически.</p>
+<p>Конечно, этот фокус работает не только с целыми числами, мы вполне можем написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print [<span class="fl">1.1</span>, <span class="fl">1.2</span><span class="fu">..</span><span class="fl">2.9</span>]</code></pre></div>
+<p>В результате получим список чисел с шагом в 0.1.</p>
+<p>Можно, кстати, и в порядке убывания:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print [<span class="dv">120</span>,<span class="dv">110</span><span class="fu">..</span><span class="dv">10</span>]</code></pre></div>
+<p>На выходе получим список с десятками:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">120</span>,110,100,90,80,70,60,50,40,30,20,10]</code></pre></div>
+<p>А вот чего компилятор не потерпит, так это излишних указаний с вашей стороны. Поэтому не пишите так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print [<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span><span class="fu">..</span><span class="dv">30</span>]</code></pre></div>
+<p>и так тоже не пишите:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print [<span class="dv">2</span>,<span class="dv">4</span><span class="fu">..</span><span class="dv">28</span>,<span class="dv">30</span>]</code></pre></div>
+<p>Такого рода уточнения компилятору не нужны.</p>
+<h2 id="без-конца">Без конца</h2>
+<p>Как вы помните, ленивость языка Haskell позволяет нам оперировать бесконечными списками. И мы можем создать такой список через диапазон.</p>
+<p>Например, вот такой диапазон:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">1</span><span class="fu">..</span>]</code></pre></div>
+<p>создаст бесконечный список целых чисел, начиная с 1. Но, как вы уже знаете, в действительности созданный этим диапазоном список будет вовсе не бесконечным, а лишь <em>достаточно</em> большим:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">$</span> take <span class="dv">5</span> [<span class="dv">1</span><span class="fu">..</span>]</code></pre></div>
+<p>Вывод:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">1</span>,2,3,4,5]</code></pre></div>
+<p>Мы можем задать и шаг:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">$</span> take <span class="dv">5</span> [<span class="dv">2</span>,<span class="dv">4</span><span class="fu">..</span>]</code></pre></div>
+<p>В этом случае вывод будет таким:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">2</span>,4,6,8,10]</code></pre></div>
+<h2 id="в-сухом-остатке-2">В сухом остатке</h2>
+<ol style="list-style-type: decimal">
+<li>Диапазон служит для автоматического создания списка по заданным критериям.</li>
+<li>Учитывая ленивую природу Haskell, мы можем оперировать диапазонами, создающими бесконечные списки.</li>
 </ol>
 <div style="padding-top: 45px;">
     
