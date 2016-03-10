@@ -67,6 +67,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="./if-n-return.html">
+                                Выбираем и возвращаемся
+                            </a>
+                        </li>
+                        <li>
                             <a href="./hackage.html">
                                 Hackage
                             </a>
@@ -112,6 +117,9 @@ square v <span class="fu">=</span> v <span class="fu">*</span> v</code></pre></d
 функции    первого     второго     вычисленного
            аргумента   аргумента   значения</code></pre></div>
 <p>Идею вы поняли: ищем крайнюю правую стрелку, и всё что левее от неё — то типы аргументов, а всё что правее — то тип вычисленного значения.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Мы не можем работать с функцией, которая ничего не вычисляет. То есть аналога C-функции <code>void f(int i)</code> в Haskell быть не может, так как это противоречит математической природе. Однако мы можем работать с функцией, которая ничего не принимает, то есть с аналогом <code>int f(void)</code>. С такими функциями мы познакомимся в следующих главах. </span>
+</div>
 <p>Теперь рассмотрим определение функции <code>square</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">square v <span class="fu">=</span> v <span class="fu">*</span> v</code></pre></div>
 <p>Схема определения такова:</p>
@@ -145,7 +153,7 @@ square v <span class="fu">=</span> v <span class="fu">*</span> v</code></pre></d
 <p>мы просто объявляем: «Отныне значение <code>coeff</code> равно <code>0.569</code>, и так оно будет всегда». Вот почему в Haskell-коде символ <code>=</code> — это знак равенства, а вовсе не присваивание.</p>
 <h2 id="удивлены">Удивлены?</h2>
 <p>Полагаю, да. Как же можно написать реальную программу на языке, в котором нельзя изменять данные? Какой прок от этих чистых функций, если они не способны ни файл прочесть, ни запрос по сети отправить? Оказывается, прок есть, и на Haskell можно написать очень даже реальную программу. За примером далеко ходить не буду: сама эта книга построена с помощью Haskell, о чём я подробнее расскажу в следующих главах.</p>
-<p>А теперь, дабы не мучить вас вопросами без ответов, мы начнём ближе знакомится с Китами Haskell, и детали большой головоломки постепенно сложатся в красивую картину.</p>
+<p>А теперь, дабы не мучить вас вопросами без ответов, мы начнём ближе знакомится с Китами Haskell, и детали большой головоломки постепенно сложатся в красивую картину. Погрузимся в функцию.</p>
 <div style="padding-top: 45px;">
     
 </div>
@@ -168,7 +176,7 @@ square v <span class="fu">=</span> v <span class="fu">*</span> v</code></pre></d
     </div>
     <div class="col s3">
         <div class="right">
-            <a href="/hackage.html" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/if-n-return.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-right">
                     
                 </span>

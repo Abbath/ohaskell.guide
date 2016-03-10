@@ -67,6 +67,11 @@
                             </a>
                         </li>
                         <li>
+                            <a href="./if-n-return.html">
+                                Выбираем и возвращаемся
+                            </a>
+                        </li>
+                        <li>
                             <a href="./hackage.html">
                                 Hackage
                             </a>
@@ -169,16 +174,17 @@
 <div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">double</span> value = <span class="fl">122.04</span>;
 }</code></pre></div>
 <p>однако в Haskell мы напишем просто:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">value <span class="fu">=</span> <span class="fl">122.04</span>
-}</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">value <span class="fu">=</span> <span class="fl">122.04</span></code></pre></div>
 <p>В этом случае компилятор автоматически выведет тип <code>value</code> как <code>Double</code>.</p>
 <p>Выведение типов делает наш код лаконичнее и проще в сопровождении. Впрочем, мы можем указать тип значения и явно, а иногда даже должны это сделать. В последующих главах я покажу это.</p>
 <p>Да, кстати, вот простейшие стандартные типы, они нам в любом случае понадобятся:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dv">123</span>         <span class="dt">Int</span>
 <span class="fl">23.5798</span>     <span class="dt">Double</span>
 <span class="ch">'a'</span>         <span class="dt">Char</span>
-<span class="st">&quot;Hello!&quot;</span>    <span class="dt">String</span></code></pre></div>
-<p>С типами <code>Int</code> и <code>Double</code> вы уже знакомы. Тип <code>Char</code> — это Unicode-символ. Тип <code>String</code> — обыкновенная строка. В последующих главах мы встретимся ещё с несколькими стандартными типами, но пока хватить и этих.</p>
+<span class="st">&quot;Hello!&quot;</span>    <span class="dt">String</span>
+<span class="dt">True</span>        <span class="dt">Bool</span>, истина
+<span class="dt">False</span>       <span class="dt">Bool</span>, ложь</code></pre></div>
+<p>С типами <code>Int</code> и <code>Double</code> вы уже знакомы. Тип <code>Char</code> — это Unicode-символ. Тип <code>String</code> — обыкновенная строка. Тип <code>Bool</code> — логический тип, истина или ложь. В последующих главах мы встретимся ещё с несколькими стандартными типами, но пока хватить и этих.</p>
 <h2 id="третий-кит">Третий Кит</h2>
 <p>А вот о Третьем Ките, о <strong>Классе типов</strong>, я пока умолчу, потому что знакомиться с ним следует лишь после того, как мы поближе подружимся с первыми двумя.</p>
 <p>Уверен, после прочтения этой главы у вас появилось множество вопросов. Однако я пока не стану отвечать на них. Более того, следующая глава несомненно удивит вас. Вперёд.</p>
