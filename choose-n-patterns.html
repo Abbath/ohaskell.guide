@@ -98,7 +98,7 @@
         </div>
         <div class="container">
             <h1 id="выбор-и-образцы">Выбор и образцы</h1>
-<p>Эта глава откроет нам другие способы логического выбора, а также познакомит нас с образцами. Уверяю, вы влюбитесь в них!</p>
+<p>Эта глава откроет нам другие способы выбора, а также познакомит нас с образцами. Уверяю, вы влюбитесь в них!</p>
 <h2 id="не-только-из-двух">Не только из двух</h2>
 <p>Часто мы хотим выбирать не только из двух возможных вариантов. Вот как это можно сделать:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">analizeGold ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
@@ -113,7 +113,7 @@ analizeGold standard <span class="fu">=</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">999</span>)</code></pre></div>
-<p>Уверен, вы уже стираете плевок с экрана. Вложенная <code>if-then-else</code> конструкция не может понравится никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счатью, в Haskell можно написать так:</p>
+<p>Уверен, вы уже стираете плевок с экрана. Вложенная <code>if-then-else</code> конструкция не может понравится никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счатью, в Haskell можно написать по-другому:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">analizeGold ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 analizeGold standard <span class="fu">=</span>
   <span class="kw">if</span> <span class="fu">|</span> standard <span class="fu">==</span> <span class="dv">999</span> <span class="ot">-&gt;</span> <span class="st">&quot;Wow! 999 standard!&quot;</span>
@@ -140,10 +140,10 @@ main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">583</span>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Non-exhaustive</span> guards in multi-way if</code></pre></div>
 <p>Проверка получилась неполной, вот и получите ошибку.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Видите слово <code>guards</code> в сообщении об ошибке? Вертикальные черты перед логическими выражениями — это и есть охранники (англ. guard), неусыпно охраняющие наши условия. </span>
+<span class="white-text"> Видите слово <code>guards</code> в сообщении об ошибке? Вертикальные черты перед логическими выражениями — это и есть охранники (англ. guard), неусыпно охраняющие наши условия. А чтобы читать их было легче, воспринимайте их как аналог слова «ИЛИ». </span>
 </div>
-<p>А сейчас стоп. Вы ведь попробовали скомпилировать этот код, не так ли? А почему вы не ругаетесь? Ведь такой код не скомпилируется без одной важной детали. Вот как должен выглядеть модуль <code>Main</code>:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE MultiWayIf #-}</span>
+<p>А сейчас стоп. Вы ведь попробовали скомпилировать этот код, не так ли? А почему вы не ругаетесь? Ведь такой код не скомпилируется, так как не хватает одной важной детали. Вот как должен выглядеть модуль <code>Main</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE MultiWayIf #-}</span>  <span class="co">-- ???</span>
 
 <span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
@@ -156,8 +156,8 @@ analizeGold standard <span class="fu">=</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">999</span>)</code></pre></div>
-<p>Вот теперь всё в порядке. Но что это за странный такой комментарий в первой строке модуля? Вроде бы заключён оформлен как многострочный комментарий, но выглядит необычно. Это — указание расширения языка Haskell.</p>
-<p>Стандарт <a href="https://www.haskell.org/onlinereport/haskell2010/">Haskell 2010</a> — это официальный стержень языка. Однако компилятор GHC, давно ставший стандартном де-факто при разработке на Haskell, обладает рядом особых возможностей. По умолчанию многие из этих возможностей выключены, а прагма <code>LANGUAGE</code> способна их включать/активизировать. В данном случае мы включили расширение <code>MultiWayIf</code>. Именно это расширение позволяет нам использовать множественный <code>if</code>. Такого рода расширений существует весьма много, и мы будем часто их использовать.</p>
+<p>Вот теперь всё в порядке. Но что это за странный такой комментарий в первой строке модуля? Вроде бы оформлен как многострочный комментарий, но выглядит необычно. А всё потому, что это необычный комментарий, это — указание расширения языка Haskell.</p>
+<p>Стандарт <a href="https://www.haskell.org/onlinereport/haskell2010/">Haskell 2010</a> — это официальный стержень языка. Однако компилятор GHC, давно ставший стандартном де-факто при разработке на Haskell, обладает рядом особых возможностей. По умолчанию многие из этих возможностей выключены, а прагма <code>LANGUAGE</code> как раз для того и предназначена, чтобы их включать/активизировать. В данном случае мы включили расширение <code>MultiWayIf</code>. Именно это расширение позволяет нам использовать множественный <code>if</code>. Такого рода расширений существует весьма много, и мы будем часто их использовать.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
 <span class="white-text"> Расширение, включённое с помощью прагмы <code>LANGUAGE</code>, действует лишь в рамках текущего модуля. И если я прописал его только в модуле <code>app/Main.hs</code>, то на модуль <code>src/Lib.hs</code> механизм <code>MultiWayIf</code> не распространяется. </span>
 </div>
@@ -170,20 +170,24 @@ analizeGold standard
   <span class="fu">|</span> standard <span class="fu">==</span> <span class="dv">585</span> <span class="fu">=</span> <span class="st">&quot;Not bad! 585 standard.&quot;</span>
   <span class="fu">|</span> otherwise       <span class="fu">=</span> <span class="st">&quot;I don't know such a standard...&quot;</span></code></pre></div>
 <p>Ключевое слово <code>if</code> исчезло за ненадобностью. Схема здесь такая:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">function arg
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">function arg  <span class="co">-- &lt;&lt;&lt; Нет знака равенства</span>
   <span class="fu">|</span> <span class="dt">CONDITION1</span> <span class="fu">=</span> <span class="dt">EXPRESSION1</span>
   <span class="fu">|</span> <span class="dt">CONDITION2</span> <span class="fu">=</span> <span class="dt">EXPRESSION2</span>
   <span class="fu">|</span> <span class="fu">...</span>
   <span class="fu">|</span> <span class="dt">CONDITIONn</span> <span class="fu">=</span> <span class="dt">EXPRESSIONn</span>
   <span class="fu">|</span> otherwise  <span class="fu">=</span> <span class="dt">COMMON_EXPRESSION</span></code></pre></div>
 <p>Устройство почти такое же, только помимо исчезновения ключевого слова <code>if</code> мы используем знаки равенства вместо стрелок. Именно поэтому исчез знакомый нам знак равенства после имени аргумента <code>arg</code>. В действительности он, конечно, никуда не исчез, он лишь перешёл в выражения. А чтобы это было легче прочесть, напишем выражения в строчку:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">function arg <span class="fu">|</span>       <span class="dt">CONDITION1</span>  <span class="fu">=</span>     <span class="dt">EXPRESSION1</span> <span class="fu">|</span> <span class="fu">...</span>
-это          в       истинности  суть  вот это     и т<span class="fu">.</span>д<span class="fu">.</span>
-выражение    случае  этого             выражение
-                     выражения</code></pre></div>
-<p>Фактически, перед нами уже не одно определение функции, а цепочка определений, потому нам и не нужно ключевое слово <code>if</code>. А ведь в ряде случаев эту цепочку можно сделать ещё более простой.</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">function arg <span class="fu">|</span>    <span class="dt">CONDITION1</span> <span class="fu">=</span> <span class="dt">EXPRESSION1</span>  <span class="fu">|</span>     <span class="fu">...</span>
+эта          либо              равна этому
+функция                        выражению
+                  в случае
+                  истинности
+                  этого
+                  выражения
+                                            либо  и т<span class="fu">.</span>д<span class="fu">.</span></code></pre></div>
+<p>То есть перед нами уже не одно определение функции, а цепочка определений, потому нам и не нужно ключевое слово <code>if</code>. А ведь в ряде случаев эту цепочку можно сделать ещё более простой.</p>
 <h2 id="сравнение-с-образцом">Сравнение с образцом</h2>
-<p>Убрав слово <code>if</code>, мы и с охранниками можем расстаться. В этом случае останется лишь:</p>
+<p>Убрав слово <code>if</code>, мы и с нашими виртуальными «ИЛИ» можем расстаться. В этом случае останется лишь это:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">analizeGold ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 analizeGold <span class="dv">999</span> <span class="fu">=</span> <span class="st">&quot;Wow! 999 standard!&quot;</span>
 analizeGold <span class="dv">750</span> <span class="fu">=</span> <span class="st">&quot;Great! 750 standard.&quot;</span>
@@ -192,7 +196,7 @@ analizeGold _   <span class="fu">=</span> <span class="st">&quot;I don't know su
 <p>Мы просто перечислили определения функции <code>analizeGold</code> одно за другим. На первый взгляд, возможность множества определений одной и той же функции удивляет, но если вспомнить, что применение функции суть выражение, тогда ничего удивительного. Вот как это читается:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">      analizeGold  <span class="dv">999</span>          <span class="fu">=</span>      <span class="st">&quot;Wow! 999 standard!&quot;</span>
 если  эта функция  применяется  тогда  этому выражению
-                   к этому      она
+                   вот к этому  она
                    аргументу    равна
 
       analizeGold  <span class="dv">750</span>          <span class="fu">=</span>      <span class="st">&quot;Wow! 999 standard!&quot;</span>
@@ -200,10 +204,10 @@ analizeGold _   <span class="fu">=</span> <span class="st">&quot;I don't know su
                    к другому    она
                    аргументу    равна
 <span class="fu">...</span>
-           analizeGold _ <span class="fu">=</span>       <span class="st">&quot;I don't know such a standard...&quot;</span>
+           analizeGold _  <span class="fu">=</span>       <span class="st">&quot;I don't know such a standard...&quot;</span>
 в
-противном  эта функция   просто  общему выражению
-случае                   равна</code></pre></div>
+противном  эта функция    просто  общему выражению
+случае                    равна</code></pre></div>
 <p>Таким образом, когда функция <code>analizeGold</code> применяется к конкретному аргументу, этот аргумент сравнивается с образцом (англ. pattern matching). Образца здесь три: <code>999</code>, <code>750</code> и <code>585</code>. И если раньше мы сравнивали аргумент с этими числовыми значениями явно, посредством функции <code>==</code>, теперь это происходит скрыто.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
 <span class="white-text"> Сравнение с образцом используется в Haskell чрезвычайно широко. В русскоязычной литературе перевод словосочетания «pattern matching» не закрепился, вместо этого так и говорят «паттерн матчинг». Я поступлю так же. </span>
