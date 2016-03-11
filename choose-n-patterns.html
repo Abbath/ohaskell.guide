@@ -76,6 +76,11 @@
                                 Выбор и образцы
                             </a>
                         </li>
+                        <li>
+                            <a href="./let-n-where.html">
+                                Пусть будет там, Где...
+                            </a>
+                        </li>
                     </ul>
                     <ul id="nav-mobile" class="right">
                         <li>
@@ -208,23 +213,23 @@ analizeGold _   <span class="fu">=</span> <span class="st">&quot;I don't know su
 в
 противном  эта функция    просто  общему выражению
 случае                    равна</code></pre></div>
-<p>Таким образом, когда функция <code>analizeGold</code> применяется к конкретному аргументу, этот аргумент сравнивается с образцом (англ. pattern matching). Образца здесь три: <code>999</code>, <code>750</code> и <code>585</code>. И если раньше мы сравнивали аргумент с этими числовыми значениями явно, посредством функции <code>==</code>, теперь это происходит скрыто.</p>
+<p>Таким образом, когда функция <code>analizeGold</code> применяется к конкретному аргументу, этот аргумент последовательно сравнивается с образцом (англ. pattern matching). Образца здесь три: <code>999</code>, <code>750</code> и <code>585</code>. И если раньше мы сравнивали аргумент с этими числовыми значениями явно, посредством функции <code>==</code>, теперь это происходит скрыто. Идея сравнения с образцом очень проста: что-то (в данном случае реальный аргумент функции <code>analizeGold</code>) сопоставляется с образцом (или образцами) на предмет «подходит/не подходит». Если подходит — то есть сравнение с образцом даёт результат <code>True</code> — готово, используем соответствующее выражение. Если же не подходит — переходим к следующему образцу.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Сравнение с образцом используется в Haskell чрезвычайно широко. В русскоязычной литературе перевод словосочетания «pattern matching» не закрепился, вместо этого так и говорят «паттерн матчинг». Я поступлю так же. </span>
+<span class="white-text"> Сравнение с образцом используется в Haskell чрезвычайно широко. В русскоязычной литературе перевод словосочетания «pattern matching» не особо закрепился, вместо этого так и говорят «паттерн матчинг». Я поступлю так же. </span>
 </div>
 <p>Да, а что это за символ подчёркивания такой, в последнем варианте определения? Вот этот:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">analizeGold _ <span class="fu">=</span> <span class="st">&quot;I don't know such a standard...&quot;</span>
             <span class="fu">^</span></code></pre></div>
-<p>С формальной точки зрения, это — универсальный образец, сравнение с которым всегда истинно. А с неформальной — это символ, который можно прочесть как «мне всё равно». Мы как бы говорим: «В данном случае нас не интересует конкретное содержимое аргумента, просто возвращаем строку <code>I don't know such a standard...</code>».</p>
+<p>С формальной точки зрения, это — универсальный образец, сравнение с которым всегда истинно. А с неформальной — это символ, который можно прочесть как «мне всё равно». Мы как бы говорим: «В данном конкретном случае нас не интересует конкретное содержимое аргумента, нам всё равно, мы тупо возвращаем строку <code>I don't know such a standard...</code>».</p>
 <p>Важно отметить, что сравнение аргумента с образцами происходит последовательно, в данном случае сверху вниз. Поэтому если мы напишем так:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">analizeGold ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 analizeGold _   <span class="fu">=</span> <span class="st">&quot;I don't know such a standard...&quot;</span>
 analizeGold <span class="dv">999</span> <span class="fu">=</span> <span class="st">&quot;Wow! 999 standard!&quot;</span>
 analizeGold <span class="dv">750</span> <span class="fu">=</span> <span class="st">&quot;Great! 750 standard.&quot;</span>
 analizeGold <span class="dv">585</span> <span class="fu">=</span> <span class="st">&quot;Not bad! 585 standard.&quot;</span></code></pre></div>
-<p>наша функция будет всегда возвращать выражение <code>I don't know such a standard...</code>, и это логично: первая же проверка гарантированно даст <code>True</code>, ведь с образцом <code>_</code> совпадает что угодно.</p>
+<p>наша функция будет всегда возвращать выражение <code>I don't know such a standard...</code>, и это вполне ожидаемо: первая же проверка гарантированно даст <code>True</code>, ведь с образцом <code>_</code> совпадает (или, как иногда говорят, матчится) всё что угодно. Таким образом, общий образец следует располагать в самом конце, чтобы мы попали на него лишь после того, как не сработали все остальные образцы.</p>
 <h2 id="case">case</h2>
-<p>Существует ещё один элеганный способ паттерн матчинга:</p>
+<p>Существует ещё один вид паттерн матчинга, с помощью <code>case-of</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">analizeGold standard <span class="fu">=</span>
   <span class="kw">case</span> standard <span class="kw">of</span>
     <span class="dv">999</span>       <span class="ot">-&gt;</span> <span class="st">&quot;Wow! 999 standard!&quot;</span>
@@ -238,7 +243,8 @@ analizeGold <span class="dv">585</span> <span class="fu">=</span> <span class="s
   <span class="fu">...</span>
   <span class="dt">PATTERNn</span>  <span class="ot">-&gt;</span> <span class="dt">EXPRESSIONn</span>
   otherwise <span class="ot">-&gt;</span> <span class="dt">COMMON_EXPRESSION</span></code></pre></div>
-<p>Здесь у нас тоже нет явного сравнения посредством <code>==</code>, ведь сравнение реального значения <code>standard</code> с образцами происходит скрыто.</p>
+<p>где <code>EXPRESSION</code> — анализируемое выражение, последовательно сравниваемое с образцами <code>PATTERN1..n</code>. Если ни одно ни сработало — как обычно, упираемся в <code>otherwise</code> и выдаём <code>COMMON_EXPRESSION</code>.</p>
+<p>В последующих главах мы встретимся с другими видами паттерн матчинга.</p>
 <div style="padding-top: 45px;">
     
 </div>
@@ -261,7 +267,7 @@ analizeGold <span class="dv">585</span> <span class="fu">=</span> <span class="s
     </div>
     <div class="col s3">
         <div class="right">
-            <a href="/index.html" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/let-n-where.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-right">
                     
                 </span>
