@@ -119,9 +119,9 @@ calculateTime timeInS <span class="fu">=</span>
   <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
         <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction</code></pre></div>
 <p>Вот, совсем другое дело! Мы избавились от «магических чисел», введя поясняющие выражения <code>threshold</code>, <code>correction</code> и <code>delta</code>, и код функции стал куда понятнее.</p>
-<p>Конструкция <code>let-in</code> вводит поясняющее выражение по схеме:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> <span class="dt">DECLARATION</span> <span class="kw">in</span> <span class="dt">EXPRESSION</span></code></pre></div>
-<p>где <code>DECLARATION</code> — выражение, декларируемое нами, а <code>EXPRESSION</code> — выражение, в котором используется <code>DECLARATION</code>. Так, когда мы написали:</p>
+<p>Конструкция <code>let-in</code> вводит поясняющие выражения по схеме:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> <span class="dt">DECLARATIONS</span> <span class="kw">in</span> <span class="dt">EXPRESSION</span></code></pre></div>
+<p>где <code>DECLARATIONS</code> — выражения, декларируемые нами, а <code>EXPRESSION</code> — выражение, в котором используется выражения из <code>DECLARATION</code>. Так, когда мы написали:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span></code></pre></div>
 <p>мы объявили: «Отныне выражение <code>threshold</code> равно выражению <code>40</code>». Выглядит как присваивание, но мы-то уже знаем, что в Haskell его нет. Теперь выражение <code>threshold</code> может заменить собою число <code>40</code> внутри последующей <code>if</code>-конструкции:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span>
