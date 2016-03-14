@@ -7,7 +7,7 @@
         <meta name="author" content="Денис Шевченко">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
         <title>
-            PAGE_TITLE &lt;- О Haskell по-человечески
+            Кортеж &lt;- О Haskell по-человечески
         </title>
         <link rel="icon" href="./static/images/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -81,6 +81,21 @@
                                 Пусть будет там, Где...
                             </a>
                         </li>
+                        <li>
+                            <a href="./operators.html">
+                                Мир операторов
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./list.html">
+                                Список: знакомство
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./tuple.html">
+                                Кортеж
+                            </a>
+                        </li>
                     </ul>
                     <ul id="nav-mobile" class="right">
                         <li>
@@ -102,86 +117,117 @@
             </nav>
         </div>
         <div class="container">
-            <p>Кортеж (англ. tuple) - очень простая структура данных. Он тоже хранит в себе набор элементов, однако к списку не имеет никакого отношения. Главная особенность - гетерогенность: кортеж способен хранить в себе элементы разных типов.</p>
+            <h1 id="кортеж">Кортеж</h1>
+<p>В этой главе мы познакомимся с кортежем и ещё ближе подружимся с паттерн матчингом.</p>
+<p>Кортеж (англ. tuple) — ещё одна стандартная структура данных, с которой нам следует познакомиться. В отличие от списка, кортеж может содержать данные как одного типа, так и разных.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Структуры, способные содержать данные разных типов, называют ещё гетерогенными (греч. έτερος + γενής, «разного рода»). </span>
+</div>
 <p>Вот как он выглядит:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>)  <span class="co">-- Кортеж из двух строк.</span></code></pre></div>
-<p>Гетерогенность позволяет нам написать и так:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Denis&quot;</span>, <span class="fl">1.234</span>, <span class="ch">'a'</span>)  <span class="co">-- Три элемента - три типа.</span></code></pre></div>
-<p>Кстати, из гетерогенность кортежа вытекает важная особенность его типа. Например, если у нас есть два списка, различных по размеру:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Vasil`evich&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>]
-[<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>]</code></pre></div>
-<p>тип обоих этих списков одинаков, а именно <code>[String]</code>. Тип списка не зависит от количества элементов в нём.</p>
-<p>С кортежами всё обстоит совершенно иначе. Если у нас есть два кортежа, различных по длине:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Vasil`evich&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>)
-(<span class="st">&quot;Denis&quot;</span>, <span class="st">&quot;Shevchenko&quot;</span>)</code></pre></div>
-<p>типы этих кортежей абсолютно разные: тип первого - <code>(String, String, String)</code>, а тип второго - <code>(String, String)</code>. Тип кортежа неразрывно связан с его размером. Поэтому если функцию, в качестве аргумента ожидающую кортеж из двух строк, применить к кортежу из трёх строк, компилятор выразит свой категорический протест:</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Could</span> not match expected type <span class="kw">`(String</span>, String<span class="kw">)`</span>
-             <span class="kw">with</span> actual type <span class="kw">`(</span>[<span class="kw">Char</span>], [Char], [Char]<span class="kw">)`</span></code></pre></div>
-<p>Оно и понятно: ожидали кортеж из двух строк, а тут вдруг - из трёх!</p>
-<p>Кортеж может быть и пустым, то есть не содержать в себе ни одного элемента:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">()</code></pre></div>
-<h2 id="что-с-ним-можно-делать">Что с ним можно делать</h2>
-<p>Единственное, что можно сделать с кортежем - извлечь хранящиеся в нём элементы. Всё. И сразу пример.</p>
-<p>Одним из наиболее распространённых случаев использования кортежа в реальном коде считается возврат из функции нескольких значений разного типа. Вот так:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">endpoint ::</span> (<span class="dt">String</span>, <span class="dt">Int</span>)
-endpoint <span class="fu">=</span> (<span class="st">&quot;127.0.0.1&quot;</span>, <span class="dv">8080</span>)</code></pre></div>
-<p>Итак, вот наша константа (или, если угодно, константная функция), возвращающая двухэлементный кортеж (обычно называемый парой) с IP-адресом и портом. Теперь воспользуемся этими значениями:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Haskell&quot;</span>, <span class="dv">2010</span>)</code></pre></div>
+<p>Круглые скоби, в отличие от списка. Этот кортеж содержит два элемента типа <code>String</code> и <code>Int</code> соответственно. Можно написать и так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Haskell&quot;</span>, <span class="st">&quot;2010&quot;</span>, <span class="st">&quot;Standard&quot;</span>)</code></pre></div>
+<p>То есть ничто не мешает нам хранить в кортеже данные одного типа.</p>
+<h2 id="тип-кортежа">Тип кортежа</h2>
+<p>Тип списка строк, как вы помните, <code>[String]</code>. И не важно, сколько строк мы запихнули в список — его тип останется неизменным. С кортежем же дело обстоит абсолютно иначе.</p>
+<p>Тип кортежа зависит от количества его элементов. Вот тип кортежа, содержащего две строки:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dt">String</span>, <span class="dt">String</span>)</code></pre></div>
+<p>Вот ещё пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dt">Double</span>, <span class="dt">Double</span>, <span class="dt">Int</span>)</code></pre></div>
+<p>И ещё:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="dt">Bool</span>, <span class="dt">Double</span>, <span class="dt">Int</span>, <span class="dt">String</span>)</code></pre></div>
+<p>То есть тип кортежа явно отражает его содержимое. Поэтому если функция применяется к кортежу из двух строк, применить её к кортежу из трёх не получится, потому что типы таких кортежей различаются:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Несовместимые типы</span>
+(<span class="dt">String</span>, <span class="dt">String</span>)
+(<span class="dt">String</span>, <span class="dt">String</span>, <span class="dt">String</span>)</code></pre></div>
+<h2 id="действия-над-кортежами">Действия над кортежами</h2>
+<p>В отличие от списка, в отношении которого можно сделать великое множество действий, с кортежем обычно делают только одно — извлекают хранящиеся в нём данные. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">makeAlias ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> (<span class="dt">String</span>, <span class="dt">String</span>)
+makeAlias host alias <span class="fu">=</span> (host, alias)</code></pre></div>
+<p>Пожалуй, ничего проще придумать нельзя: на входе два аргумента, на выходе — двуэлементный кортеж с этими аргументами.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Двуэлементный кортеж называют ещё парой (англ. pair). И хотя кортеж может содержать сколько угодно элементов, на практике чаще всего встречаются именно пары. </span>
+</div>
+<p>Обратите внимание, насколько легко создаётся кортеж. Причина тому — уже знакомый нам паттерн матчинг:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">makeAlias host alias <span class="fu">=</span> (host,    alias)
+
+          это           к этому
+
+               а это             к тому</code></pre></div>
+<p>Мы просто пишем прямое соответствие между левой и правой сторонами определения. Ничего удобнее и проще и придумать нельзя. И если бы мы хотели получить кортеж из трёх элементов с дубляжом хоста (ну вдруг), это выглядело бы так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">makeAlias ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> (<span class="dt">String</span>, <span class="dt">String</span>, <span class="dt">String</span>)
+makeAlias host alias <span class="fu">=</span> (host,    host,      alias)
+          это           к этому  и к этому
+
+               а вот                        к тому
+               это</code></pre></div>
+<p>Таким же образом, через паттерн матчинг, мы извлекаем элементы из кортежа. Например:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> <span class="kw">do</span>
-    <span class="kw">let</span> (host, port) <span class="fu">=</span> endpoint
-    print <span class="fu">$</span> host <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span> show port</code></pre></div>
-<p>Здесь, используя уже знакомый нам паттерн матчинг, мы вытащили оба элемента из кортежа:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> (host, port) <span class="fu">=</span> endpoint</code></pre></div>
-<p>Поскольку мы точно знаем, что перед нами пара, первым элементом которой является хост, а вторым - порт, мы смогли явно указать это в левом образце. Как вы понимаете, мы не обязаны вытаскивать оба значения, можно обойтись и одним:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">    <span class="kw">let</span> (_, port) <span class="fu">=</span> endpoint</code></pre></div>
-<p>Существуют также две стандартные функции <code>fst</code> и <code>snd</code>, предназначенные для извлечения первого и второго элементов пары соответственно. С ними наш пример изменится:</p>
+main <span class="fu">=</span>
+  <span class="kw">let</span> (host, alias) <span class="fu">=</span> makeAlias <span class="st">&quot;173.194.71.106&quot;</span> <span class="st">&quot;www.google.com&quot;</span>
+  <span class="kw">in</span> print (host <span class="fu">++</span> <span class="st">&quot;, &quot;</span> <span class="fu">++</span> alias)</code></pre></div>
+<p>Функция <code>makeAlias</code> даёт нам пару из хоста и имени. Но что это за странная запись возле уже знакомого нам слова <code>let</code>? Это промежуточное выражение, но выражение хитрое, образованное через паттерн матчинг. Чтобы было понятнее, сначала перепишем функцию без него:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> <span class="kw">do</span>
-    <span class="kw">let</span> host <span class="fu">=</span> fst endpoint
-        port <span class="fu">=</span> snd endpoint
-    print <span class="fu">$</span> host <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span> show port</code></pre></div>
-<p>Получилось длиннее. Можно, конечно, и короче:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
-main <span class="fu">=</span> <span class="kw">do</span>
-    print <span class="fu">$</span> fst endpoint <span class="fu">++</span> <span class="st">&quot;:&quot;</span> <span class="fu">++</span> show (snd endpoint)</code></pre></div>
-<p>Код уменьшился, но стал хуже: из него теперь не ясно, что является первым элементом пары, а что - вторым. Да и вообще, на практике функциями <code>fst</code> и <code>snd</code> пользуются весьма редко, потому что, как вы могли убедиться, паттерн матчинг проще. Более того, сами функции <code>fst</code> и <code>snd</code> реализованы через паттерн матчинг, взгляните на их определение:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">fst<span class="ot"> ::</span> (a, b) <span class="ot">-&gt;</span> a
-fst (x, _) <span class="fu">=</span> x      <span class="co">-- Второй элемент игнорируем...</span>
+main <span class="fu">=</span>
+  <span class="kw">let</span> pair  <span class="fu">=</span> makeAlias <span class="st">&quot;173.194.71.106&quot;</span> <span class="st">&quot;www.google.com&quot;</span>
+      host  <span class="fu">=</span> fst pair
+      alias <span class="fu">=</span> snd pair
+  <span class="kw">in</span> print (host <span class="fu">++</span> <span class="st">&quot;, &quot;</span> <span class="fu">++</span> alias)</code></pre></div>
+<p>При запуске этой программы мы получим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="st">&quot;173.194.71.106, www.google.com&quot;</span></code></pre></div>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Оператор <code>++</code> соединяет две строки в одну. Строго говоря, он соединяет два списки в один, но мы-то уже знаем, что <code>String</code> есть ни что иное, как <code>[Char]</code>. Таким образом, <code>&quot;google&quot; ++ &quot;.com&quot; = &quot;google.com&quot;</code> </span>
+</div>
+<p>Стандратные функции <code>fst</code> и <code>snd</code> возвращают первый и второй элемент кортежа соответственно. Выражение <code>pair</code> соответствует паре, выражение <code>host</code> — значению хоста, а <code>alias</code> — значению имени. Но не кажется ли вам такой способ несколько избыточным? Мы в Haskell любим изящные решения, поэтому предпочитаем паттерн матчинг. Вот как получается вышеприведённый способ:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> (host, alias) <span class="fu">=</span> makeAlias <span class="st">&quot;173.194.71.106&quot;</span> <span class="st">&quot;www.google.com&quot;</span>
+<span class="kw">let</span> (host, alias) <span class="fu">=</span> (<span class="st">&quot;173.194.71.106&quot;</span>, <span class="st">&quot;www.google.com&quot;</span>)
+                      данное значение
+     это
+     хост
+                                        а вот это значение
+           это
+           имя</code></pre></div>
+<p>Вот такая простая магия. Функция <code>makeAlias</code> даём там пару, и мы достоверно знаем это! А если знаем, нам не нужно вводить промежуточные выражения вроде <code>pair</code>. Мы сразу говорим:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> (host, alias) <span class="fu">=</span> makeAlias <span class="st">&quot;173.194.71.106&quot;</span> <span class="st">&quot;www.google.com&quot;</span>
+                    то, что ты в конечном итоге вычислишь
+     это вот
+     такая пара</code></pre></div>
+<p>Это «зеркальная» модель: через паттерн матчинг формируем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Формируем правую сторону</span>
+<span class="co">-- на основе левой...</span>
+host alias <span class="fu">=</span> (host, alias)
+____          ____
+     _____          _____</code></pre></div>
+<p>и через него же извлекаем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="co">-- Формируем левую сторону</span>
+<span class="co">-- на основе правой...</span>
+(host, alias) <span class="fu">=</span> (<span class="st">&quot;173.194.71.106&quot;</span>, <span class="st">&quot;www.google.com&quot;</span>)
+ ____            ________________
+       _____                       ________________</code></pre></div>
+<p>Вот ещё один пример работы с кортежем через паттерн матчинг:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">chessMove ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> (<span class="dt">String</span>, <span class="dt">String</span>) <span class="ot">-&gt;</span> (<span class="dt">String</span>, (<span class="dt">String</span>, <span class="dt">String</span>))
+chessMove color (from, to) <span class="fu">=</span> (color, (from, to))
 
-snd<span class="ot"> ::</span> (a, b) <span class="ot">-&gt;</span> b
-snd (_, y) <span class="fu">=</span> y      <span class="co">-- Первый элемент игнорируем...</span></code></pre></div>
-<p>И как вы уже догадались, увеличение числа элементов кортежа никак не меняет принцип работы с ним. Вот пример функции, отображающей выборочную информацию о пользователе:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">FirstName</span> <span class="fu">=</span> <span class="dt">String</span>
-<span class="kw">type</span> <span class="dt">LastName</span>  <span class="fu">=</span> <span class="dt">String</span>
-<span class="kw">type</span> <span class="dt">Email</span>     <span class="fu">=</span> <span class="dt">String</span>
-<span class="kw">type</span> <span class="dt">BirthYear</span> <span class="fu">=</span> <span class="dt">Int</span>
-<span class="kw">type</span> <span class="dt">UserInfo</span> <span class="fu">=</span> (<span class="dt">FirstName</span>, <span class="dt">LastName</span>, <span class="dt">Email</span>, <span class="dt">BirthYear</span>)
-
-showUserEmail <span class="fu">=</span> <span class="dt">UserInfo</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
-showUserEmail (_, _, email, _) <span class="fu">=</span> <span class="st">&quot;User's email is '&quot;</span> <span class="fu">++</span> email <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
-<p>Здесь мы определили тип-псевдоним для четырёхэлементного кортежа, содержащего соответственно имя, фамилию, почту и год рождения пользователя. Далее, в функции <code>showUserEmail</code> мы использовали паттерн матчинг, потому что точно знаем, что аргументом является четырёхэлементный кортеж. А поскольку здесь нас интересует лишь почта, идущая третьей по счёту, мы явно отображаем это в левом образце, игнорируя прочие три значения.</p>
-<p>Строго говоря, существуют готовые пакеты для извлечения элементов из многоэлементных кортежей без явного паттерн матчинга. Например, пакет <a href="http://hackage.haskell.org/package/tuple">tuple</a>. Установив его, мы сможем переписать пример с почтой так:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Tuple.Select</span>
-
-<span class="fu">...</span>
-
-showUserEmail <span class="fu">=</span> <span class="dt">UserInfo</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
-showUserEmail userInfo <span class="fu">=</span> <span class="st">&quot;User's email is '&quot;</span> <span class="fu">++</span> sel3 userInfo <span class="fu">++</span> <span class="st">&quot;'&quot;</span></code></pre></div>
-<p>Функция <code>sel3</code>, как следует из её названия, выбирает третий по счёту элемент кортежа.</p>
-<p>С одной стороны, подобный пакет полезен, ведь если бы у нас был кортеж, скажем, из десяти элементов, то явный образец получился бы достаточно длинным (и неудобным в использовании). С другой стороны, в реальных Haskell-проектах многоэлементные кортежи встречаются крайне редко, поэтому явный паттерн матчинг в 99% случаев является наилучшим решением.</p>
-<h2 id="в-сухом-остатке">В сухом остатке</h2>
-<ol style="list-style-type: decimal">
-<li>Кортеж - это структура данных, позволяющая хранить значения разных типов.</li>
-<li>Тип кортежа определяется количеством и типом хранящихся в нём значений.</li>
-<li>Единственное, что мы можем сделать с кортежем - извлечь из него значения, если таковые имеются.</li>
-</ol>
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print (color <span class="fu">++</span> <span class="st">&quot;: &quot;</span> <span class="fu">++</span> from <span class="fu">++</span> <span class="st">&quot;-&quot;</span> <span class="fu">++</span> to)
+  <span class="kw">where</span>
+    (color, (from, to)) <span class="fu">=</span> chessMove <span class="st">&quot;white&quot;</span> (<span class="st">&quot;e2&quot;</span>, <span class="st">&quot;e4&quot;</span>)</code></pre></div>
+<p>И на выходе получаем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="st">&quot;white: e2-e4&quot;</span></code></pre></div>
+<p>Функция <code>chessMove</code> даёт нам кортеж с кортежем, а раз мы точно это знаем, сразу указываем <code>where</code>-выражение в виде образца:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(color, (from, to)) <span class="fu">=</span> chessMove <span class="st">&quot;white&quot;</span> (<span class="st">&quot;e2&quot;</span>, <span class="st">&quot;e4&quot;</span>)
+ _____                          _______
+         ____                            ____
+               __                              ____</code></pre></div>
+<h2 id="а-если-ошиблись">А если ошиблись?</h2>
+<p>При использовании паттерн матчинга в отношении пары следует быть внимательным. Мы должны .</p>
 <div style="padding-top: 45px;">
     
 </div>
 <div class="row">
     <div class="col s3">
         <div class="left">
-            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/list.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-left">
                     
                 </span>
@@ -197,7 +243,7 @@ showUserEmail userInfo <span class="fu">=</span> <span class="st">&quot;User's e
     </div>
     <div class="col s3">
         <div class="right">
-            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/index.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-right">
                     
                 </span>

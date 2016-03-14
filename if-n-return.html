@@ -81,6 +81,21 @@
                                 Пусть будет там, Где...
                             </a>
                         </li>
+                        <li>
+                            <a href="./operators.html">
+                                Мир операторов
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./list.html">
+                                Список: знакомство
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./tuple.html">
+                                Кортеж
+                            </a>
+                        </li>
                     </ul>
                     <ul id="nav-mobile" class="right">
                         <li>
@@ -152,7 +167,17 @@ main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;1
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;173.194.22.100&quot;</span>)
                  <span class="fu">|---</span> выражение типа <span class="dt">String</span> <span class="fu">---|</span></code></pre></div>
-<p>То есть функция <code>putStrLn</code> видит в конечном итоге лишь результат применения функции <code>checkLocalhost</code>.</p>
+<p>То есть функция <code>putStrLn</code> видит в конечном итоге лишь результат применения функции <code>checkLocalhost</code>. Если бы мы опустили скобки и написали так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn checkLocalhost <span class="st">&quot;173.194.22.100&quot;</span></code></pre></div>
+<p>произошла бы ошибка компиляции, это вполне ожидаемо: функция <code>putStrLn</code> применяется к одному аргументу, а тут их получается два:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> putStrLn     checkLocalhost  <span class="st">&quot;173.194.22.100&quot;</span>
+       функция      к этому
+       применяется  аргументу<span class="fu">??</span>
+                                    или к этому<span class="fu">??</span></code></pre></div>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> Не знаю как вы, а я не очень люблю круглые скобки, при всём уважении к Lisp-программистам. К счастью, в Haskell существует способ написать такой код без скобок, и он будет работать как ожидается. Об этом способе — в одной из последующих глав. </span>
+</div>
 <p>Вернёмся к возвращению из функции. Вспомним о равенстве в определении:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">checkLocalhost ip <span class="fu">=</span>
   <span class="kw">if</span> ip <span class="fu">==</span> <span class="st">&quot;127.0.0.1&quot;</span> <span class="fu">||</span> ip <span class="fu">==</span> <span class="st">&quot;0.0.0.0&quot;</span>
