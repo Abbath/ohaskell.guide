@@ -121,7 +121,7 @@
 <p>В этой главе мы познакомимся с кортежем и ещё ближе подружимся с паттерн матчингом.</p>
 <p>Кортеж (англ. tuple) — ещё одна стандартная структура данных, с которой нам следует познакомиться. В отличие от списка, кортеж может содержать данные как одного типа, так и разных.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Структуры, способные содержать данные разных типов, называют ещё гетерогенными (греч. έτερος + γενής, «разного рода»). </span>
+<span class="white-text"> Структуры, способные содержать данные разных типов, называют ещё гетерогенными (в переводе с греческого: «разного рода»). </span>
 </div>
 <p>Вот как он выглядит:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(<span class="st">&quot;Haskell&quot;</span>, <span class="dv">2010</span>)</code></pre></div>
@@ -181,10 +181,10 @@ main <span class="fu">=</span>
 <p>Стандратные функции <code>fst</code> и <code>snd</code> возвращают первый и второй элемент кортежа соответственно. Выражение <code>pair</code> соответствует паре, выражение <code>host</code> — значению хоста, а <code>alias</code> — значению имени. Но не кажется ли вам такой способ несколько избыточным? Мы в Haskell любим изящные решения, поэтому предпочитаем паттерн матчинг. Вот как получается вышеприведённый способ:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> (host, alias) <span class="fu">=</span> makeAlias <span class="st">&quot;173.194.71.106&quot;</span> <span class="st">&quot;www.google.com&quot;</span>
 <span class="kw">let</span> (host, alias) <span class="fu">=</span> (<span class="st">&quot;173.194.71.106&quot;</span>, <span class="st">&quot;www.google.com&quot;</span>)
-                      данное значение
+                     данное значение
      это
      хост
-                                        а вот это значение
+                                       а вот это значение
            это
            имя</code></pre></div>
 <p>Вот такая простая магия. Функция <code>makeAlias</code> даём там пару, и мы достоверно знаем это! А если знаем, нам не нужно вводить промежуточные выражения вроде <code>pair</code>. Мы сразу говорим:</p>
@@ -219,8 +219,11 @@ main <span class="fu">=</span> print (color <span class="fu">++</span> <span cla
  _____                          _______
          ____                            ____
                __                              ____</code></pre></div>
+<h2 id="не-всё">Не всё</h2>
+<p>Мы можем вытаскивать по образцу лишь часть нужной нам информации. Помните универсальный образец <code>_</code>? Вот пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <h2 id="а-если-ошиблись">А если ошиблись?</h2>
-<p>При использовании паттерн матчинга в отношении пары следует быть внимательным. Мы должны .</p>
+<p>При использовании паттерн матчинга в отношении пары следует быть внимательным. Раз уж используем образец.</p>
 <div style="padding-top: 45px;">
     
 </div>
