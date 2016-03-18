@@ -1,0 +1,247 @@
+<!DOCTYPE HTML>
+
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Ваша первая книга о прекрасном и удивительном языке программирования.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+        <title>
+            PAGE_TITLE &lt;- О Haskell по-человечески
+        </title>
+        <link rel="icon" href="./static/images/favicon.ico">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+            
+        </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
+            
+        </script>
+        <link rel="stylesheet" href="./static/css/default.css">
+        <script src="./static/js/default.js">
+            
+        </script>
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a class="brand-logo center sans" href="./">
+                        #ohaskell
+                    </a>
+                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
+                        <span class="fa fa-list-ul" style="font-size: 26px;">
+                            
+                        </span>
+                    </a>
+                    <ul class="side-nav sans" id="mobile-demo">
+                        <li>
+                            <a href="./init.html">
+                                Добро пожаловать!
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./haskell-faq.html">
+                                Первые вопросы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./this-book.html">
+                                Об этой книге
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./setup.html">
+                                Приготовимся
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./whales-n-turtle.html">
+                                Киты и Черепаха
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./immutability-n-purity.html">
+                                Неизменность и чистота
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./if-n-return.html">
+                                Выбираем и возвращаемся
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./choose-n-patterns.html">
+                                Выбор и образцы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./let-n-where.html">
+                                Пусть будет там, Где...
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./operators.html">
+                                Мир операторов
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./list.html">
+                                Список: знакомство
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./tuple.html">
+                                Кортеж
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./lambda-function.html">
+                                Лямбда-функция
+                            </a>
+                        </li>
+                    </ul>
+                    <ul id="nav-mobile" class="right">
+                        <li>
+                            <a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank">
+                                <span class="fa fa-github">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору">
+                                <span class="fa fa-envelope-o">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <h1 id="фвп">ФВП</h1>
+<p>ФВП, или Функции Высшего Порядка (англ. HOF, Higher Order Functions) — важная концепция в Haskell. Однако, как ни странно, мы с ней уже познакомились. Как мы узнали из предыдущих глав, функциями можно оперировать как значениями, в частности, использовать их в качестве аргументов функций и возвращать как результат функции. Так вот функции, оперирующие другими функциями как аргументами и/или как результирующим выражением, носят название функций высшего порядка.</p>
+<p>Так, оператор композиции функций является ФВП, потому что он, во-первых, принимает функции в качестве аргументов, а во-вторых, возвращает другую функцию (в виде ЛФ) как результат своего применения. Более того, использование функций в качестве аргументов — чрезвычайно распространённая практика в Haskell.</p>
+<h2 id="отображение">Отображение</h2>
+<p>Рассмотрим функцию <code>map</code>. Эта стандартная функция используется для отображения (англ. mapping) функции на элементы списка. Вот её объявление:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</code></pre></div>
+<p>Вот опять эти маленькие буквы! Помните, я обещал рассказать о них? Рассказываю: малой буквой принято именовать полиморфный (англ. polymorphic) тип. Полиморфизм — это многообразность, многоформенность. В данном случае речь идёт не об указании конкретного типа, а о «типовой заглушке». Мы говорим: «Функция <code>map</code> применяется к функции из какого-то типа <code>a</code> в какой-то тип <code>b</code> и к списку типа <code>[a]</code>, а результат её работы — это другой список типа <code>[b]</code>». На место типовых заглушек могут встать любые конкретные типы, в зависимости от того, к чему мы применим функцию <code>map</code>. Это делает данную функцию очень гибкой.</p>
+<p>Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
+
+<span class="ot">toUpperCase ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
+toUpperCase str <span class="fu">=</span> map toUpper str
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn <span class="fu">.</span> toUpperCase <span class="fu">$</span> <span class="st">&quot;haskell.org&quot;</span></code></pre></div>
+<p>Результатом работы этой программы будет строка:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">HASKELL.ORG</span></code></pre></div>
+<p>Функция <code>map</code> применяется к двум аргументам: к функции <code>toUpper</code> и к строке <code>str</code>. Функция <code>toUpper</code> из стандартного модуля <code>Data.Char</code> переводит символ типа <code>Char</code> в верхний регистр:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">toUpper <span class="ch">'a'</span> <span class="fu">=</span> <span class="ch">'A'</span></code></pre></div>
+<p>Вот её объявление:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">toUpper<span class="ot"> ::</span> <span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span></code></pre></div>
+<p>Функция из <code>Char</code> в <code>Char</code> выступает первым аргументом функции <code>map</code>, подставим сигнатуру:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a    <span class="ot">-&gt;</span> b)    <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
+       (<span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span>)</code></pre></div>
+<p>Ага, уже теплее! Мы сделали два новых открытия: во-первых, полиморфные заглушки <code>a</code> и <code>b</code> могут быть заняты одним и тем же конкретным типом, а во-вторых, сигнатура позволяет нам тут же понять остальные типы. Подставим остальные типы:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a    <span class="ot">-&gt;</span> b)    <span class="ot">-&gt;</span> [a]    <span class="ot">-&gt;</span> [b]
+       (<span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span>)    [<span class="dt">Char</span>]    [<span class="dt">Char</span>]
+
+        ____              ____
+                ____                ____</code></pre></div>
+<p>А теперь вспомним о природе типа <code>String</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a    <span class="ot">-&gt;</span> b)    <span class="ot">-&gt;</span> [a]    <span class="ot">-&gt;</span> [b]
+       (<span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span>)    <span class="dt">String</span>    <span class="dt">String</span></code></pre></div>
+<p>Всё встало на свои места. Функция <code>map</code> в данном случае берёт функцию <code>toUpper</code> и бежит по списку, последовательно применяя эту функцию к его элементам:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map toUpper [<span class="ch">'h'</span>,<span class="ch">'a'</span>,<span class="ch">'s'</span>,<span class="ch">'k'</span>,<span class="ch">'e'</span>,<span class="ch">'l'</span>,<span class="ch">'l'</span>,<span class="ch">'.'</span>,<span class="ch">'o'</span>,<span class="ch">'r'</span>,<span class="ch">'g'</span>]</code></pre></div>
+<p>Так, на первом шаге функция <code>toUpper</code> будет применена к элементу <code>'h'</code>, на втором — к элементу <code>'a'</code>, и так далее до последнего элемента <code>'g'</code>. Когда функция <code>map</code> бежит по этому списку, результат применения функции <code>toUpper</code> к его элементам служит элементами для второго списка, который будет в конечном итоге возвращён. Так, результом первого шага будет элемент <code>'H'</code>, результатом второго — элемент <code>'A'</code>, а результатом последнего — элемент <code>'G'</code>. Вот и получается:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map toUpper <span class="st">&quot;haskell.org&quot;</span> <span class="fu">=</span> <span class="st">&quot;HASKELL.ORG&quot;</span></code></pre></div>
+<p>Работа функции <code>map</code> выглядит как изменение списка, однако, в виду неизменности последнего, в действительности формируется новый список. Что самое интересное, функция <code>toUpper</code> пребывает в полном неведении о том, что ею изменяют регистр целой строки, она знает лишь об отдельных символах этой строки. То есть функция, являющаяся аргументом функции <code>map</code>, ничего не знает о функции <code>map</code>, и это очень хорошо! Чем меньше функции знают друг о друге, тем проще и надёжнее использовать их вместе.</p>
+<p>Рассмотрим другой пример, когда типовые заглушки <code>a</code> и <code>b</code> замещаются разными типами:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">toStr ::</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
+toStr numbers <span class="fu">=</span> map show numbers
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">.</span> toStr <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
+<p>Функция <code>toStr</code> работает уже со списками разных типов: на входе список чисел с плавающей точкой, на выходе список строк. При запуске этой программы мы увидим следующее:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;1.2&quot;</span>,<span class="st">&quot;1.0&quot;</span>,<span class="st">&quot;4.0&quot;</span>,<span class="st">&quot;1.6&quot;</span>]</code></pre></div>
+<p>Уже знакомая нам стандартная функция <code>show</code> переводит свой единственный аргумент в строковый вид:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">show <span class="fl">1.2</span> <span class="fu">=</span> <span class="st">&quot;1.2&quot;</span></code></pre></div>
+<p>В данном случае, раз уж мы работаем с числами типа <code>Double</code>, тип функции <code>show</code> такой:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">show<span class="ot"> ::</span> <span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+<p>Подставим в сигнатуру функции <code>map</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a      <span class="ot">-&gt;</span> b)      <span class="ot">-&gt;</span> [a]      <span class="ot">-&gt;</span> [b]
+       (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">String</span>)    [<span class="dt">Double</span>]    [<span class="dt">String</span>]
+
+        ______                ______
+                  ______                  ______</code></pre></div>
+<p>Именно так, как у нас и есть:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map show [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>] <span class="fu">=</span> [<span class="st">&quot;1.2&quot;</span>,<span class="st">&quot;1.0&quot;</span>,<span class="st">&quot;4.0&quot;</span>,<span class="st">&quot;1.6&quot;</span>]</code></pre></div>
+<p>Разумеется, в качестве аргумента функции <code>map</code> мы можем использовать и наши собственные функции:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">ten ::</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">Double</span>]
+ten <span class="fu">=</span> map (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>)
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">.</span> ten <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
+<p>Результат работы:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">12.0</span>,10.0,40.0,16.0]</code></pre></div>
+<p>Мы передали функции <code>map</code> нашу собственную ЛФ, умножающую свой единственный аргумент на <code>10</code>. Обратите внимание, мы вновь использовали краткую форму определение, опустив имя аргумента функции <code>ten</code>.</p>
+<h2 id="композиция-для-отображения">Композиция для отображения</h2>
+<p>Если мы можем передать функции <code>map</code> некую функцию для работы с элементами списка, значит мы можем передать ей и композицию функций. Вот как это может выглядеть:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
+
+<span class="ot">pretty ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
+pretty <span class="fu">=</span> map (stars <span class="fu">.</span> big)
+  <span class="kw">where</span>
+    big <span class="fu">=</span> map toUpper
+    stars <span class="fu">=</span> \s <span class="ot">-&gt;</span> <span class="st">&quot;* &quot;</span> <span class="fu">++</span> s <span class="fu">++</span> <span class="st">&quot; *&quot;</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">.</span> pretty <span class="fu">$</span> [<span class="st">&quot;haskell&quot;</span>, <span class="st">&quot;lisp&quot;</span>, <span class="st">&quot;coq&quot;</span>]</code></pre></div>
+<p>Мы хотим украсить имена трёх языков программирования. Для этого мы пробегаемся по списку композицией двух функций, <code>big</code> и <code>stars</code>. Функция <code>big</code> переводит сроки в верхний регистр, а функция <code>stars</code> украшает имя двумя звёздочками в начале и в конце. В результате имеем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;* HASKELL *&quot;</span>,<span class="st">&quot;* LISP *&quot;</span>,<span class="st">&quot;* COQ *&quot;</span>]</code></pre></div>
+<p>Пройтись по списку композицией этих функций равносильно тому, как если бы мы прошлись сначала функцией <code>big</code>, а затем функцией <code>stars</code>. При этом, как мы уже знаем, обе эти функции ничего не знают ни о том, что их скомпоновали, ни о том, что эту композицию передали функции <code>map</code>.</p>
+<p>Ну что ж, теперь мы знаем о функции <code>map</code>, и последующих главах мы увидим множество других ФВП. Отныне они будут нашими постоянными спутниками.</p>
+<div style="padding-top: 45px;">
+    
+</div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left">
+                    
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="center-align">
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments sans">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+    <div class="col s3">
+        <div class="right">
+            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right">
+                    
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;">
+    
+</div>
+<div id="disqus_thread" style="padding-top: 30px;">
+    
+</div>
+
+        </div>
+    </body>
+</html>
