@@ -123,86 +123,128 @@
         </div>
         <div class="container">
             <h1 id="лямбда-функция">Лямбда-функция</h1>
-<p>Теперь мы должны познакомится с важной концепцией — c лямбда-функцией. Потому что именно с неё всё и началось.</p>
-<h2 id="мать-функционального-программирования">Мать функционального программирования</h2>
+<p>Теперь мы должны познакомится с важной концепцией — c лямбда-функцией. Потому что именно с неё всё и началось. Приготовьтесь: в этой главе нас ждут новые открытия.</p>
+<h2 id="истоки">Истоки</h2>
 <p>В далёких 1930-х молодой американский математик <a href="https://ru.wikipedia.org/wiki/%D0%A7%D1%91%D1%80%D1%87,_%D0%90%D0%BB%D0%BE%D0%BD%D0%B7%D0%BE">Алонзо Чёрч</a> задался вопросом о том, что значит «вычислить» что-то. Плодом его размышлений явилась система для формализации понятия «вычисление», и назвал он её «лямбда-исчислением» (англ. lambda calculus, по имени греческой буквы <code>λ</code>).</p>
-<p>В основе этой системы лежит лямбда-функция, и именно её можно считать «матерью функционального программирования» в целом и Haskell в частности. Далее буду называть её ЛФ.</p>
+<p>В основе этой системы лежит лямбда-функция, которую можно считать «матерью функционального программирования» в целом и Haskell в частности. Далее буду называть её ЛФ.</p>
 <p>В отношении ЛФ можно смело сказать: «Всё гениальное просто». Идея ЛФ столь полезна именно потому, что она предельно проста. ЛФ — это анонимная функция. Вот как она выглядит в Haskell:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> x <span class="fu">*</span> x</code></pre></div>
-<p>Обратный слэш в начале — признак ЛФ. Сравните с математической формой:</p>
+<p>Обратный слэш в начале — признак ЛФ. Сравните с математической формой записи:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">λx <span class="fu">.</span> x <span class="fu">*</span> x</code></pre></div>
 <p>Похоже, не правда ли? Воспринимайте обратный слэш в определении ЛФ как спинку буквы <code>λ</code>.</p>
-<p>ЛФ представляет собой простейший вид функции, эдакая функция, раздетая догола. У неё забрали не только объявление, но и имя, оставив лишь необходимый минимум в виде имён аргументов и внутреннего выражения. Алонзо Чёрч понял: чтобы применить функцию, нам вовсе необязательно именовать её.</p>
-<p>Вспомним упомянутое в предыдущей главе определение математической функции:</p>
-<blockquote>
-<p><strong>Функция - это описание зависимости чего-то от чего-то.</strong></p>
-</blockquote>
-<p>Более того, как мы узнали в прошлой главе, чистые функции в Haskell - это просто (возвращаемые ими) значения. Однако в языке C (и подобных ему языках) функция никогда не ассоциировалась с таким определением. Напротив, функция там есть ни что иное, как подпрограмма, а имя функции есть ни что иное, как указатель на первую инструкцию этой подпрограммы.</p>
-<p>Кроме того, функция в языке C является глобальной в рамках текущей единицы трансляции. И поэтому вызов функции - это своего рода глобальный <code>goto</code> в её тело, с последующим возвратом из него. Именно поэтому функция в языке C не может быть безымянной, потому что иначе её невозможно было бы вызвать.</p>
-<p>λ-функция - совсем другой зверь.</p>
-<h2 id="что-это-такое">Что это такое</h2>
-<p>В основе λ-функций лежит λ-исчисление, названное так по имени красивой греческой буквы. У λ-исчисления довольно-таки долгая академическая история, но нас с вами интересует практическая сторона, поэтому сразу приведу пример.</p>
-<p>Помните нашу функцию <code>f1</code>, возвращающую квадрат своего аргумента? Если мы даём ей на вход число 5, то на выходе получаем 25. Схематично это можно отразить так:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dv">5</span> <span class="ot">-&gt;</span> (x <span class="fu">*</span> x) <span class="ot">-&gt;</span> <span class="dv">25</span></code></pre></div>
-<p>А теперь вопрос: как такую функцию описать <em>формально</em>? Вот тут-то на сцену и выходит λ-исчисление, ибо оно как раз и предлагает формализованный способ записи функции. Для функции <code>f1</code> эта запись будет такой:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">λx<span class="fu">.</span>x <span class="fu">*</span> x </code></pre></div>
-<p>Буква λ - это признак λ-функции. А читать это выражение следует так: “λ-функция от одного аргумента x, возвращающая результат умножения этого аргумента на самого себя”.</p>
-<p>Разделителем здесь является точка. Выражение слева от этой точки - список аргументов (в данном случае он один), а выражение справа от неё - тело функции:</p>
-<pre><code>λ                  x         .  x * x
-признак λ-функции  аргумент     тело</code></pre>
-<p>Простое и элегантное описание, ничего лишнего, даже имени. Особенностью λ-функции является её безымянность, ведь имя ей не нужно. И это принципиально отличает её от обыкновенной функции.</p>
-<h2 id="как-это-выглядит-в-коде">Как это выглядит в коде</h2>
-<p>λ-функции присутствуют во многих языках, но в Haskell вид λ-выражения максимально приближен к математическому. Сравните:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">λx <span class="fu">.</span>  x <span class="fu">*</span> x  <span class="co">-- Математическая форма</span>
-\x <span class="ot">-&gt;</span> x <span class="fu">*</span> x  <span class="co">-- Haskell-форма</span></code></pre></div>
-<p>Прямое сходство. Даже <code>\</code> вначале подходит как нельзя лучше: рассматривайте его как “спинку” буквы λ. Единственное отличие - замена точки стрелочкой.</p>
-<p>А теперь возникает резонный вопрос: как мы можем вызвать такую функцию? Вероятно, ответ удивит вас, но λ-функции не вызывают. Впрочем, это лишь игра слов. Вернёмся на минутку в математику.</p>
-<p>Идея λ-функции базируется на математическом принципе “аппликации” (application), или “применения”. λ-функцию не вызывают с аргументом, а применяют (апплицируют) её к аргументу. Поэтому запись вида:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f x</code></pre></div>
-<p>принято читать так: “Применение функции <code>f</code> к аргументу <code>x</code>”.</p>
-<p>Вот как это выглядит в Haskell:</p>
+<p>ЛФ представляет собой простейший вид функции, эдакая функция, раздетая догола. У неё забрали не только объявление, но и имя, оставив лишь необходимый минимум в виде имён аргументов и внутреннего выражения. Алонзо Чёрч понял: чтобы применить функцию, вовсе необязательно её именовать. И если у обычной функции сначала идёт объявление/определение, а затем (где-то) применение с использованием имени, то у ЛФ всё куда проще: мы её определяем и тут же применяем, на месте. Вот так:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(\x <span class="ot">-&gt;</span> x <span class="fu">*</span> x) <span class="dv">5</span></code></pre></div>
-<p>λ-выражение, находящееся в скобках, порождает λ-функцию, которая сразу же применяется к аргументу 5 и возвращает 25.</p>
-<h2 id="множество-аргументов">Множество аргументов</h2>
-<p>λ-функция может применяться и к нескольким аргументам. Вот функция, возвращающая результат умножения первого значения на второе:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
-    print (f <span class="dv">5</span> <span class="dv">6</span>)
-    where f <span class="fu">=</span> \arg1 arg2 <span class="ot">-&gt;</span> arg1 <span class="fu">*</span> arg2</code></pre></div>
-<p>Между <code>\</code> и стрелочкой идёт список имён аргументов функции:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\                  arg1 arg2         <span class="ot">-&gt;</span>  arg1 <span class="fu">*</span> arg2
-признак λ<span class="fu">-</span>функции  имена аргументов      тело функции</code></pre></div>
-<h2 id="какая-от-них-польза">Какая от них польза</h2>
-<p>В языке C при работе с функцией принята стандартная последовательность из трёх шагов:</p>
-<ol style="list-style-type: decimal">
-<li>объявление,</li>
-<li>определение,</li>
-<li>вызов.</li>
-</ol>
-<p>Например:</p>
-<div class="sourceCode"><pre class="sourceCode c"><code class="sourceCode c"><span class="dt">int</span> sq( <span class="dt">int</span> i ) {
-    return i * i;
-}
+<p>Помните функцию <code>square</code>? Вот это её лямбда-аналог:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(\x <span class="ot">-&gt;</span> x <span class="fu">*</span> x)     <span class="dv">5</span>
 
-<span class="dt">int</span> main() {
-    printf( <span class="st">&quot;%d&quot;</span>, sq( <span class="dv">5</span> ) );
-}</code></pre></div>
-<p>Мы готовим нашу “глобальную подпрограмму”, а потом заходим в неё через вызов.</p>
-<p>А вот как это выглядит в Haskell:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print ((\x <span class="ot">-&gt;</span> x <span class="fu">*</span> x) <span class="dv">5</span>)</code></pre></div>
-<p>Мы ничего не готовим заранее. Напротив, мы создаём функцию как значение, локально и непосредственно перед использованием. Создаём - и тут же применяем её к аргументу <code>5</code>. Для простоты мы можем ввести пояснительное выражение для нашей функции:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span>
-    print (f <span class="dv">5</span>)
-    where f <span class="fu">=</span> \x <span class="ot">-&gt;</span> x <span class="fu">*</span> x</code></pre></div>
-<p>Одно из преимуществ λ-функции как раз и заключается в её локальности. Зачем нам заранее объявлять и определять функцию, если мы можем создать и сразу использовать её непосредственно в том месте, где она нужна? Впрочем, если λ-функция используется в нескольких местах, мы можем, во избежание дубляжа, определить её глобально, связав с некоторым именем. Например так:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">f <span class="fu">=</span> \x <span class="ot">-&gt;</span> x <span class="fu">*</span> x
+лямбда<span class="fu">-</span>выражение  аргумент</code></pre></div>
+<p>Лямбда-выражение порождает временную функцию, которую мы сразу же применяем к аргументу <code>5</code>.</p>
+<div class="card-panel orange darken-2 left-align smaller-text">
+<span class="white-text"> ЛФ с одним аргументом ещё называют «ЛФ от одного аргумента» или «ЛФ одного аргумента». </span>
+</div>
+<h2 id="строение">Строение</h2>
+<p>Строение ЛФ предельно простое:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\        x          <span class="ot">-&gt;</span>  x <span class="fu">*</span> x
+признак  имя            выражение
+ЛФ       аргумента</code></pre></div>
+<p>Соответственно, если ЛФ применяется к двум аргументам — пишем так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">\        x          y          <span class="ot">-&gt;</span>  x <span class="fu">*</span> y
+признак  имя <span class="dv">1</span>      имя <span class="dv">2</span>          выражение
+ЛФ       аргумента  аргумента</code></pre></div>
+<p>И когда мы применяем такую функцию:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(\x y <span class="ot">-&gt;</span> x <span class="fu">*</span> y) <span class="dv">10</span> <span class="dv">4</span></code></pre></div>
+<p>то просто подставляем <code>10</code> на место <code>x</code>, а <code>4</code> — на место <code>y</code>, и получаем выражение <code>10 * 4</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">(\x y <span class="ot">-&gt;</span> x <span class="fu">*</span> y) <span class="dv">10</span> <span class="dv">4</span> <span class="fu">=</span> <span class="dv">10</span> <span class="fu">*</span> <span class="dv">4</span> <span class="fu">=</span> <span class="dv">40</span></code></pre></div>
+<p>В общем, всё как с обычной функцией, даже проще.</p>
+<p>Мы можем ввести промежуточное значение для ЛФ:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print (mul <span class="dv">10</span> <span class="dv">4</span>)
+  <span class="kw">where</span> mul <span class="fu">=</span> \x y <span class="ot">-&gt;</span> x <span class="fu">*</span> y</code></pre></div>
+<p>Здесь выражение <code>mul</code> объявляется равным ЛФ, и теперь мы применяем <code>mul</code> так же, как если бы это было само лямбда-выражение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">mul <span class="dv">10</span> <span class="dv">4</span> <span class="fu">=</span> (\x y <span class="ot">-&gt;</span> x <span class="fu">*</span> y) <span class="dv">10</span> <span class="dv">4</span> <span class="fu">=</span> <span class="dv">10</span> <span class="fu">*</span> <span class="dv">4</span></code></pre></div>
+<p>И здесь мы приблизились к одному важному открытию.</p>
+<h2 id="тип-функции">Тип функции</h2>
+<p>Мы знаем, что у всех данных в Haskell-программе обязательно есть какой-то тип, проверяемый на этапе компиляции. Вопрос: какой тип у <code>mul</code> из предыдущего примера?</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">where</span> mul <span class="fu">=</span> \x y <span class="ot">-&gt;</span> x <span class="fu">*</span> y  <span class="co">-- Тип?</span></code></pre></div>
+<p>Ответ прост: тип <code>mul</code> такой же, как и этой ЛФ. Из этого мы делаем важный вывод: ЛФ имеет тип, как и обычные данные. Но если ЛФ тоже является функцией (просто предельно лаконичной) — значит и у обыкновенной функции тоже есть тип!</p>
+<p>В императивных языках между функциями и данными проведена чёткая граница: вот это функции, а вон то — данные. Однако в Haskell между данными и функциями разницы нет, ведь и то и другое порождается неким выражением. И вот каков тип функции <code>mul</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mul ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></div>
+<p>Погодите, скажете вы, но ведь это объявление функции! Совершенно верно: объявление функции — это и есть указание её типа. Помните, когда мы впервые познакомились с функцией, я уточнил, что её объявление разделено двойным двоеточием? Так вот это двойное двоеточие и представляет собой указание типа:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mul      ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
 
-main <span class="fu">=</span> print ((f <span class="dv">5</span>) <span class="fu">+</span> (f <span class="dv">6</span>))</code></pre></div>
-<p>Выражение <code>f</code> теперь равно нашей λ-функции, и теперь мы можем многократно применять это выражение к различным аргументам.</p>
-<h2 id="в-сухом-остатке">В сухом остатке</h2>
-<ol style="list-style-type: decimal">
-<li>λ-функция (далее ЛФ) - это анонимное отражение зависимости чего-то от чего-то.</li>
-<li>Чаще всего ЛФ создаётся локально и сразу же применяется к некоторым аргументам.</li>
-</ol>
+вот это     <span class="fu">|</span>имеет вот<span class="fu">|</span>
+            <span class="fu">|</span>такой тип<span class="fu">|</span></code></pre></div>
+<p>Точно так же мы можем указать тип любых других данных:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> coeff <span class="fu">=</span> <span class="dv">12</span><span class="ot"> ::</span> <span class="dt">Double</span></code></pre></div>
+<p>Хотя мы знаем, что в Haskell типы выводятся автоматически, иногда мы хотим взять эту заботу на себя. В данном случае мы явно говорим: «Пусть выражение <code>coeff</code> будет равно <code>12</code>, но тип пусть имеет <code>Double</code>, а не <code>Int</code>». Так же и с функцией: когда мы объявляем её — мы тем самым указываем её тип.</p>
+<p>Но вы спросите, можем ли мы не указывать тип функции явно? Можем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">square x <span class="fu">=</span> x <span class="fu">*</span> x</code></pre></div>
+<p>Это наша старая знакомая, функция <code>square</code>. Когда она будет применена к значению типа <code>Int</code>, тип аргумента будет выведен автоматически как <code>Int</code>.</p>
+<p>И раз функция характеризуется типом как и все другие данные, мы делаем ещё одно важное открытие: функциями можно оперировать как данными. И запомните эту важную и простую мысль!</p>
+<p>Например, можно создать список функций:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn ((head functions) <span class="st">&quot;Hi&quot;</span>)
+  <span class="kw">where</span>
+    functions <span class="fu">=</span> [ \x <span class="ot">-&gt;</span> x <span class="fu">++</span> <span class="st">&quot; val1&quot;</span>
+                , \x <span class="ot">-&gt;</span> x <span class="fu">++</span> <span class="st">&quot; val2&quot;</span>
+                ]</code></pre></div>
+<p>Выражение <code>functions</code> — это список из двух функций. Два лямбда-выражения порождают эти две функции, но до момента применения они ничего не делают, они безжизненны и бесполезны. Но когда мы применяем функцию <code>head</code> к этому списку, мы получаем первый элемент списка, то есть первую функцию. И получив, тут же применяем эту функцию к строке <code>&quot;Hi&quot;</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">putStrLn ((head functions)  <span class="st">&quot;Hi&quot;</span>)
+
+          <span class="fu">|</span>    первая    <span class="fu">|</span>  её
+          <span class="fu">|</span>    функция   <span class="fu">|</span>  аргумент
+          <span class="fu">|</span>   из списка  <span class="fu">|</span></code></pre></div>
+<p>Это равносильно коду:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">putStrLn ((\x <span class="ot">-&gt;</span> x <span class="fu">++</span> <span class="st">&quot; val1&quot;</span>) <span class="st">&quot;Hi&quot;</span>)</code></pre></div>
+<p>Поэтому при запуске программы мы получим:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Hi</span> val1</code></pre></div>
+<p>Кстати, а каков тип списка <code>functions</code>? Его тип, в данном случае тип <code>[String -&gt; String]</code>. То есть список функций с одним аргументом типа <code>String</code>, возвращающих значение типа <code>String</code>.</p>
+<h2 id="локальные-функции">Локальные функции</h2>
+<p>Раз уж между ЛФ и простыми функциями фактически нет различий, а функции есть частный случай данных, мы можем создавать функции локально для других функций:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.List</span>
+
+<span class="ot">validComEmail ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+validComEmail email <span class="fu">=</span>
+    containsAtSign email <span class="fu">&amp;&amp;</span> endsWithCom email
+  <span class="kw">where</span>
+    containsAtSign e <span class="fu">=</span> <span class="st">&quot;@&quot;</span> <span class="ot">`isInfixOf`</span> e
+    endsWithCom e <span class="fu">=</span> <span class="st">&quot;.com&quot;</span> <span class="ot">`isSuffixOf`</span> e
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn (<span class="kw">if</span> validComEmail my
+                   <span class="kw">then</span> <span class="st">&quot;It's ok!&quot;</span>
+                   <span class="kw">else</span> <span class="st">&quot;Non-com email!&quot;</span>)
+  <span class="kw">where</span>
+    my <span class="fu">=</span> <span class="st">&quot;haskeller@gmail.com&quot;</span></code></pre></div>
+<p>Несколько наивная функция <code>validComEmail</code> проверяет <code>.com</code>-почтовый адрес. Её выражение образовано оператором <code>&amp;&amp;</code> и двумя выражениями типа <code>Bool</code>. Вот как образованы эти выражения:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">containsAtSign e <span class="fu">=</span> <span class="st">&quot;@&quot;</span> <span class="ot">`isInfixOf`</span> e
+endsWithCom e <span class="fu">=</span> <span class="st">&quot;.com&quot;</span> <span class="ot">`isSuffixOf`</span> e</code></pre></div>
+<p>Это — две функции, которые мы определили прямо в <code>where</code>-секции, поэтому они существуют только для основного выражения функции <code>validComEmail</code>. С простыми функциями так поступают очень часто: где она нужна, там и определена. Мы могли бы написать и более явно:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">validComEmail ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+validComEmail email <span class="fu">=</span>
+    containsAtSign email <span class="fu">&amp;&amp;</span> endsWithCom email
+  <span class="kw">where</span>
+<span class="ot">    containsAtSign ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+    containsAtSign e <span class="fu">=</span> <span class="st">&quot;@&quot;</span> <span class="ot">`isInfixOf`</span> e
+
+<span class="ot">    endsWithCom ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+    endsWithCom e <span class="fu">=</span> <span class="st">&quot;.com&quot;</span> <span class="ot">`isSuffixOf`</span> e</code></pre></div>
+<p>Вот, теперь уже сомнений не возникает. Указывать тип примитивных функций, как правило, необязательно.</p>
+<p>А вот как этот код выглядит с ЛФ:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">validComEmail ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+validComEmail email <span class="fu">=</span>
+    containsAtSign email <span class="fu">&amp;&amp;</span> endsWithCom email
+  <span class="kw">where</span>
+    containsAtSign <span class="fu">=</span> \e <span class="ot">-&gt;</span> <span class="st">&quot;@&quot;</span> <span class="ot">`isInfixOf`</span> e
+    endsWithCom <span class="fu">=</span> \e <span class="ot">-&gt;</span> <span class="st">&quot;.com&quot;</span> <span class="ot">`isSuffixOf`</span> e</code></pre></div>
+<p>Теперь выражения <code>containsAtSign</code> и <code>endsWithCom</code> приравнены ЛФ от одного аргумента. В этом случае мы конечно же не указываем тип этих выражений. Впрочем, если очень хочется, можете и указать:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">containsAtSign <span class="fu">=</span> (\e <span class="ot">-&gt;</span> <span class="st">&quot;@&quot;</span> <span class="ot">`isInfixOf`</span> e)<span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+endsWithCom <span class="fu">=</span> (\e <span class="ot">-&gt;</span> <span class="st">&quot;.com&quot;</span> <span class="ot">`isSuffixOf`</span> e)<span class="ot"> ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Bool</span></code></pre></div>
+<p>Лямбда-выражение взято в скобки, чтобы указание типа относилось к выражени в целом, а не только к аргументу <code>e</code>. Впрочем, на практике указание типа ЛФ встречается нечасто, ибо незачем.</p>
+<p>Вот мы и познакомились с «матерью Haskell». Теперь мы будем использовать ЛФ периодически.</p>
+<p>И напоследок, вопрос. Помните тип функции <code>mul</code> в начале главы?</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mul ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></div>
+<p>Что это за буква <code>a</code>? Во-первых, мы не встречали такой тип ранее, а во-вторых, разве имя типа в Haskell не должно начинаться с большой буквы? Должно. А всё дело в том, что буква <code>a</code> в данном случае — это не имя типа. А вот что это такое, мы узнаем во время близкого знакомства со Вторым Китом Haskell. Вы ведь помните, что мы всё ещё знакомимся с Первым Китом? Нас ждёт ещё много открытий.</p>
 <div style="padding-top: 45px;">
     
 </div>
