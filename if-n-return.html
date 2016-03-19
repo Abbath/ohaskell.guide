@@ -208,11 +208,13 @@ main <span class="fu">=</span> putStrLn checkLocalhost <span class="st">&quot;17
 main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;173.194.22.100&quot;</span>)</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span>
-  putStrLn (<span class="kw">if</span> <span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;127.0.0.1&quot;</span> <span class="fu">||</span> <span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;0.0.0.0&quot;</span>
+  putStrLn (<span class="kw">if</span> <span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;127.0.0.1&quot;</span> <span class="fu">||</span>
+               <span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;0.0.0.0&quot;</span>
               <span class="kw">then</span> <span class="st">&quot;It's a localhost!&quot;</span>
               <span class="kw">else</span> <span class="st">&quot;No, it's not a localhost.&quot;</span>)</code></pre></div>
 <p>Мы просто заменили аргумент <code>ip</code> конкретным значением <code>173.194.22.100</code>. В итоге, в зависимости от истинности или ложности проверок на равенство, эта условная конструкция будет также заменена одним из двух выражений. В этом и заключается идея: возвращаемое функцией значение — это её последнее, итоговое выражение. То есть если выражение:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;127.0.0.1&quot;</span> <span class="fu">||</span> <span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;0.0.0.0&quot;</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;127.0.0.1&quot;</span> <span class="fu">||</span>
+<span class="st">&quot;173.194.22.100&quot;</span> <span class="fu">==</span> <span class="st">&quot;0.0.0.0&quot;</span></code></pre></div>
 <p>даст нам результат <code>True</code>, то мы работаем с выражением из логической ветки <code>then</code>. Если же оно даст нам <code>False</code> — мы работаем с выражением из логической ветки <code>else</code>. Это даёт нам право утверждать, что условная конструкция вида:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">if</span> <span class="dt">True</span>
   <span class="kw">then</span> <span class="st">&quot;It's a localhost!&quot;</span>
