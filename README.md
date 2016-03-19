@@ -1,7 +1,5 @@
 [![Gitter chat](https://img.shields.io/badge/chat-on%20gitter-green.svg)](https://gitter.im/ruHaskell/forall)
 
-<a rel="license" href="http://creativecommons.org/licenses/by-nc/4.0/deed.ru"><img alt="Лицензия Creative Commons" style="border-width:0" src="https://i.creativecommons.org/l/by-nc/4.0/88x31.png" /></a>
-
 О Haskell по-человечески
 ========================
 
@@ -15,7 +13,7 @@
 
 ### Распространение
 
-Книга бесплатна, и всегда останется таковой. Поэтому бесплатное распространение всячески приветствуется, на любых ресурсах и любыми способами. Ссылка на этот репозиторий желательна.
+Книга бесплатна и распространяется на условиях лицензии [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.ru). При распространении на сторонних ресурсах ссылка на этот репозиторий желательна.
 
 ### ruHaskell
 
