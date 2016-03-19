@@ -36,9 +36,9 @@ $ ohaskell rebuild
 
 Результаты сборки:
 
-1. HTML -> `_site/index.html`
-2. PDF -> `pdf/ohaskell.pdf`
-3. PDF, мобильный вариант -> `pdf/ohaskell-mobile.pdf`
-3. EPUB -> `epub/ohaskell.epub`
+1. HTML - `_site/index.html`
+2. PDF - `pdf/ohaskell.pdf`
+3. PDF, мобильный вариант - `pdf/ohaskell-mobile.pdf`
+3. EPUB - `epub/ohaskell.epub`
 
 Проверено на OS X Yosemite, [stack 1.0.2](http://docs.haskellstack.org/en/stable/README/) и [LTS Haskell 5.5](https://www.stackage.org/lts-5.5).
