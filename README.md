@@ -1,4 +1,4 @@
-[![Gitter chat](https://img.shields.io/badge/chat-on%20gitter-green.svg)](https://gitter.im/ruHaskell/forall)
+![CircleCI](https://circleci.com/gh/denisshevchenko/ohaskell.guide.svg?style=shield&circle-token=42b4b253957b4896ad05759fce3a7ae576ac8a72)
 
 О Haskell по-человечески
 ========================
