@@ -3,11 +3,11 @@
 О Haskell по-человечески
 ========================
 
-Ваша первая книга об удивительном и прекрасном языке программирования Haskell. Официальный [сайт](http://www.ohaskell.guide/).
+Ваша первая книга об удивительном и прекрасном языке программирования [Haskell](https://www.haskell.org/). Официальный [сайт книги](http://www.ohaskell.guide/).
 
 Книга создана с помощью практичного [Markdown](https://help.github.com/categories/writing-on-github/), блистательного [Materialize](http://materializecss.com/), впечатляющего [Hakyll](https://jaspervdj.be/hakyll/), элегантного [Clay](http://fvisser.nl/clay/), гибкого [BlazeHtml](https://jaspervdj.be/blaze/) и мощного [pandoc](http://pandoc.org/). И разумеется, всё это связано воедино силою Haskell.
 
-Вопросы, предложения и критику можете направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге). И я буду чрезвычайно благодарен за ваши [Pull requests](https://github.com/denisshevchenko/ohaskell.guide/pulls).
+Любые вопросы, предложения и критику можете направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге). И я буду чрезвычайно благодарен за ваши [Pull requests](https://github.com/denisshevchenko/ohaskell.guide/pulls).
 
 ### Распространение
 
