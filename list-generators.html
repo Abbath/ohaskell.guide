@@ -7,7 +7,7 @@
         <meta name="author" content="Денис Шевченко">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
         <title>
-            PAGE_TITLE &lt;- О Haskell по-человечески
+            Генераторы списков &lt;- О Haskell по-человечески
         </title>
         <link rel="icon" href="./static/images/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -111,6 +111,11 @@
                                 ФВП
                             </a>
                         </li>
+                        <li>
+                            <a href="./list-generators.html">
+                                Генераторы списков
+                            </a>
+                        </li>
                     </ul>
                     <ul id="nav-mobile" class="right">
                         <li>
@@ -132,7 +137,8 @@
             </nav>
         </div>
         <div class="container">
-            <p>Понятие “list comprehension” в русскоязычной документации чаще всего переводится как “генератор списка”. Строго говоря, это не лучший перевод, но я не смог подобрать ничего лучшего.</p>
+            <h1 id="генераторы-списков">Генераторы списков</h1>
+<p>Понятие “list comprehension” в русскоязычной документации чаще всего переводится как “генератор списка”. Строго говоря, это не лучший перевод, но я не смог подобрать ничего лучшего.</p>
 <p>Речь пойдёт об одной хитрой конструкции, предназначенной для прохода по элементам списка(ов) и применения к ним некоторых действий, в результате чего будет создан (сгенерирован) новый список. Да-да, это похоже на уже известные нам функции <code>map</code> и <code>filter</code>, однако есть некоторые дополнительные вкусности.</p>
 <h2 id="хитрый-список">Хитрый список</h2>
 <p>Вот как это выглядит:</p>
@@ -299,7 +305,7 @@ main <span class="fu">=</span> print [checkGooglerBy email <span class="fu">|</s
 <div class="row">
     <div class="col s3">
         <div class="left">
-            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/hof.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-left">
                     
                 </span>
@@ -315,7 +321,7 @@ main <span class="fu">=</span> print [checkGooglerBy email <span class="fu">|</s
     </div>
     <div class="col s3">
         <div class="right">
-            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/index.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-right">
                     
                 </span>
