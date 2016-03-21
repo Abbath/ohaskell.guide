@@ -5,27 +5,17 @@
 
 Ваша первая книга об удивительном и прекрасном языке программирования [Haskell](https://www.haskell.org/). Официальный [сайт книги](http://www.ohaskell.guide/).
 
-Книга создана с помощью практичного [Markdown](https://help.github.com/categories/writing-on-github/), блистательного [Materialize](http://materializecss.com/), впечатляющего [Hakyll](https://jaspervdj.be/hakyll/), элегантного [Clay](http://fvisser.nl/clay/), гибкого [BlazeHtml](https://jaspervdj.be/blaze/) и мощного [pandoc](http://pandoc.org/). И разумеется, всё это связано воедино силою Haskell.
+Книга создана с помощью практичного [Markdown](https://help.github.com/categories/writing-on-github/), блистательного [Materialize](http://materializecss.com/), впечатляющего [Hakyll](https://jaspervdj.be/hakyll/), элегантного [Clay](http://fvisser.nl/clay/), гибкого [BlazeHtml](https://jaspervdj.be/blaze/) и мощного [pandoc](http://pandoc.org/). И разумеется, всё это связано воедино силою Haskell. Книга написана при поддержке [русскоязычного сообщества Haskell-разработчиков](http://ruhaskell.org/).
 
 Любые вопросы, предложения и критику можете направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге). И я буду чрезвычайно благодарен за ваши [Pull requests](https://github.com/denisshevchenko/ohaskell.guide/pulls).
 
 ### Распространение
 
-Книга бесплатна и распространяется на условиях лицензии [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.ru).
-
-### ruHaskell
-
-Книга написана при поддержке русскоязычного сообщества Haskell-разработчиков. Мы живём здесь:
-
-1. [Основной сайт](http://ruhaskell.org/)
-2. [Чат](https://gitter.im/ruHaskell/forall)
-3. [/r/ruhaskell](https://www.reddit.com/r/ruhaskell/)
-4. [Twitter](https://twitter.com/ruHaskell)
-5. [Google+](https://plus.google.com/communities/117343381540538069054)
+Книга свободно распространяется на условиях лицензии [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.ru). Исходный программный код ещё более свободно распространяется на условиях лицензии [MIT](https://opensource.org/licenses/MIT).
 
 ### Локальная сборка
 
-Вы можете собрать книгу локально. Подразумевается, что у вас уже есть `stack` и каталог `~/.local/bin` уже добавлен в `PATH`. Делаем:
+Подразумевается, что у вас уже есть `stack` и каталог `~/.local/bin` уже добавлен в `PATH`. Делаем:
 
 ```bash
 $ git clone git@github.com:denisshevchenko/ohaskell.guide.git
