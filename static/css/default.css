@@ -229,6 +229,24 @@ div#logo .navbar-brand
   font-family : "Ubuntu Mono", monospace;
 }
 
+.donate
+{
+  padding-top : 50px;
+}
+
+.donate-button
+{
+  text-transform : none;
+  color          : rgb(241,118,3);
+  font-size      : 18px;
+}
+
+.donate-area
+{
+  padding-top : 30px;
+  text-align  : center;
+}
+
 pre.sourceCode
 {
   color            : rgb(0,0,0);
