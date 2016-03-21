@@ -148,7 +148,7 @@ analizeGold standard <span class="fu">=</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">999</span>)</code></pre></div>
-<p>Уверен, вы уже стираете плевок с экрана. Вложенная <code>if-then-else</code> конструкция не может понравится никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счатью, в Haskell можно написать по-другому:</p>
+<p>Уверен, вы уже стираете плевок с экрана. Вложенная <code>if-then-else</code> конструкция не может понравится никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счастью, в Haskell можно написать по-другому:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">analizeGold ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 analizeGold standard <span class="fu">=</span>
   <span class="kw">if</span> <span class="fu">|</span> standard <span class="fu">==</span> <span class="dv">999</span> <span class="ot">-&gt;</span> <span class="st">&quot;Wow! 999 standard!&quot;</span>
@@ -191,7 +191,7 @@ analizeGold standard <span class="fu">=</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">999</span>)</code></pre></div>
-<p>Вот теперь всё в порядке. Но что это за странный такой комментарий в первой строке модуля? Вроде бы оформлен как многострочный комментарий, но выглядит необычно. А всё потому, что это необычный комментарий, это — указание расширения языка Haskell.</p>
+<p>Вот теперь всё в порядке. Но что это за странный комментарий в первой строке модуля? Вроде бы оформлен как многострочный комментарий, но выглядит необычно. Перед нами — указание расширения языка Haskell.</p>
 <p>Стандарт <a href="https://www.haskell.org/onlinereport/haskell2010/">Haskell 2010</a> — это официальный стержень языка. Однако компилятор GHC, давно ставший стандартном де-факто при разработке на Haskell, обладает рядом особых возможностей. По умолчанию многие из этих возможностей выключены, а прагма <code>LANGUAGE</code> как раз для того и предназначена, чтобы их включать/активизировать. В данном случае мы включили расширение <code>MultiWayIf</code>. Именно это расширение позволяет нам использовать множественный <code>if</code>. Такого рода расширений существует весьма много, и мы будем часто их использовать.</p>
 <div class="card-panel orange darken-2 left-align smaller-text">
 <span class="white-text"> Расширение, включённое с помощью прагмы <code>LANGUAGE</code>, действует лишь в рамках текущего модуля. И если я прописал его только в модуле <code>app/Main.hs</code>, то на модуль <code>src/Lib.hs</code> механизм <code>MultiWayIf</code> не распространяется. </span>
