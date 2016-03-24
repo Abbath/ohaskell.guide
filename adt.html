@@ -7,7 +7,7 @@
         <meta name="author" content="Денис Шевченко">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
         <title>
-            АДТ &lt;- О Haskell по-человечески
+            АТД &lt;- О Haskell по-человечески
         </title>
         <link rel="icon" href="./static/images/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -123,7 +123,7 @@
                         </li>
                         <li>
                             <a href="./adt.html">
-                                АДТ
+                                АТД
                             </a>
                         </li>
                     </ul>
@@ -147,10 +147,11 @@
             </nav>
         </div>
         <div class="container">
-            <h1 id="адт">АДТ</h1>
-<p>АДТ, или Алгебраические Типы Данных (англ. ADT, Algebraic Data Type), занимают почётное место в мире типов Haskell. Абсолютно подавляющее большинство ваших собственных типов будут АДТ, и то же можно сказать о типах из множества Haskell-пакетов. Алгебраическим типом данных называют такой тип, которые составлены из других типов. Мы берём простые типы и строим из них, как из кирпичей, типы сложные, а из них — ещё более сложные. Это даёт нам невероятный простор для творчества.</p>
+            <h1 id="атд">АТД</h1>
+<p>АТД, или Алгебраические Типы Данных (англ. ADT, Algebraic Data Type), занимают почётное место в мире типов Haskell. Абсолютно подавляющее большинство ваших собственных типов будут алгебраическими, и то же можно сказать о типах из множества Haskell-пакетов. Алгебраическим типом данных называют такой тип, которые составлены из других типов. Мы берём простые типы и строим из них, как из кирпичей, типы сложные, а из них — ещё более сложные. Это даёт нам невероятный простор для творчества.</p>
 <p>Оставим сетевые протоколы и дни недели, рассмотрим такой пример:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPAddress</span> <span class="dt">String</span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">
+<span class="kw">data</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IPAddress</span> <span class="dt">String</span></code></pre></div>
 <p>Тип <code>IPAddress</code> использует один-единственный конструктор значения, но кое-что изменилось. Во-первых, имена типа и конструктора совпадают. Это вполне легально, вы встретите такое не раз. Во-вторых, конструктор уже не нульарный, а унарный (англ. unary), потому что теперь он связан с одним значением типа <code>String</code>. И вот как создаются значения типа <code>IPAddress</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="kw">let</span> ip <span class="fu">=</span> <span class="dt">IPAddress</span> <span class="st">&quot;127.0.0.1&quot;</span></code></pre></div>
 <p>Значение <code>ip</code> типа <code>IPAddress</code> образовано конструктором и конкретным значением некоего типа:</p>
