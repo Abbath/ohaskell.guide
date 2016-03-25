@@ -9,11 +9,15 @@
 
 Книга создана с помощью практичного [Markdown](https://help.github.com/categories/writing-on-github/), блистательного [Materialize](http://materializecss.com/), впечатляющего [Hakyll](https://jaspervdj.be/hakyll/), элегантного [Clay](http://fvisser.nl/clay/), гибкого [BlazeHtml](https://jaspervdj.be/blaze/) и мощного [pandoc](http://pandoc.org/). И разумеется, всё это связано воедино силою Haskell. Книга написана при поддержке [русскоязычного сообщества Haskell-разработчиков](http://ruhaskell.org/).
 
-Любые вопросы, предложения и критику можете направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге). И я буду чрезвычайно благодарен за ваши [Pull requests](https://github.com/denisshevchenko/ohaskell.guide/pulls).
+Любые вопросы, предложения и критику можете направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге), а можете открыть [issue](https://github.com/denisshevchenko/ohaskell.guide/issues). И я буду чрезвычайно благодарен за ваши [pull requests](https://github.com/denisshevchenko/ohaskell.guide/pulls).
 
 ### Распространение
 
 Книга свободно распространяется на условиях лицензии [CC BY-NC 4.0](http://creativecommons.org/licenses/by-nc/4.0/deed.ru). Исходный программный код ещё более свободно распространяется на условиях лицензии [MIT](https://opensource.org/licenses/MIT).
+
+## Новости
+
+За новостями об обновлениях и исправлениях книги следите на [моём Твиттере](https://twitter.com/dshevchenko_biz), а также в выпусках подкаста [Бананы и Линзы](http://bananasandlenses.net/), единственного русскоязычного подкаста, всецело посвящённого Haskell.
 
 ### Локальная сборка
 
