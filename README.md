@@ -15,7 +15,7 @@
 
 ### Локальная сборка
 
-Подразумевается, что у вас уже есть `stack` и каталог `~/.local/bin` уже добавлен в `PATH`. Делаем:
+Для локальной сборки вам понадобится [stack](http://docs.haskellstack.org/en/stable/README/), [pandoc](http://pandoc.org/) и TeX-дистрибутив (я использую [MacTeX](https://tug.org/mactex/)). Подразумевается, что каталог `~/.local/bin` уже добавлен в ваш `PATH`. Делаем:
 
 ```bash
 $ git clone git@github.com:denisshevchenko/ohaskell.guide.git
@@ -26,9 +26,9 @@ $ ohaskell rebuild
 
 Результаты сборки:
 
-1. HTML - `_site/index.html`
-2. PDF - `pdf/ohaskell.pdf`
-3. PDF, мобильный вариант - `pdf/ohaskell-mobile.pdf`
-3. EPUB - `epub/ohaskell.epub`
+1. HTML: `_site/index.html`
+2. PDF: `pdf/ohaskell.pdf`
+3. PDF, мобильный вариант: `pdf/ohaskell-mobile.pdf`
+4. EPUB: `epub/ohaskell.epub`
 
-Проверено на OS X Yosemite, [stack 1.0.2](http://docs.haskellstack.org/en/stable/README/) и [LTS Haskell 5.5](https://www.stackage.org/lts-5.5).
+Проверено на OS X Yosemite, [stack 1.0.2](http://docs.haskellstack.org/en/stable/README/), [pandoc 1.15.2.1](https://github.com/jgm/pandoc/releases/tag/1.15.2) и [LTS Haskell 5.5](https://www.stackage.org/lts-5.5).
