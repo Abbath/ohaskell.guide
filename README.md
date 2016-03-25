@@ -5,6 +5,8 @@
 
 Ваша первая книга об удивительном и прекрасном языке программирования [Haskell](https://www.haskell.org/). Официальный [сайт книги](http://www.ohaskell.guide/).
 
+[![CircleCI](https://img.shields.io/badge/get-PDF-red.svg)](https://github.com/denisshevchenko/ohaskell.guide/blob/master/pdf/ohaskell.pdf?raw=true)&nbsp;&nbsp;&nbsp;&nbsp;[![CircleCI](https://img.shields.io/badge/get-PDF%20mobile-orange.svg)](https://github.com/denisshevchenko/ohaskell.guide/blob/master/pdf/ohaskell-mobile.pdf?raw=true)&nbsp;&nbsp;&nbsp;&nbsp;[![CircleCI](https://img.shields.io/badge/get-EPUB-green.svg)](https://github.com/denisshevchenko/ohaskell.guide/blob/master/epub/ohaskell.epub?raw=true)
+
 Книга создана с помощью практичного [Markdown](https://help.github.com/categories/writing-on-github/), блистательного [Materialize](http://materializecss.com/), впечатляющего [Hakyll](https://jaspervdj.be/hakyll/), элегантного [Clay](http://fvisser.nl/clay/), гибкого [BlazeHtml](https://jaspervdj.be/blaze/) и мощного [pandoc](http://pandoc.org/). И разумеется, всё это связано воедино силою Haskell. Книга написана при поддержке [русскоязычного сообщества Haskell-разработчиков](http://ruhaskell.org/).
 
 Любые вопросы, предложения и критику можете направлять [прямиком мне](mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге). И я буду чрезвычайно благодарен за ваши [Pull requests](https://github.com/denisshevchenko/ohaskell.guide/pulls).
