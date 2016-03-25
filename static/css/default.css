@@ -41,15 +41,14 @@ p > code
 {
   color            : rgb(0,0,0);
   background-color : rgb(238,232,213);
-  text-align       : center;
-  padding-top      : 1px;
-  padding-bottom   : 1px;
-  padding-left     : 3px;
-  padding-right    : 3px;
   font-family      : "Ubuntu Mono", monospace;
   font-size        : 100%;
   border-radius    : 3px 3px 3px 3px;
   border           : solid 1px rgb(238,232,213);
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
 }
 
 
@@ -57,15 +56,14 @@ span > code
 {
   color            : rgb(0,0,0);
   background-color : rgb(238,232,213);
-  text-align       : center;
-  padding-top      : 1px;
-  padding-bottom   : 1px;
-  padding-left     : 3px;
-  padding-right    : 3px;
   font-family      : "Ubuntu Mono", monospace;
   font-size        : 100%;
   border-radius    : 3px 3px 3px 3px;
   border           : solid 1px rgb(238,232,213);
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
 }
 
 
@@ -73,15 +71,14 @@ li > code
 {
   color            : rgb(0,0,0);
   background-color : rgb(238,232,213);
-  text-align       : center;
-  padding-top      : 1px;
-  padding-bottom   : 1px;
-  padding-left     : 3px;
-  padding-right    : 3px;
   font-family      : "Ubuntu Mono", monospace;
   font-size        : 100%;
   border-radius    : 3px 3px 3px 3px;
   border           : solid 1px rgb(238,232,213);
+  padding-top      : 1px;
+  padding-bottom   : 1px;
+  padding-left     : 3px;
+  padding-right    : 3px;
 }
 
 a
@@ -250,11 +247,11 @@ div#logo .navbar-brand
 pre.sourceCode
 {
   color            : rgb(0,0,0);
+  background-color : rgb(238,232,213);
   font-family      : "Ubuntu Mono", monospace;
   font-size        : 100%;
   border-radius    : 3px 3px 3px 3px;
   border           : solid 1px rgb(238,232,213);
-  background-color : rgb(238,232,213);
   padding          : 7px 7px 7px 7px;
   margin-top       : 18px;
   margin-bottom    : 18px;
