@@ -7,7 +7,7 @@
         <meta name="author" content="Денис Шевченко">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
         <title>
-            Первые вопросы &lt;- О Haskell по-человечески
+            Предметный указатель &lt;- О Haskell по-человечески
         </title>
         <link rel="icon" href="./static/images/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -163,59 +163,125 @@
             </nav>
         </div>
         <div class="container">
-            <h1 id="первые-вопросы">Первые вопросы</h1>
-<p>Мне задавали их множество раз. Отвечаю.</p>
-<h2 id="что-такое-этот-ваш-haskell">«Что такое этот ваш Haskell?»</h2>
-<p>Haskell — чисто функциональный язык программирования общего назначения, может быть использован для решения самого широкого круга задач. Компилируемый, но может вести себя и как скриптовый. Кроссплатформенный. Ленивый, со строгой статической типизацией. И он не похож на другие языки. Совсем.</p>
-<h2 id="это-что-какой-то-новый-язык">«Это что, какой-то новый язык?»</h2>
-<p>Вовсе нет. История Haskell началась ещё в 1987 году. Этот язык был рождён в математических кругах, когда группа людей решила создать лучший фукнциональный язык программирования. В 1990 году вышла первая версия языка, названного в честь известного американского математика <a href="https://en.wikipedia.org/wiki/Haskell_Curry">Хаскела Карри</a>. В 1998 году язык был стандартизован, а начиная с 2000-х началось его медленное вхождение в мир практического программирования. За эти годы язык совершенствовался, и вот в 2010 мир увидел его обновлённый стандарт. Так что мы имеем дело с языком, который старше Java.</p>
-<h2 id="и-кто-его-сделал">«И кто его сделал?»</h2>
-<p>Haskell создавался многими людьми. Де-факто стандартная реализация языка нашла своё воплощение в компиляторе GHC (The Glasgow Haskell Compiler), родившегося в 1989 году в Университете Глазго. У компилятора было несколько главных разработчиков, из которых наиболее известны двое, <a href="http://research.microsoft.com/en-us/people/simonpj/">Simon Peyton Jones</a> и <a href="http://community.haskell.org/~simonmar/">Simon Marlow</a>. Впоследствии весомый вклад в разработку GHC внесли ещё несколько сотен человек. Исходный код компилятора GHC <a href="https://github.com/ghc">открыт</a>. Кстати, сам компилятор на 82% написан на Haskell.</p>
-<h2 id="а-библиотеки-для-haskell-имеются">«А библиотеки для Haskell имеются?»</h2>
-<p>Имеются. В процессе чтения вы познакомитесь со многими из них.</p>
-<h2 id="и-что-его-уже-можно-в-production">«И что, его уже можно в production?»</h2>
-<p>Можно, и уже давно. С момента выхода первого стандарта язык улучшался, развивалась его экосистема, появлялись новые библиотеки, выходили в свет книги. Сегодня, в 2016, можно уверенно заявить, что Haskell полностью готов к серьёзному коммерческому использованию, о чём убедительно свидетельствуют истории успешного внедрения Haskell в бизнесе, в том числе <a href="http://dshevchenko.biz/hs-research/Haskell-in-the-Large.pdf">крупном</a>.</p>
-<h2 id="а-порог-вхождения-в-haskell-высокий">«А порог вхождения в Haskell высокий?»</h2>
-<p>И да и нет. Сложным освоение Haskell делает его непохожесть на остальные языки, поэтому людям, имеющим опыт работы с другими языками, мозги поломать придётся. Именно поломать, а не просто пошевелить ими: Haskell заставляет иначе взглянуть даже на привычные вещи. С другой стороны, Haskell проще многих известных языков. Не верьте мне на слово, вскоре вы и сами в этом убедитесь. И знайте: многие люди, узнав вкус Haskell, категорически не желают возвращаться к другим языкам. Я вас предупредил.</p>
-<h2 id="а-если-сравнить-его-с-cpythonscala">«А если сравнить его с C++/Python/Scala…»</h2>
-<p>Сравнение Haskell с другими языками выходит за рамки этой книги. Несколько раз вы встретите здесь кусочки кода на других языках, но я привожу их исключительно для того, чтобы подчеркнуть различие с Haskell, а вовсе не для сравнения в контексте «лучше/хуже».</p>
-<div style="padding-top: 45px;">
-    
-</div>
-<div class="row">
-    <div class="col s3">
-        <div class="left">
-            <a href="/init.html" class="btn waves-effect waves-light chapter-arrow">
-                <span class="fa fa-angle-double-left">
-                    
-                </span>
-            </a>
-        </div>
-    </div>
-    <div class="col s6">
-        <div class="center-align">
-            <button class="waves-effect waves-light btn blue lighten-2 show-comments sans">
-                Обсудим?
-            </button>
-        </div>
-    </div>
-    <div class="col s3">
-        <div class="right">
-            <a href="/this-book.html" class="btn waves-effect waves-light chapter-arrow">
-                <span class="fa fa-angle-double-right">
-                    
-                </span>
-            </a>
-        </div>
-    </div>
-</div>
-<div style="padding-top: 20px;">
-    
-</div>
-<div id="disqus_thread" style="padding-top: 30px;">
-    
-</div>
-
+            <h1>
+                Предметный указатель
+            </h1>
+            <div class="subject-index-wrapper">
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <span class>
+                            stack
+                        </span>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <a class="mono" href="./setup.html#устанавливаем">
+                            I
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <span class>
+                            Hackage
+                        </span>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <a class="mono" href="./hackage.html#hackage">
+                            I
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <span class>
+                            лямбда-функция
+                        </span>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <a class="mono" href="./adt-field-labels.html#без-меток">
+                            I
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                        <a class="mono" href="./adt-field-labels.html#и-ещё">
+                            II
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <span class>
+                            оператор
+                        </span>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <a class="mono" href="./adt-field-labels.html#без-меток">
+                            I
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                        <a class="mono" href="./adt-field-labels.html#и-ещё">
+                            II
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <span class>
+                            функция высшего порядка
+                        </span>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <a class="mono" href="./adt-field-labels.html#без-меток">
+                            I
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                        <a class="mono" href="./adt-field-labels.html#и-ещё">
+                            II
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s12 m6 l6">
+                        <span class>
+                            оператор присваивания
+                        </span>
+                    </div>
+                    <div class="col s12 m6 l6">
+                        <a class="mono" href="./adt-field-labels.html#без-меток">
+                            I
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                        <a class="mono" href="./adt-field-labels.html#и-ещё">
+                            II
+                        </a>
+                        <span>
+                            &nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+            </div>
         </div>
     </body>
 </html>

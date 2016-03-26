@@ -129,6 +129,11 @@ blockquote
   font-family : "PT Sans", sans-serif;
 }
 
+.mono
+{
+  font-family : "Ubuntu Mono", monospace;
+}
+
 .get-button
 {
   width : 138px;
