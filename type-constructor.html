@@ -199,13 +199,22 @@
         </div>
         <div class="container">
             <h1 id="конструктор-типа">Конструктор типа</h1>
-<p>В предыдущих двух главах мы познакомились с АТД, которые, согласитесь, уже очень полезны. И всё-таки есть в них одно ограничение: они напрочь лишены гибкости. Все поля чётко заданы: вот тебе имя, а вот тип. К счастью, есть способ наделить наши типы большей красотой.</p>
-<p>Допустим:</p>
+<p>В предыдущих двух главах мы познакомились с АТД, которые, согласитесь, уже очень полезны. И всё-таки есть в них одно ограничение: они напрочь лишены гибкости. Все поля чётко заданы: вот тебе имя, а вот тебе тип, и будь счастлив. Однако есть способ наделить наши типы большей красотой.</p>
+<p>Допустим есть у нас тип для даты:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Date</span> <span class="fu">=</span> <span class="dt">Date</span> {<span class="ot"> year  ::</span> <span class="dt">Int</span>
                  ,<span class="ot"> month ::</span> <span class="dt">Int</span>
                  ,<span class="ot"> day   ::</span> <span class="dt">Int</span>
-                 }</code></pre></div>
-<p>Предельно простой тип: дата задаётся значениями года, месяца и дня. И всё бы хорошо, если бы не одно но: с чего мы взяли, что задавать значения года или месяца следует целыми числами? А если строкой? Или типом из готовой библиотеки? Или вообще нашим собственным типом?</p>
+                 }
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print <span class="fu">$</span> year date
+  <span class="kw">where</span>
+    date <span class="fu">=</span> <span class="dt">Date</span> { year  <span class="fu">=</span> <span class="dv">2016</span>
+                , month <span class="fu">=</span> <span class="dv">04</span>
+                , day   <span class="fu">=</span> <span class="dv">12</span>
+                }</code></pre></div>
+<p>Предельно простой тип: дата задаётся значениями года, месяца и дня. Но с чего мы взяли, что задавать, скажем, значения года или месяца следует целыми числами? А может лучше строкой? Или типом из готовой библиотеки для работы с датами? Или вообще нашим собственным типом? Добавим гибкости в наш тип:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"></code></pre></div>
 <div style="padding-top: 45px;">
     
 </div>
