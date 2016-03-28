@@ -7,7 +7,7 @@
         <meta name="author" content="Денис Шевченко">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
         <title>
-            PAGE_TITLE &lt;- О Haskell по-человечески
+            Новый тип &lt;- О Haskell по-человечески
         </title>
         <link rel="icon" href="./static/images/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -30,15 +30,26 @@
                     <a class="brand-logo center sans" href="./">
                         #ohaskell
                     </a>
-                    <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large" style="padding-left: 15px;">
-                        <span class="fa fa-list-ul" style="font-size: 26px;">
-                            
-                        </span>
-                    </a>
+                    <ul id="nav-mobile" class="left">
+                        <li>
+                            <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large">
+                                <span class="fa fa-list-ul" style="font-size: 26px;">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./subject-index.html">
+                                <span class="fa fa-tags" style="font-size: 22px;">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
                     <ul class="side-nav sans" id="mobile-demo">
                         <li>
                             <a href="./init.html">
-                                Добро пожаловать!
+                                Приветствую!
                             </a>
                         </li>
                         <li>
@@ -57,23 +68,113 @@
                             </a>
                         </li>
                         <li>
-                            <a href="./modules-minimum.html">
-                                Модули: знакомство
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./hackage.html">
-                                Hackage
-                            </a>
-                        </li>
-                        <li>
-                            <a href="./expressions-n-functions.html">
-                                Мир выражений и функций
+                            <a href="./whales-n-turtle.html">
+                                Киты и Черепаха
                             </a>
                         </li>
                         <li>
                             <a href="./immutability-n-purity.html">
                                 Неизменность и чистота
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./if-n-return.html">
+                                Выбираем и возвращаемся
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./choose-n-patterns.html">
+                                Выбор и образцы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./let-n-where.html">
+                                Пусть будет там, Где...
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./operators.html">
+                                Мир операторов
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./list.html">
+                                Список: знакомство
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./tuple.html">
+                                Кортеж
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./lambda-function.html">
+                                Лямбда-функция
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./function-composition.html">
+                                Композиция функций
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./hof.html">
+                                ФВП
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./hackage.html">
+                                Hackage и библиотеки
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./laziness.html">
+                                Лень
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./recursion.html">
+                                Рекурсия
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./list-generators.html">
+                                Генераторы списков
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./own-types.html">
+                                Наши типы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./adt.html">
+                                АТД
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./adt-field-labels.html">
+                                АТД: поля с метками
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./type-constructor.html">
+                                Конструктор типа
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./newtype.html">
+                                Новый тип
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./stackage.html">
+                                Stackage
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./formatting.html">
+                                О форматировании
                             </a>
                         </li>
                     </ul>
@@ -97,7 +198,8 @@
             </nav>
         </div>
         <div class="container">
-            <p>Помимо ключевого ключевого <code>data</code> существует ещё одно слово, предназначенное для определения нового типа. Оно так и называется - <code>newtype</code>. И между этими двумя словами есть несколько важных отличий.</p>
+            <h1 id="новый-тип">Новый тип</h1>
+<p>Помимо ключевого ключевого <code>data</code> существует ещё одно слово, предназначенное для определения нового типа. Оно так и называется - <code>newtype</code>. И между этими двумя словами есть несколько важных отличий.</p>
 <h2 id="один-конструктор-значения">Один конструктор значения</h2>
 <p>Тип, определяемый с помощью слова <code>newtype</code>, может иметь один и только один конструктор значения. Мы можем написать так:  </p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">IPAddress</span> <span class="fu">=</span> <span class="dt">IP</span> <span class="dt">String</span>
@@ -138,7 +240,7 @@
 <div class="row">
     <div class="col s3">
         <div class="left">
-            <a href="PREV_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/type-constructor.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-left">
                     
                 </span>
@@ -154,7 +256,7 @@
     </div>
     <div class="col s3">
         <div class="right">
-            <a href="NEXT_CHAPTER_URL" class="btn waves-effect waves-light chapter-arrow">
+            <a href="/stackage.html" class="btn waves-effect waves-light chapter-arrow">
                 <span class="fa fa-angle-double-right">
                     
                 </span>
