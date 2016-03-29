@@ -206,7 +206,7 @@
 calculateTime timeInS <span class="fu">=</span>
   <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  <span class="dv">40</span> <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> <span class="dv">120</span>
      <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> <span class="dv">40</span> <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> <span class="dv">8</span> <span class="fu">+</span> <span class="dv">120</span></code></pre></div>
-<p>Мы считаем время некоторого события, и если исходное время меньше <code>40</code> секунд — результирующее время увеличено на <code>120</code> секунд, в противном случае ещё на <code>8</code> секунд сверх того. К сожалению, перед нами классический пример «магических чисел» (англ. magic numbers), когда смысл конкретных значений скрыт за семью печатями. Что за <code>40</code>, и что за <code>8</code>? Во избежание этой проблемы можно ввести временные выражения, и тогда код станет совсем другим:</p>
+<p>Мы считаем время некоторого события, и если исходное время меньше <code>40</code> секунд — результирующее время увеличено на <code>120</code> секунд, в противном случае — ещё на <code>8</code> секунд сверх того. Перед нами классический пример «магических чисел» (англ. magic numbers), когда смысл конкретных значений скрыт за семью печатями. Что за <code>40</code>, и что за <code>8</code>? Во избежание этой проблемы можно ввести временные выражения, и тогда код станет совсем другим:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">calculateTime ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 calculateTime timeInS <span class="fu">=</span>
   <span class="kw">let</span> threshold  <span class="fu">=</span> <span class="dv">40</span>
@@ -214,18 +214,18 @@ calculateTime timeInS <span class="fu">=</span>
       delta      <span class="fu">=</span> <span class="dv">8</span>
   <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
         <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction</code></pre></div>
-<p>Вот, совсем другое дело! Мы избавились от «магических чисел», введя поясняющие выражения <code>threshold</code>, <code>correction</code> и <code>delta</code>, и код функции стал куда понятнее.</p>
-<p>Конструкция <code>let-in</code> вводит поясняющие выражения по схеме:</p>
+<p>Вот, совсем другое дело! Мы избавились от «магических чисел», введя поясняющие выражения <code>threshold</code>, <code>correction</code> и <code>delta</code>. Конструкция <code>let-in</code> вводит поясняющие выражения по схеме:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> <span class="dt">DECLARATIONS</span> <span class="kw">in</span> <span class="dt">EXPRESSION</span></code></pre></div>
-<p>где <code>DECLARATIONS</code> — выражения, декларируемые нами, а <code>EXPRESSION</code> — выражение, в котором используется выражения из <code>DECLARATION</code>. Так, когда мы написали:</p>
+<p>где <code>DECLARATIONS</code> — выражения, декларируемые нами, а <code>EXPRESSION</code> — выражение, в котором используется выражения из <code>DECLARATION</code>. Когда мы написали:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span></code></pre></div>
-<p>мы объявили: «Отныне выражение <code>threshold</code> равно выражению <code>40</code>». Выглядит как присваивание, но мы-то уже знаем, что в Haskell его нет. Теперь выражение <code>threshold</code> может заменить собою число <code>40</code> внутри последующей <code>if</code>-конструкции:</p>
+<p>мы объявили: «Отныне выражение <code>threshold</code> равно выражению <code>40</code>». Выглядит как присваивание, но мы-то уже знаем, что в Haskell его нет. Теперь выражение <code>threshold</code> может заменить собою число <code>40</code> внутри выражения, следующего за словом <code>in</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span>
       <span class="fu">...</span>
   <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> <span class="fu">...</span>
         <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> <span class="fu">...</span></code></pre></div>
 <p>Эта конструкция легко читается:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">let</span>    threshold  <span class="fu">=</span>      <span class="dv">40</span>       <span class="fu">...</span> <span class="kw">in</span>  <span class="fu">...</span>
+
 пусть  это        будет  этому        в   том
        выражение  равно  выражению        выражении</code></pre></div>
 <p>С помощью ключевого слова <code>let</code> можно ввести сколько угодно пояснительных/промежуточных выражений, что делает наш код, во-первых, понятнее, а во-вторых, короче. Да, в этом конкретном случае код стал чуть длиннее, но в последующих главах мы увидим ситуации, когда промежуточные значения сокращают код в разы.</p>
@@ -236,17 +236,22 @@ calculateTime timeInS <span class="fu">=</span>
       correction <span class="fu">=</span> <span class="dv">120</span>
   <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
         <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span>
-          <span class="kw">let</span> delta <span class="fu">=</span> <span class="dv">8</span> <span class="kw">in</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction</code></pre></div>
-<p>В этом случае мы сократили область видимости промежуточного выражения <code>delta</code>, сделав его видимым лишь в выражении <code>timeInS + delta + correction</code>.</p>
+          <span class="kw">let</span> delta     <span class="fu">=</span> <span class="dv">8</span> <span class="kw">in</span> timeInS
+                               <span class="fu">+</span> delta
+                               <span class="fu">+</span> <span class="fu">+</span> correction
+
+              это              существует лишь в
+              выражение        рамках этого выражения</code></pre></div>
+<p>Мы сократили область видимости промежуточного выражения <code>delta</code>, сделав его видимым лишь в выражении <code>timeInS + delta + correction</code>.</p>
 <p>При желании <code>let</code>-выражения можно записывать и в строчку:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="fu">...</span>
-  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span>; correction <span class="fu">=</span> <span class="dv">120</span>  <span class="co">-- Через ;</span>
+  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span>; correction <span class="fu">=</span> <span class="dv">120</span>
   <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
         <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span>
           <span class="kw">let</span> delta <span class="fu">=</span> <span class="dv">8</span> <span class="kw">in</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction</code></pre></div>
 <p>В этом случае мы перечисляем их через точку с запятой. Лично мне такой стиль не нравится, но выбирать вам.</p>
 <h2 id="где">Где</h2>
-<p>Существует иной способ введения промежуточных выражений:</p>
+<p>Существует иной способ введения промежуточных выражений, взгляните:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">calculateTime ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 calculateTime timeInS <span class="fu">=</span>
   <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
@@ -258,29 +263,31 @@ calculateTime timeInS <span class="fu">=</span>
 <p>Ключевое слово <code>where</code> делает примерно то же, что и <code>let</code>, но промежуточные выражения задаются в конце функции. Такая конструкция читается подобно научной формуле:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="dt">S</span> <span class="fu">=</span> <span class="dt">V</span> <span class="fu">*</span> t,        <span class="co">-- Выражение</span>
 где
-  <span class="dt">S</span> <span class="fu">=</span> расстояние,   <span class="co">-- Всё то, что</span>
-  <span class="dt">V</span> <span class="fu">=</span> скорость,     <span class="co">-- используется</span>
-  t <span class="fu">=</span> время<span class="fu">.</span>        <span class="co">-- в выражении.</span></code></pre></div>
-<p>В отличие от <code>let</code>, которое можеть быть использовано для введения супер-локального выражение (как в последнем примере с <code>delta</code>), все <code>where</code>-выражения доступны в любой части выражения, предшествующего ключевому слову <code>where</code>.</p>
+  <span class="dt">S</span> <span class="fu">=</span> расстояние,   <span class="co">{- Всё то, что</span>
+<span class="co">  V = скорость,        используется</span>
+<span class="co">  t = время.           в выражении. -}</span></code></pre></div>
+<p>В отличие от <code>let</code>, которое может быть использовано для введения супер-локального выражение (как в последнем примере с <code>delta</code>), все <code>where</code>-выражения доступны в любой части выражения, предшествующего ключевому слову <code>where</code>.</p>
 <h2 id="вместе">Вместе</h2>
 <p>Мы можем использовать <code>let-in</code> и <code>where</code> совместно, в рамках одной функции:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">calculateTime ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 calculateTime timeInS <span class="fu">=</span>
-  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span>
-  <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
-        <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction
+  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span> <span class="kw">in</span>
+  <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
+     <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction
   <span class="kw">where</span>
     correction <span class="fu">=</span> <span class="dv">120</span>
     delta      <span class="fu">=</span> <span class="dv">8</span></code></pre></div>
-<p>Часть промежуточных значений вверху, а часть — внизу. Общая рекомендация: не смешивайте <code>let-in</code> и <code>where</code> без особой надобности, такой код читается тяжело, избыточно.</p>
+<p>Часть промежуточных значений задана вверху, а часть — внизу. Общая рекомендация: не смешивайте <code>let-in</code> и <code>where</code> без особой надобности, такой код читается тяжело, избыточно.</p>
 <p>Отмечу, что в качестве промежуточных могут выступать и более сложные выражения. Например:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">calculateTime ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 calculateTime timeInS <span class="fu">=</span>
-  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span>
-  <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
-        <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction
+  <span class="kw">let</span> threshold <span class="fu">=</span> <span class="dv">40</span> <span class="kw">in</span>
+  <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
+     <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction
   <span class="kw">where</span>
+    <span class="co">-- Это промежуточное выражение зависит от аргумента...</span>
     correction <span class="fu">=</span> timeInS <span class="fu">*</span> <span class="dv">2</span>
+    <span class="co">-- А это - от другого выражения...</span>
     delta      <span class="fu">=</span> correction <span class="fu">-</span> <span class="dv">4</span></code></pre></div>
 <p>Выражение <code>correction</code> равно <code>timeInS * 2</code>, то есть теперь оно зависит от значения аргумента функции. А выражение <code>delta</code> зависит в свою очередь от <code>correction</code>. Причём мы можем менять порядок задания выражений:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="fu">...</span>
@@ -290,11 +297,7 @@ calculateTime timeInS <span class="fu">=</span>
   <span class="kw">where</span>
     delta      <span class="fu">=</span> correction <span class="fu">-</span> <span class="dv">4</span>
     correction <span class="fu">=</span> timeInS <span class="fu">*</span> <span class="dv">2</span></code></pre></div>
-<p>Выражение <code>delta</code> теперь задано первым по счёту, но это не имеет никакого значения. Ведь мы всего лишь объявляем равенства, и результат этих объявлений не влияет на конечный результат.</p>
-<div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Запомните упоминание о неважности порядка введения выражений! К этой теме мы вернёмся в одной из следующих глав, которая откроет нам очередную тайну Haskell. </span>
-</div>
-<p>Конечно, порядок введения не важен и для <code>let</code>-выражений:</p>
+<p>Выражение <code>delta</code> теперь задано первым по счёту, но это не имеет никакого значения. Ведь мы всего лишь объявляем равенства, и результат этих объявлений не влияет на конечный результат вычислений. Конечно, порядок объявления равенств не важен и для <code>let</code>-выражений:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">calculateTime ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
 calculateTime timeInS <span class="fu">=</span>
   <span class="kw">let</span> delta     <span class="fu">=</span> correction <span class="fu">-</span> <span class="dv">4</span>
@@ -308,13 +311,14 @@ calculateTime timeInS <span class="fu">=</span>
 calculateTime timeInS <span class="fu">=</span>
   <span class="kw">let</span> delta     <span class="fu">=</span> correction <span class="fu">-</span> <span class="dv">4</span>
       threshold <span class="fu">=</span> <span class="dv">40</span>
-  <span class="kw">in</span> <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
-        <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction
+  <span class="kw">in</span>
+  <span class="kw">if</span> <span class="fu">|</span> timeInS <span class="fu">&lt;</span>  threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> correction
+     <span class="fu">|</span> timeInS <span class="fu">&gt;=</span> threshold <span class="ot">-&gt;</span> timeInS <span class="fu">+</span> delta <span class="fu">+</span> correction
   <span class="kw">where</span>
     correction <span class="fu">=</span> timeInS <span class="fu">*</span> <span class="dv">2</span> <span class="fu">*</span> threshold  <span class="co">-- Из let??</span></code></pre></div>
 <p>При попытке скомпилировать такой код мы получим ошибку:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Not</span> in scope: ‘threshold’</code></pre></div>
-<p>Таково ограничение: использовать <code>let</code>-выражения внутри <code>where</code>-выражений невозможно.</p>
+<p>Таково ограничение: использовать <code>let</code>-выражения внутри <code>where</code>-выражений невозможно, ведь последние уже не входят в выражение, следующее за словом <code>in</code>.</p>
 <p>Ну что ж, пора двигаться дальше, ведь внутренности наших функций не ограничены условными конструкциями.</p>
 <div style="padding-top: 45px;">
     

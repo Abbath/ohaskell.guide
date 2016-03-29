@@ -200,22 +200,18 @@
         <div class="container">
             <h1 id="список-знакомство">Список: знакомство</h1>
 <p>Помните, в одной из предыдущих глав я говорил, что познакомлю вас ещё с несколькими стандартными типами данных в Haskell? Пришло время узнать о списках.</p>
-<p>Список (англ. list) — это особый тип, он характеризует уже не просто данные, но структуру данных. Эта структура представляет собой набор данных одного типа, и едва ли хоть одна реальная Haskell-программа может обойтись без списков.</p>
-<div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Структуры, содержащие данные одного типа, называют ещё гомогенными (в переводе с греческого: «одного рода»). </span>
-</div>
+<p>Список (англ. list) — это стандартный тип, характеризующий уже не просто данные, но структуру данных (англ. data structure). Эта структура представляет собой набор данных одного типа, и едва ли хоть одна реальная Haskell-программа может обойтись без списков.</p>
+<p>Структуры, содержащие данные одного типа, называют ещё гомогенными (в переводе с греческого: «одного рода»).</p>
 <p>Вот список из трёх целых чисел:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>]</code></pre></div>
 <p>Квадратные скобки и значения, разделённые запятыми. Вот так выглядит список из двух значений типа <code>Double</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="fl">1.3</span>, <span class="fl">45.7899</span>]</code></pre></div>
 <p>а вот и список из одного-единственного символа:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="ch">'H'</span>]</code></pre></div>
-<p>или вот из четырёх строк, отражающих имена четырёх протоколов транспортного уровня OSI-модели:</p>
+<p>или вот из четырёх строк, отражающих имена протоколов транспортного уровня OSI-модели:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="st">&quot;TCP&quot;</span>, <span class="st">&quot;UDP&quot;</span>, <span class="st">&quot;DCCP&quot;</span>, <span class="st">&quot;SCTP&quot;</span>]</code></pre></div>
-<div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Если у вас есть опыт разработки на языке C, вы можете подумать, что список похож на массив. Однако, хотя сходства имеются, я намеренно избегаю слова «массив», потому что в Haskell существуют массивы (англ. array), это несколько иная структура данных. </span>
-</div>
-<p>Список — это тоже выражение, поэтому можно легко создать список списков произвольной вложенности. Вот так будет выглядеть список из некоторых протоколов трёх уровней OSI-модели:</p>
+<p>Если у вас есть опыт разработки на языке C, вы можете подумать, что список похож на массив. Однако, хотя сходства имеются, я намеренно избегаю слова «массив», потому что в Haskell существуют массивы (англ. array), это несколько иная структура данных.</p>
+<p>Список — это тоже выражение, поэтому можно легко создать список списков произвольной вложенности. Вот так будет выглядеть список из ряда протоколов трёх уровней OSI-модели:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[ [<span class="st">&quot;DHCP&quot;</span>, <span class="st">&quot;FTP&quot;</span>, <span class="st">&quot;HTTP&quot;</span>]
 , [<span class="st">&quot;TCP&quot;</span>, <span class="st">&quot;UDP&quot;</span>, <span class="st">&quot;DCCP&quot;</span>, <span class="st">&quot;SCTP&quot;</span>]
 , [<span class="st">&quot;ARP&quot;</span>, <span class="st">&quot;NDP&quot;</span>, <span class="st">&quot;OSPF&quot;</span>]
@@ -224,10 +220,10 @@
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[[<span class="st">&quot;DHCP&quot;</span>, <span class="st">&quot;FTP&quot;</span>, <span class="st">&quot;HTTP&quot;</span>        ],
  [<span class="st">&quot;TCP&quot;</span>,  <span class="st">&quot;UDP&quot;</span>, <span class="st">&quot;DCCP&quot;</span>, <span class="st">&quot;SCTP&quot;</span>],
  [<span class="st">&quot;ARP&quot;</span>,  <span class="st">&quot;NDP&quot;</span>, <span class="st">&quot;OSPF&quot;</span>        ]]</code></pre></div>
-<p>Список может быть и пустым:</p>
+<p>Список может быть и пустым, то есть не содержать в себе никаких данных:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[]</code></pre></div>
 <h2 id="тип-списка">Тип списка</h2>
-<p>Раз список представляет собой структуру, содержащую данные некоторого типа, возникает вопрос: как указать тип списка? Вот так:</p>
+<p>Раз список представляет собой структуру, содержащую данные некоторого типа, каков же тип самого списка? Вот:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dt">Int</span>]     <span class="co">-- Список целых чисел</span>
 [<span class="dt">Char</span>]    <span class="co">-- Список символов</span>
 [<span class="dt">String</span>]  <span class="co">-- Список строк</span></code></pre></div>
@@ -235,19 +231,19 @@
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[[<span class="dt">String</span>]]  <span class="co">-- Список списков строк</span></code></pre></div>
 <p>Модель очень проста:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[   [<span class="dt">String</span>]    ]
+
     <span class="fu">|</span> Тип  <span class="fu">|</span>
     <span class="fu">|</span>данных<span class="fu">|</span>
 
 <span class="fu">|</span>     Тип       <span class="fu">|</span>
 <span class="fu">|</span>    списка     <span class="fu">|</span>
-<span class="fu">|</span>  этих данных  <span class="fu">|</span></code></pre></div>
-<div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Хранить в списке данные разных типов невозможно. Однако вскоре мы познакомимся с другой стандартной структурой данных, которая позволяет это. </span>
-</div>
+<span class="fu">|</span>_ этих данных _<span class="fu">|</span></code></pre></div>
+<p>Хранить данные разных типов в стандартном списке невозможно. Однако вскоре мы познакомимся с другой стандартной структурой данных, которая позволяет это.</p>
 <h2 id="действия-над-списками">Действия над списками</h2>
 <p>Если списки создаются — значит это кому-нибудь нужно. Со списком можно делать очень много всего. В стандартной Haskell-библиотеке существует отдельный модуль <code>Data.List</code>, включающий широкий набор функций, работающих со списком. Откроем модуль <code>Main</code> и импортируем в него модуль <code>Data.List</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
+<span class="co">-- Стандартный модуль для работы со списками.</span>
 <span class="kw">import </span><span class="dt">Data.List</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
@@ -255,32 +251,32 @@ main <span class="fu">=</span> putStrLn (head [<span class="st">&quot;Vim&quot;<
 <p>Функция <code>head</code> возвращает голову списка, то есть его первый элемент. При запуске этой программы на выходе получим:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">Vim</span></code></pre></div>
 <p>Модель такая:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="st">&quot;Vim&quot;</span>,     <span class="st">&quot;Emacs&quot;</span>, <span class="st">&quot;Atom&quot;</span>]
- <span class="fu">|</span>голова<span class="fu">|</span>   <span class="fu">|</span>    хвост    <span class="fu">|</span></code></pre></div>
-<p>Как гусеница получается: первый элемент — голова, а всё остальное — хвост. Функция <code>tail</code> возвращает хвост:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="st">&quot;Vim&quot;</span>  ,  <span class="st">&quot;Emacs&quot;</span>, <span class="st">&quot;Atom&quot;</span>]
+
+ голова    <span class="fu">|</span>___ хвост ___<span class="fu">|</span></code></pre></div>
+<p>Эдакая гусеница получается: первый элемент — голова, а всё остальное — хвост. Функция <code>tail</code> возвращает хвост:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> print (tail [<span class="st">&quot;Vim&quot;</span>, <span class="st">&quot;Emacs&quot;</span>, <span class="st">&quot;Atom&quot;</span>])</code></pre></div>
-<p>вот результат:</p>
+<p>Вот результат:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;Emacs&quot;</span>, <span class="st">&quot;Atom&quot;</span>]</code></pre></div>
 <p>Функция <code>tail</code> формирует другой список, представляющий собою всё от первоначального списка, кроме головы. Обратите внимание на новую функцию <code>print</code>. В данном случае мы не могли бы использовать нашу знакомую <code>putStrLn</code>, ведь она применяется к значению типа <code>String</code>, в то время как функция <code>tail</code> вернёт нам значение типа <code>[String]</code>. Мы ведь помним про строгость компилятора: что ожидаем, то и получить должны. Функция <code>print</code> предназначена для «стрингификации» значения: она берёт значение некоторого типа и выводит это значение на консоль уже в виде строки.</p>
-<div class="card-panel orange darken-2 left-align smaller-text">
-<span class="white-text"> Но как же, спросите вы, функция <code>print</code> узнаёт, как именно отобразить значение в виде строки? О, это интереснейшая тема, но она относится к Третьему Киту Haskell, до знакомства с которым нам ещё далеко. </span>
-</div>
+<p>Внимательный читатель спросит, каким же образом функция <code>print</code> узнаёт, как именно отобразить конкретное значение в виде строки? О, это интереснейшая тема, но она относится к Третьему Киту Haskell, до знакомства с которым нам ещё далеко.</p>
 <p>Можно получить длину списка:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">handleTableRow ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 handleTableRow row
   <span class="fu">|</span> length row <span class="fu">==</span> <span class="dv">2</span> <span class="fu">=</span> composeTwoOptionsFrom row
   <span class="fu">|</span> length row <span class="fu">==</span> <span class="dv">3</span> <span class="fu">=</span> composeThreeOptionsFrom row
   <span class="fu">|</span> otherwise       <span class="fu">=</span> invalidRow row</code></pre></div>
-<p>Это чуток видоизменённый кусочек одной моей программы, функция <code>handleTableRow</code> обрабатывает строку таблицы. Стандартная функция <code>length</code> даём нам длину списка (число элементов в нём). В данном случае мы узнаём число элементов в строке таблицы <code>row</code>, и в зависимости от длины применяем к этой строке функции <code>composeTwoOptionsFrom</code> или <code>composeThreeOptionsFrom</code>.</p>
-<p>Но постойте, а где же тут список? Функция <code>handleTableRow</code> применяется к строке и вычисляет строку. А дело в том, что строка есть ни что иное, как список элементов. То есть тип <code>String</code> эквивалентен типу <code>[Char]</code>. Скажу более: <code>String</code> — это не более чем псевдоним для типа <code>[Char]</code>, и вот как он задан:</p>
+<p>Это чуток видоизменённый кусочек одной моей программы, функция <code>handleTableRow</code> обрабатывает строку таблицы. Стандартная функция <code>length</code> даём нам длину списка (число элементов в нём). В данном случае мы узнаём число элементов в строке таблицы <code>row</code>, и в зависимости от этой длины применяем к этой строке функцию <code>composeTwoOptionsFrom</code> или <code>composeThreeOptionsFrom</code>.</p>
+<p>Но постойте, а где же тут список? Функция <code>handleTableRow</code> применяется к строке и вычисляет строку. А всё дело в том, что строка есть ни что иное, как список символов. То есть тип <code>String</code> эквивалентен типу <code>[Char]</code>. Скажу более: <code>String</code> — это даже не самостоятельный тип, это всего лишь псевдоним для типа <code>[Char]</code>, и вот как он задан:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span> <span class="dt">String</span> <span class="fu">=</span> [<span class="dt">Char</span>]</code></pre></div>
 <p>Ключевое слово <code>type</code> вводит псевдоним для уже существующего типа. Читается это так:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">type</span>  <span class="dt">String</span>  <span class="fu">=</span>      [<span class="dt">Char</span>]
+
 тип   этот    равен  тому</code></pre></div>
-<p>Таким образом, объявление функии <code>handleTableRow</code> можно было бы переписать так:</p>
+<p>Таким образом, объявление функции <code>handleTableRow</code> можно было бы переписать так:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">handleTableRow ::</span> [<span class="dt">Char</span>] <span class="ot">-&gt;</span> [<span class="dt">Char</span>]</code></pre></div>
-<p>При работе со списками мы можем использовать промежуточные выражения, например:</p>
+<p>При работе со списками мы можем использовать уже знакомые промежуточные выражения, например:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">handleTableRow ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 handleTableRow row
   <span class="fu">|</span> size <span class="fu">==</span> <span class="dv">2</span> <span class="fu">=</span> composeTwoOptionsFrom row
@@ -293,10 +289,11 @@ handleTableRow row
   <span class="fu">|</span> twoOptions   <span class="fu">=</span> composeTwoOptionsFrom row
   <span class="fu">|</span> threeOptions <span class="fu">=</span> composeThreeOptionsFrom row
   <span class="fu">|</span> otherwise    <span class="fu">=</span> invalidRow row
-  <span class="kw">where</span> size         <span class="fu">=</span> length row  <span class="co">-- Узнаём длину</span>
-        twoOptions   <span class="fu">=</span> size <span class="fu">==</span> <span class="dv">2</span>   <span class="co">-- ... сравниваем</span>
-        threeOptions <span class="fu">=</span> size <span class="fu">==</span> <span class="dv">3</span>   <span class="co">-- ... и ещё раз</span></code></pre></div>
-<p>Здесь выражения <code>twoOptions</code> и <code>threeOptions</code> имеют уже знакомый нам тип <code>Bool</code>, ведь они равны результату сравнения значения <code>size</code> с числом.</p>
+  <span class="kw">where</span>
+    size         <span class="fu">=</span> length row  <span class="co">-- Узнаём длину</span>
+    twoOptions   <span class="fu">=</span> size <span class="fu">==</span> <span class="dv">2</span>   <span class="co">-- ... сравниваем</span>
+    threeOptions <span class="fu">=</span> size <span class="fu">==</span> <span class="dv">3</span>   <span class="co">-- ... и ещё раз</span></code></pre></div>
+<p>Здесь выражения <code>twoOptions</code> и <code>threeOptions</code> имеют уже знакомый нам стандартный тип <code>Bool</code>, ведь они равны результату сравнения значения <code>size</code> с числом.</p>
 <h2 id="неизменность-списка">Неизменность списка</h2>
 <p>Как вы уже знаете, все данные в Haskell неизменны, как Египетские пирамиды. Списки — не исключение: мы не можем изменить существующий список, мы можем лишь создать на его основе новый список. Например:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">addTo ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
@@ -311,11 +308,19 @@ main <span class="fu">=</span> print (<span class="st">&quot;124.67.54.90&quot;<
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">addTo newHost hosts <span class="fu">=</span> newHost <span class="fu">:</span> hosts</code></pre></div>
 <p>Стандартный оператор <code>:</code> добавляет значение, являющееся левым операндом, в начало списка, являющегося правым операндом. Читается это так:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">newHost   <span class="fu">:</span>         hosts
-беру      и         в начало
-это       добавляю  этого
-значение  его       списка</code></pre></div>
-<p>С концептуальной точки зрения функция <code>addTo</code> добавила новый IP-адрес в начало списка <code>hosts</code>. В действительности же никакого добавления не произошло, ибо списки неизменны. Оператор <code>:</code> взял значение <code>newHost</code> и список <code>hosts</code> и создал на их основе новый список, содержащий уже три IP-адреса вместо двух.</p>
-<p>Теперь, после знакомства со списком, мы будем использовать их постоянно. И в Haskell эта простая структура данных куда мощнее, чем может показаться на первый взгляд.</p>
+
+          этот
+          оператор
+
+берёт
+это
+значение
+                    и добавляет
+                    его в начало
+                    этого списка</code></pre></div>
+<p>Естественно, тип значения слева обязан совпадать с типом значений, содержащихся в списке справа.</p>
+<p>С концептуальной точки зрения функция <code>addTo</code> добавила новый IP-адрес в начало списка <code>hosts</code>. В действительности же никакого добавления не произошло, ибо списки неизменны. Оператор <code>:</code> взял значение <code>newHost</code> и список <code>hosts</code> и создал на их основе новый список, содержащий в себе уже три IP-адреса вместо двух.</p>
+<p>Теперь, после знакомства со списком, мы будем использовать их постоянно.</p>
 <div style="padding-top: 45px;">
     
 </div>
