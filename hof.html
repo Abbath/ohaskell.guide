@@ -199,13 +199,13 @@
         </div>
         <div class="container">
             <h1 id="фвп">ФВП</h1>
-<p>ФВП, или Функции Высшего Порядка (англ. HOF, Higher Order Functions) — важная концепция в Haskell. Однако, как ни странно, мы с ней уже познакомились. Как мы узнали из предыдущих глав, функциями можно оперировать как значениями, в частности, использовать их в качестве аргументов функций и возвращать как результат функции. Так вот функции, оперирующие другими функциями как аргументами и/или как результирующим выражением, носят название функций высшего порядка.</p>
-<p>Так, оператор композиции функций является ФВП, потому что он, во-первых, принимает функции в качестве аргументов, а во-вторых, возвращает другую функцию (в виде ЛФ) как результат своего применения. Более того, использование функций в качестве аргументов — чрезвычайно распространённая практика в Haskell.</p>
+<p>ФВП, или Функции Высшего Порядка (англ. HOF, Higher Order Functions) — важная концепция в Haskell, с которой, однако, мы уже знакомы. Как мы узнали из предыдущих глав, функциями можно оперировать как значениями. Так вот функции, оперирующие другими функциями как аргументами и/или как результирующим выражением, носят название функций высшего порядка.</p>
+<p>Так, оператор композиции функций является ФВП, потому что он, во-первых, принимает функции в качестве аргументов, а во-вторых, возвращает другую функцию (в виде ЛФ) как результат своего применения. Использование функций в качестве аргументов — чрезвычайно распространённая практика в Haskell.</p>
 <h2 id="отображение">Отображение</h2>
-<p>Рассмотрим функцию <code>map</code>. Эта стандартная функция используется для отображения (англ. mapping) функции на элементы списка. Вот её объявление:</p>
+<p>Рассмотрим функцию <code>map</code>. Эта стандартная функция используется для отображения (англ. mapping) функции на элементы списка. Пусть вас не смущает такой термин: отображение функции на элемент фактически означает её применение к этому элементу.</p>
+<p>Вот объявление функции <code>map</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</code></pre></div>
-<p>Вот опять эти маленькие буквы! Помните, я обещал рассказать о них? Рассказываю: малой буквой принято именовать полиморфный (англ. polymorphic) тип. Полиморфизм — это многообразность, многоформенность. В данном случае речь идёт не об указании конкретного типа, а о «типовой заглушке». Мы говорим: «Функция <code>map</code> применяется к функции из какого-то типа <code>a</code> в какой-то тип <code>b</code> и к списку типа <code>[a]</code>, а результат её работы — это другой список типа <code>[b]</code>». На место типовых заглушек могут встать любые конкретные типы, в зависимости от того, к чему мы применим функцию <code>map</code>. Это делает данную функцию очень гибкой.</p>
-<p>Например:</p>
+<p>Вот опять эти маленькие буквы! Помните, я обещал рассказать о них? Рассказываю: малой буквой принято именовать полиморфный (англ. polymorphic) тип. Полиморфизм — это многообразность, многоформенность. В данном случае речь идёт не об указании конкретного типа, а о «типовой заглушке». Мы говорим: «Функция <code>map</code> применяется к функции из какого-то типа <code>a</code> в какой-то тип <code>b</code> и к списку типа <code>[a]</code>, а результат её работы — это другой список типа <code>[b]</code>». Типовой заглушкой я назвал их потому, что на их место встают конкретные типы, что делает функцию <code>map</code> очень гибкой. Например:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
 
 <span class="ot">toUpperCase ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
@@ -222,20 +222,34 @@ main <span class="fu">=</span> putStrLn <span class="fu">.</span> toUpperCase <s
 <p>Функция из <code>Char</code> в <code>Char</code> выступает первым аргументом функции <code>map</code>, подставим сигнатуру:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a    <span class="ot">-&gt;</span> b)    <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]
        (<span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span>)</code></pre></div>
-<p>Ага, уже теплее! Мы сделали два новых открытия: во-первых, полиморфные заглушки <code>a</code> и <code>b</code> могут быть заняты одним и тем же конкретным типом, а во-вторых, сигнатура позволяет нам тут же понять остальные типы. Подставим остальные типы:</p>
+<p>Ага, уже теплее! Мы сделали два новых открытия: во-первых, заглушки <code>a</code> и <code>b</code> могут быть заняты одним и тем же конкретным типом, а во-вторых, сигнатура позволяет нам тут же понять остальные типы. Подставим их:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a    <span class="ot">-&gt;</span> b)    <span class="ot">-&gt;</span> [a]    <span class="ot">-&gt;</span> [b]
        (<span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span>)    [<span class="dt">Char</span>]    [<span class="dt">Char</span>]
 
         ____              ____
+
                 ____                ____</code></pre></div>
 <p>А теперь вспомним о природе типа <code>String</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a    <span class="ot">-&gt;</span> b)    <span class="ot">-&gt;</span> [a]    <span class="ot">-&gt;</span> [b]
        (<span class="dt">Char</span> <span class="ot">-&gt;</span> <span class="dt">Char</span>)    <span class="dt">String</span>    <span class="dt">String</span></code></pre></div>
 <p>Всё встало на свои места. Функция <code>map</code> в данном случае берёт функцию <code>toUpper</code> и бежит по списку, последовательно применяя эту функцию к его элементам:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map toUpper [<span class="ch">'h'</span>,<span class="ch">'a'</span>,<span class="ch">'s'</span>,<span class="ch">'k'</span>,<span class="ch">'e'</span>,<span class="ch">'l'</span>,<span class="ch">'l'</span>,<span class="ch">'.'</span>,<span class="ch">'o'</span>,<span class="ch">'r'</span>,<span class="ch">'g'</span>]</code></pre></div>
-<p>Так, на первом шаге функция <code>toUpper</code> будет применена к элементу <code>'h'</code>, на втором — к элементу <code>'a'</code>, и так далее до последнего элемента <code>'g'</code>. Когда функция <code>map</code> бежит по этому списку, результат применения функции <code>toUpper</code> к его элементам служит элементами для второго списка, который будет в конечном итоге возвращён. Так, результом первого шага будет элемент <code>'H'</code>, результатом второго — элемент <code>'A'</code>, а результатом последнего — элемент <code>'G'</code>. Вот и получается:</p>
+<p>Так, на первом шаге функция <code>toUpper</code> будет применена к элементу <code>'h'</code>, на втором — к элементу <code>'a'</code>, и так далее до последнего элемента <code>'g'</code>. Когда функция <code>map</code> бежит по этому списку, результат применения функции <code>toUpper</code> к его элементам служит элементами для второго списка, который и будет в конечном итоге возвращён. Так, результатом первого шага будет элемент <code>'H'</code>, результатом второго — элемент <code>'A'</code>, а результатом последнего — элемент <code>'G'</code>. Схема такова:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map toUpper [ <span class="ch">'h'</span>  <span class="fu">&gt;&gt;</span>  [ <span class="ch">'H'</span>
+            , <span class="ch">'a'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'A'</span>
+            , <span class="ch">'s'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'S'</span>
+            , <span class="ch">'k'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'K'</span>
+            , <span class="ch">'e'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'E'</span>
+            , <span class="ch">'l'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'L'</span>
+            , <span class="ch">'l'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'L'</span>
+            , <span class="ch">'.'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'.'</span>
+            , <span class="ch">'o'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'O'</span>
+            , <span class="ch">'r'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'R'</span>
+            , <span class="ch">'g'</span>  <span class="fu">&gt;&gt;</span>  , <span class="ch">'G'</span>
+            ]          ]</code></pre></div>
+<p>Вот и получается:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map toUpper <span class="st">&quot;haskell.org&quot;</span> <span class="fu">=</span> <span class="st">&quot;HASKELL.ORG&quot;</span></code></pre></div>
-<p>Работа функции <code>map</code> выглядит как изменение списка, однако, в виду неизменности последнего, в действительности формируется новый список. Что самое интересное, функция <code>toUpper</code> пребывает в полном неведении о том, что ею изменяют регистр целой строки, она знает лишь об отдельных символах этой строки. То есть функция, являющаяся аргументом функции <code>map</code>, ничего не знает о функции <code>map</code>, и это очень хорошо! Чем меньше функции знают друг о друге, тем проще и надёжнее использовать их вместе.</p>
+<p>Работа функции <code>map</code> выглядит как изменение списка, однако, в виду неизменности последнего, в действительности формируется новый список. Что самое интересное, функция <code>toUpper</code> пребывает в полном неведении о том, что ею в конечном итоге изменяют регистр целой строки, она знает лишь об отдельных символах этой строки. То есть функция, являющаяся аргументом функции <code>map</code>, ничего не знает о функции <code>map</code>, и это очень хорошо! Чем меньше функции знают друг о друге, тем проще и надёжнее использовать их друг с другом.</p>
 <p>Рассмотрим другой пример, когда типовые заглушки <code>a</code> и <code>b</code> замещаются разными типами:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">toStr ::</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
 toStr numbers <span class="fu">=</span> map show numbers
@@ -253,9 +267,11 @@ main <span class="fu">=</span> print <span class="fu">.</span> toStr <span class
        (<span class="dt">Double</span> <span class="ot">-&gt;</span> <span class="dt">String</span>)    [<span class="dt">Double</span>]    [<span class="dt">String</span>]
 
         ______                ______
-                  ______                  ______</code></pre></div>
+
+                  <span class="fu">======</span>                  <span class="fu">======</span></code></pre></div>
 <p>Именно так, как у нас и есть:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map show [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>] <span class="fu">=</span> [<span class="st">&quot;1.2&quot;</span>,<span class="st">&quot;1.0&quot;</span>,<span class="st">&quot;4.0&quot;</span>,<span class="st">&quot;1.6&quot;</span>]</code></pre></div>
+<p>Функция <code>map</code> применяет функцию <code>show</code> к числам из первого списка, на выходе получаем второй список, уже со строками. И как и в случае с <code>toUpper</code>, функция <code>show</code> ничего не подозревает о том, что ею оперировали в качестве аргумента функции <code>map</code>.</p>
 <p>Разумеется, в качестве аргумента функции <code>map</code> мы можем использовать и наши собственные функции:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">ten ::</span> [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">Double</span>]
 ten <span class="fu">=</span> map (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>)
@@ -264,7 +280,25 @@ ten <span class="fu">=</span> map (\n <span class="ot">-&gt;</span> n <span clas
 main <span class="fu">=</span> print <span class="fu">.</span> ten <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
 <p>Результат работы:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">12.0</span>,10.0,40.0,16.0]</code></pre></div>
-<p>Мы передали функции <code>map</code> нашу собственную ЛФ, умножающую свой единственный аргумент на <code>10</code>. Обратите внимание, мы вновь использовали краткую форму определение, опустив имя аргумента функции <code>ten</code>.</p>
+<p>Мы передали функции <code>map</code> нашу собственную ЛФ, умножающую свой единственный аргумент на <code>10</code>. Обратите внимание, мы вновь использовали краткую форму определения функции <code>ten</code>, опустив имя её аргумента. Раскроем подробнее:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">.</span>          ten         <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>] <span class="fu">=</span>
+                 _______  _______
+                <span class="fu">/</span>                \
+               <span class="fu">/</span>                  \
+main <span class="fu">=</span> print <span class="fu">.</span> map   (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>) <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]
+
+       объединённая  <span class="fu">|</span> первый её  <span class="fu">|</span>   <span class="fu">|</span>  второй её  <span class="fu">|</span>
+       композицией   <span class="fu">|</span>_ аргумент _<span class="fu">|</span>   <span class="fu">|</span>_ аргумент __<span class="fu">|</span>
+       функция</code></pre></div>
+<p>Вы спросите, как же вышло, что оператор применения расположен между двумя аргументами функции <code>map</code>? Разве он не предназначен для применения функции к единственному аргументу? Совершенно верно. Пришло время открыть ещё один секрет Haskell.</p>
+<h2 id="частичное-применение">Частичное применение</h2>
+<p>Функция <code>map</code> ожидает два аргумента, это отражено в её типе. Но что будет, если применить её не к двум аргументам, а к одному? В этом случае произойдёт ещё одно «магическое» превращение, носящее имя частичное применение (англ. partial application). Частичным называют такое применение функции, когда аргументов меньше чем ожидается. Не важно, насколько меньше, суть от этого не меняется.</p>
+<p>Вспомним сокращённое определение функции <code>ten</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">ten <span class="fu">=</span> map (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>)
+
+          первый         а где же
+          аргумент       второй<span class="fu">??</span>
+          есть</code></pre></div>
 <h2 id="композиция-для-отображения">Композиция для отображения</h2>
 <p>Если мы можем передать функции <code>map</code> некую функцию для работы с элементами списка, значит мы можем передать ей и композицию функций. Вот как это может выглядеть:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
