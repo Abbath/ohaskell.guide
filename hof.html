@@ -282,25 +282,78 @@ main <span class="fu">=</span> print <span class="fu">.</span> ten <span class="
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">12.0</span>,10.0,40.0,16.0]</code></pre></div>
 <p>Мы передали функции <code>map</code> нашу собственную ЛФ, умножающую свой единственный аргумент на <code>10</code>. Обратите внимание, мы вновь использовали краткую форму определения функции <code>ten</code>, опустив имя её аргумента. Раскроем подробнее:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">.</span>          ten         <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>] <span class="fu">=</span>
-                 _______  _______
+                 ______<span class="fu">/</span>  \______
                 <span class="fu">/</span>                \
                <span class="fu">/</span>                  \
-main <span class="fu">=</span> print <span class="fu">.</span> map   (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>) <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]
-
-       объединённая  <span class="fu">|</span> первый её  <span class="fu">|</span>   <span class="fu">|</span>  второй её  <span class="fu">|</span>
-       композицией   <span class="fu">|</span>_ аргумент _<span class="fu">|</span>   <span class="fu">|</span>_ аргумент __<span class="fu">|</span>
-       функция</code></pre></div>
+main <span class="fu">=</span> print <span class="fu">.</span> map   (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>) <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
 <p>Вы спросите, как же вышло, что оператор применения расположен между двумя аргументами функции <code>map</code>? Разве он не предназначен для применения функции к единственному аргументу? Совершенно верно. Пришло время открыть ещё один секрет Haskell.</p>
 <h2 id="частичное-применение">Частичное применение</h2>
-<p>Функция <code>map</code> ожидает два аргумента, это отражено в её типе. Но что будет, если применить её не к двум аргументам, а к одному? В этом случае произойдёт ещё одно «магическое» превращение, носящее имя частичное применение (англ. partial application). Частичным называют такое применение функции, когда аргументов меньше чем ожидается. Не важно, насколько меньше, суть от этого не меняется.</p>
+<p>Функция <code>map</code> ожидает два аргумента, это отражено в её типе. Но что будет, если применить её не к двум аргументам, а лишь к одному? В этом случае произойдёт ещё одно «магическое» превращение, называющееся частичным применением (англ. partial application) функции. Частичным называют такое применение, когда аргументов меньше чем ожидается.</p>
 <p>Вспомним сокращённое определение функции <code>ten</code>:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">ten <span class="fu">=</span> map (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>)
 
           первый         а где же
           аргумент       второй<span class="fu">??</span>
           есть</code></pre></div>
+<p>Функция <code>map</code> получила лишь первый аргумент, а где же второй? Второй, как мы уже знаем, будет получен ею уже потом, после того, как мы подставим это выражение на место функции <code>ten</code>. Но что же происходит с функцией <code>map</code> до этого? А до этого с ней происходит частичное применение. Понятно, что она ещё не может выполнить свою работу, поэтому, будучи применённой лишь к одному аргументу, она возвращает ЛФ! Сопоставим с типом функции <code>map</code>, и всё встанет на свои места:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b)        <span class="ot">-&gt;</span> [a]            <span class="ot">-&gt;</span> [b]
+
+map    (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>)
+
+       только первый
+       аргумент
+
+<span class="fu">|</span>      частично     <span class="fu">|</span>
+<span class="fu">|</span>    применённая    <span class="fu">|</span>
+<span class="fu">|</span>_______ map _______<span class="fu">|</span>     аргумент          ответ
+                          для частично
+                          применённой
+                          функции map
+
+                          [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
+<p>Тип ЛФ, возвращённой после применения <code>map</code> к первому аргументу — <code>[a] -&gt; [b]</code>. Это «типовой хвост», оставшийся от полного типа функции <code>map</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a]  <span class="ot">-&gt;</span>  [b]
+
+       голова      <span class="fu">|</span>_ хвост __<span class="fu">|</span></code></pre></div>
+<p>Поскольку голова в виде первого аргумента типа <code>(a -&gt; b)</code> уже дана, осталось получить второй аргумент. Поэтому ЛФ, порождённая частичным применением, ожидает единственный аргумент, которым и будет тот самый второй, а именно список <code>[1.2, 1,4, 1.6]</code>.</p>
+<p>Сопоставим тип функции <code>ten</code> с типом <code>map</code>, чтобы понять, где наш хвост:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">ten ::</span>             [<span class="dt">Double</span>] <span class="ot">-&gt;</span> [<span class="dt">Double</span>]
+
+map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a]      <span class="ot">-&gt;</span> [b]
+
+       голова      <span class="fu">|</span>_____ хвост ______<span class="fu">|</span></code></pre></div>
+<p>Вот почему мы можем использовать краткую форму определения для функции <code>ten</code>: она уже является нашим хвостом!</p>
+<p>Рассмотрим ещё один пример частичного применения, дабы закрепить наше понимание:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">replace ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span></code></pre></div>
+<p>Это объявление функции <code>replace</code>, принимающей три строки: первая содержит то, что ищем, вторая содержит то, на что заменяем, а в третьей лежит то, где ищем. Например:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">replace <span class="st">&quot;http&quot;</span>
+        <span class="st">&quot;https&quot;</span>
+        <span class="st">&quot;http://google.com&quot;</span> <span class="fu">=</span> <span class="st">&quot;https://google.com&quot;</span></code></pre></div>
+<p>Определение функции <code>replace</code> нас сейчас не интересует, рассмотрим пошаговое применение:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> putStrLn result
+  <span class="kw">where</span>
+    first  <span class="fu">=</span> replace <span class="st">&quot;http&quot;</span>
+    second <span class="fu">=</span> first   <span class="st">&quot;https&quot;</span>
+    result <span class="fu">=</span> second  <span class="st">&quot;http://google.com&quot;</span></code></pre></div>
+<p>Тип выражения <code>first</code> — <code>String -&gt; String -&gt; String</code>, оно явилось результатом частичного применения функции <code>replace</code> к первому аргументу, строке <code>&quot;http&quot;</code>. Тип выражения <code>second</code> — <code>String -&gt; String</code>, оно явилось результатом вторичного частичного применения функции <code>first</code> к уже второму аргументу, строке <code>&quot;https&quot;</code>. И наконец, применив функцию <code>second</code> к третьему аргументу, строке <code>&quot;http://google.com&quot;</code>, мы наконец-то получаем конечный результат, ассоциированный с выражением <code>result</code>.</p>
+<p>Из этого мы делаем интересное открытие:</p>
+<blockquote>
+<p>Функция от нескольких аргументов может быть разложена на последовательность применений временных функций от одного аргумента каждая.</p>
+</blockquote>
+<p>Поэтому мы и смогли подставить частично применённую <code>map</code> на место выражения <code>ten</code>. Используем круглые скобки, дабы яснее показать, что есть что:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">.</span> (map (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>)) <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]
+
+               <span class="fu">|</span>     частично     <span class="fu">|</span>
+               <span class="fu">|</span>  применённая map <span class="fu">|</span>
+
+       <span class="fu">|</span>    композиция функции    <span class="fu">|</span>
+       <span class="fu">|</span>     print и частично     <span class="fu">|</span>
+       <span class="fu">|</span>_____ применённой map ____<span class="fu">|</span>   аргумент для
+                                      композиции</code></pre></div>
+<p>Гибко, не правда ли? Теперь мы знакомы с частичным применением функции.</p>
 <h2 id="композиция-для-отображения">Композиция для отображения</h2>
-<p>Если мы можем передать функции <code>map</code> некую функцию для работы с элементами списка, значит мы можем передать ей и композицию функций. Вот как это может выглядеть:</p>
+<p>Вернёмся к функции <code>map</code>. Если мы можем передать ей некую функцию для работы с элементами списка, значит мы можем передать ей и композицию двух или более функций. Например:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Char</span>
 
 <span class="ot">pretty ::</span> [<span class="dt">String</span>] <span class="ot">-&gt;</span> [<span class="dt">String</span>]
@@ -313,7 +366,7 @@ pretty <span class="fu">=</span> map (stars <span class="fu">.</span> big)
 main <span class="fu">=</span> print <span class="fu">.</span> pretty <span class="fu">$</span> [<span class="st">&quot;haskell&quot;</span>, <span class="st">&quot;lisp&quot;</span>, <span class="st">&quot;coq&quot;</span>]</code></pre></div>
 <p>Мы хотим украсить имена трёх языков программирования. Для этого мы пробегаемся по списку композицией двух функций, <code>big</code> и <code>stars</code>. Функция <code>big</code> переводит сроки в верхний регистр, а функция <code>stars</code> украшает имя двумя звёздочками в начале и в конце. В результате имеем:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="st">&quot;* HASKELL *&quot;</span>,<span class="st">&quot;* LISP *&quot;</span>,<span class="st">&quot;* COQ *&quot;</span>]</code></pre></div>
-<p>Пройтись по списку композицией этих функций равносильно тому, как если бы мы прошлись сначала функцией <code>big</code>, а затем функцией <code>stars</code>. При этом, как мы уже знаем, обе эти функции ничего не знают ни о том, что их скомпоновали, ни о том, что эту композицию передали функции <code>map</code>.</p>
+<p>Пройтись по списку композицией <code>stars . big</code> равносильно тому, как если бы мы прошлись сначала функцией <code>big</code>, а затем функцией <code>stars</code>. При этом, как мы уже знаем, обе эти функции ничего не знают ни о том, что их скомпоновали, ни о том, что эту композицию передали функции <code>map</code>.</p>
 <p>Ну что ж, теперь мы знаем о функции <code>map</code>, и последующих главах мы увидим множество других ФВП. Отныне они будут нашими постоянными спутниками.</p>
 <div style="padding-top: 45px;">
     
