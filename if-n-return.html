@@ -249,12 +249,14 @@ main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;1
 <p>Круглые скобки включают выражение типа <code>String</code> по схеме:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (checkLocalhost <span class="st">&quot;173.194.22.100&quot;</span>)
+
                  <span class="fu">|</span>___ выражение типа <span class="dt">String</span> ___<span class="fu">|</span></code></pre></div>
 <p>То есть функция <code>putStrLn</code> видит не применение функции <code>checkLocalhost</code> к строке, а просто выражение типа <code>String</code>. Если бы мы опустили скобки и написали так:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn checkLocalhost <span class="st">&quot;173.194.22.100&quot;</span></code></pre></div>
 <p>произошла бы ошибка компиляции, и это вполне ожидаемо: функция <code>putStrLn</code> применяется к одному аргументу, а тут их получается два:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> putStrLn     checkLocalhost  <span class="st">&quot;173.194.22.100&quot;</span>
+
        функция      к этому
        применяется  аргументу<span class="fu">...</span>
                                     и к этому<span class="fu">??</span></code></pre></div>
