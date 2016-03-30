@@ -1,0 +1,281 @@
+<!DOCTYPE HTML>
+
+<html lang="ru">
+    <head>
+        <meta charset="utf-8">
+        <meta name="description" content="О Haskell по-человечески. Ваша первая книга о прекрасном и удивительном языке программирования.">
+        <meta name="author" content="Денис Шевченко">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
+        <title>
+            Приготовимся &lt;- О Haskell по-человечески
+        </title>
+        <link rel="icon" href="./static/images/favicon.ico">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js">
+            
+        </script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/js/materialize.min.js">
+            
+        </script>
+        <link rel="stylesheet" href="./static/css/default.css">
+        <script src="./static/js/default.js">
+            
+        </script>
+    </head>
+    <body>
+        <div class="navbar-fixed">
+            <nav>
+                <div class="nav-wrapper">
+                    <a class="brand-logo center sans" href="./">
+                        #ohaskell
+                    </a>
+                    <ul id="nav-mobile" class="left">
+                        <li>
+                            <a href="#" data-activates="mobile-demo" class="button-collapse show-on-large">
+                                <span class="fa fa-list-ul" style="font-size: 26px;">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./subject-index.html">
+                                <span class="fa fa-tags" style="font-size: 22px;">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="side-nav sans" id="mobile-demo">
+                        <li>
+                            <a href="./init.html">
+                                Приветствую!
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./haskell-faq.html">
+                                Первые вопросы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./this-book.html">
+                                Об этой книге
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./setup.html">
+                                Приготовимся
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./whales-n-turtle.html">
+                                Киты и Черепаха
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./immutability-n-purity.html">
+                                Неизменность и чистота
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./if-n-return.html">
+                                Выбираем и возвращаемся
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./choose-n-patterns.html">
+                                Выбор и образцы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./let-n-where.html">
+                                Пусть будет там, Где...
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./operators.html">
+                                Мир операторов
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./list.html">
+                                Список
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./tuple.html">
+                                Кортеж
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./lambda-function.html">
+                                Лямбда-функция
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./function-composition.html">
+                                Композиция функций
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./hof.html">
+                                ФВП
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./hackage.html">
+                                Hackage и библиотеки
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./own-types.html">
+                                Наши типы
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./adt.html">
+                                АТД
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./adt-field-labels.html">
+                                АТД: поля с метками
+                            </a>
+                        </li>
+                        <li>
+                            <a href="./work-in-progress.html">
+                                Продолжение следует...
+                            </a>
+                        </li>
+                    </ul>
+                    <ul id="nav-mobile" class="right">
+                        <li>
+                            <a href="https://github.com/denisshevchenko/ohaskell.guide" target="_blank">
+                                <span class="fa fa-github">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге" title="Написать автору">
+                                <span class="fa fa-envelope-o">
+                                    
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="container">
+            <h1 id="приготовимся">Приготовимся</h1>
+<p>Мы не можем начать изучение языка без испытательного полигона. Установим Haskell.</p>
+<p>Сделать это можно несколькими способами, мы выберем самый удобный. Называется он <a href="http://haskellstack.org/">The Haskell Tool Stack</a>. Эта маленькая утилита — всё, что вам понадобится для работы с Haskell.</p>
+<p>Haskell — кроссплатформенный язык, работающий и в OS X, и в Linux, и даже в Windows. Однако в 2008 году я навсегда покинул мир Windows, поэтому все последующие примеры взаимодействия с командной строкой подразумевают Unix-way. Строго говоря, я уже и позабыл, что такое командная строка в Windows.</p>
+<p>Вся конфигурация и примеры кода опробованы мною на OX S Yosemite.</p>
+<h2 id="устанавливаем">Устанавливаем</h2>
+<p>Идём <a href="http://docs.haskellstack.org/en/stable/install_and_upgrade.html">сюда</a> и скачиваем архив для нужной нам ОС. Распаковываем архив и видим программку под названием <code>stack</code>. Для удобства располагаем её в каком-нибудь каталоге, доступном в <code>PATH</code>. Рекомендованный путь — <code>~/.local/bin/</code>.</p>
+<p>Если же вы живёте в мире Mac и пользуетесь <a href="http://brew.sh/">Homebrew</a>, вам ещё проще. Делаете:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">brew</span> update
+$ <span class="kw">brew</span> install haskell-stack</code></pre></div>
+<p>Всё.</p>
+<p>На момент написания книги я использовал <code>stack</code> версии 1.0.2. Если у вас более старая версия — непременно обновитесь. Если же более новая — у вас теоретически что-нибудь может работать не в точности так, как описано ниже, поскольку <code>stack</code> активно развивается.</p>
+<p>Главное (но не единственное), что умеет делать <code>stack</code>, это:</p>
+<ol style="list-style-type: decimal">
+<li>Разворачивать инфраструктуру.</li>
+<li>Собирать проекты.</li>
+<li>Устанавливать библиотеки.</li>
+</ol>
+<p>Haskell-инфраструктура — экосистема, краеугольным камнем которой является ранее упомянутый компилятор GHC. Haskell является компилируемым языком: приложение представляет собой обыкновенный исполняемый (англ. executable) файл.</p>
+<p>Haskell-проект — среда для создания приложений и библиотек.</p>
+<p>Haskell-библиотеки — кем-то написанные решения, спасающие нас от изобретения велосипедов.</p>
+<h2 id="разворачиваем-инфраструктуру">Разворачиваем инфраструктуру</h2>
+<p>Делаем:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> setup</code></pre></div>
+<p>В результате на ваш компьютер будет установлена инфраструктура последней стабильной версии. Жить всё это хозяйство будет в только что созданном каталоге <code>~/.stack/</code>. Именно поэтому устанавливать инфраструктуру для последующих Haskell-проектов вам уже не придётся: единожды развернули, используем всегда. Пока вам не нужно знать об устройстве этой инфраструктуры, воспринимайте её как данность: теперь на вашем компьютере живёт Haskell.</p>
+<h2 id="hi-world">Hi World</h2>
+<p>Создадим наш первый Haskell-проект:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> new real</code></pre></div>
+<p>Здесь <code>real</code> — название проекта. В результате будет создан каталог <code>real</code>, внутри которого мы увидим это:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">.</span>
+├── <span class="kw">LICENSE</span>
+├── <span class="kw">Setup.hs</span>
+├── <span class="kw">app</span>
+│   └── <span class="kw">Main.hs</span> <span class="kw">&lt;</span>- Главный модуль
+├── <span class="kw">real.cabal</span>  <span class="kw">&lt;</span>- Сборочный файл проекта
+├── <span class="kw">src</span>
+│   └── <span class="kw">Lib.hs</span>  <span class="kw">&lt;</span>- Вспомогательный модуль
+├── <span class="kw">stack.yaml</span>
+└── <span class="kw">test</span>
+    └── <span class="kw">Spec.hs</span></code></pre></div>
+<p>О содержимом проекта вам пока знать не нужно, просто соберём его командой:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">stack</span> install</code></pre></div>
+<p>Запомните эту команду, мы будем использовать её постоянно. В результате появится файл <code>real-exe</code>. А поскольку скопирован он будет в упомянутый выше каталог <code>~/.local/bin/</code>, мы сможем сразу запустить программу:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">$ <span class="kw">real-exe</span>
+<span class="kw">someFunc</span></code></pre></div>
+<p>Вот мы и создали Haskell-проект и запустили нашу первую программу, выведшую строку <code>someFunc</code>. Но как же это работает? Пришла пора познакомится с фундаментальной единицей проекта — модулем.</p>
+<h2 id="модули-знакомство">Модули: знакомство</h2>
+<p>Haskell-проект состоит из модулей. Модулем называется файл, содержащий исходный Haskell-код. Один файл — один модуль. Расширение <code>.hs</code> — стандартное расширения для модулей. В Haskell нет понятия «заголовочный файл»: каждый из модулей рассматривается как самостоятельная единица проекта, содержащая в себе разные полезные вещи. А чтобы воспользоваться этими вещами, необходимо один модуль импортировать в другой.</p>
+<p>Откроем модуль <code>src/Lib.hs</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Lib</span>      <span class="co">-- Имя модуля</span>
+    ( someFunc
+    ) <span class="kw">where</span>
+
+<span class="ot">someFunc ::</span> <span class="dt">IO</span> ()
+someFunc <span class="fu">=</span> putStrLn <span class="st">&quot;someFunc&quot;</span></code></pre></div>
+<p>В первой строке объявлено, что имя этого модуля — <code>Lib</code>. Далее, в круглых скобках упомянуто содержимое данного модуля, а именно имя функции <code>someFunc</code>. Затем, после ключевого слова <code>where</code>, мы видим определение функции <code>someFunc</code>. Пока вам не нужно знать о синтаксисе этой конструкции, в следующих главах мы разберём его тщательнейшим образом.</p>
+<p>Теперь откроем модуль <code>app/Main.hs</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
+
+<span class="kw">import </span><span class="dt">Lib</span>      <span class="co">-- Импортируем модуль Lib...</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> someFunc <span class="co">-- Используем его содержимое...</span></code></pre></div>
+<p>Это модуль <code>Main</code>, главный модуль нашего приложения, ведь именно здесь определена функция <code>main</code>. С помощью директивы <code>import</code> мы включаем сюда модуль <code>Lib</code> и можем работать с содержимым этого модуля.</p>
+<p>Запомните модуль <code>Main</code>, с ним мы будем работать чаще всего. Все примеры исходного кода, которые вы увидите на страницах этой книги, живут именно в модуле <code>Main</code>, если не оговорено иное.</p>
+<p>Все модули в наших проектах можно разделить на две части: те, которые мы берём из библиотек и те, которые мы создали сами. Библиотеки — это уже кем-то написанные решения, в последующих главах мы познакомимся со многими из них. Среди библиотек следует выделить одну, так называемую стандартную библиотеку. Модули из стандартной библиотеки мы начнём использовать уже в ближайших главах. А одна из глав будет полностью посвящена рассказу о библиотеках: из неё мы подробно узнаем, откуда берутся библиотеки и как их можно использовать.</p>
+<h2 id="для-любопытных">Для любопытных</h2>
+<p>До появления <code>stack</code> основным способом установки Haskell была так называемая <a href="https://www.haskell.org/platform/">Haskell Platform</a>. Однако именно <code>stack</code>, несмотря на свою молодость (вышел в свет летом 2015 года), является предпочтительным путём в мир Haskell, особенно для новичков. Если вдруг так случилось, что к моменту прочтения этой главы у вас уже была установлена Haskell Platform — настоятельно рекомендую вам незамедлительно удалить это старьё. Если у вас OS X, вы можете воспользоваться вот этим <a href="https://gist.github.com/denisshevchenko/9e8ba45fdaa4e4e8cd04">маленьким скриптом</a>.</p>
+<p>Как вы заметили, имена файлов с исходным кодом начинаются с большой буквы: <code>app/Main.hs</code> и <code>src/Lib.hs</code>. Строго говоря, это необязательно, можно и с маленькой буквы, однако для гармонии с именем модуля лучше придерживаться общепринятой практики и называть файл модуля по имени самого модуля:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">app<span class="fu">/</span>Main.hs <span class="ot">-&gt;</span> <span class="kw">module</span> <span class="dt">Main</span> <span class="fu">...</span>
+src<span class="fu">/</span>Lib.hs  <span class="ot">-&gt;</span> <span class="kw">module</span> <span class="dt">Lib</span> <span class="fu">...</span></code></pre></div>
+<div style="padding-top: 45px;">
+    
+</div>
+<div class="row">
+    <div class="col s3">
+        <div class="left">
+            <a href="/this-book.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-left">
+                    
+                </span>
+            </a>
+        </div>
+    </div>
+    <div class="col s6">
+        <div class="center-align">
+            <button class="waves-effect waves-light btn blue lighten-2 show-comments sans">
+                Обсудим?
+            </button>
+        </div>
+    </div>
+    <div class="col s3">
+        <div class="right">
+            <a href="/whales-n-turtle.html" class="btn waves-effect waves-light chapter-arrow">
+                <span class="fa fa-angle-double-right">
+                    
+                </span>
+            </a>
+        </div>
+    </div>
+</div>
+<div style="padding-top: 20px;">
+    
+</div>
+<div id="disqus_thread" style="padding-top: 30px;">
+    
+</div>
+
+        </div>
+    </body>
+</html>
