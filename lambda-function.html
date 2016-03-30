@@ -99,7 +99,7 @@
                         </li>
                         <li>
                             <a href="./list.html">
-                                Список: знакомство
+                                Список
                             </a>
                         </li>
                         <li>
@@ -338,6 +338,13 @@ validComEmail email <span class="fu">=</span>
 <p>И напоследок, вопрос. Помните тип функции <code>mul</code>?</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">mul ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a</code></pre></div>
 <p>Что это за буква <code>a</code>? Во-первых, мы не встречали такой тип ранее, а во-вторых, разве имя типа в Haskell не обязано начинаться с большой буквы? Обязано. А всё дело в том, что буква <code>a</code> в данном случае — это не совсем имя типа. А вот что это такое, мы узнаем в одной из ближайших глав.</p>
+<h2 id="для-любопытных">Для любопытных</h2>
+<p>А почему, собственно, лямбда? Почему Чёрч выбрал именно эту греческую букву? По одной из версий, произошло это чисто случайно.</p>
+<p>Шли 30-е годы прошлого века, компьютеров не было, и все научные работы набирались на печатных машинках. В первоначальном варианте, дабы выделять имя аргумента ЛФ, Чёрч ставил над именем аргументом символ, похожий на <code>^</code>. Но когда он сдавал работу наборщику, то вспомнил, что печатная машинка не сможет воспроизвести такой символ над буквой. Тогда он вынес эту «крышу» перед именем аргумента, и получилось что-то наподобие:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="fu">^</span>x <span class="fu">.</span> x <span class="fu">*</span> <span class="dv">10</span></code></pre></div>
+<p>А наборщик, увидев такой символ, использовал заглавную греческую букву <code>Λ</code>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">Λx <span class="fu">.</span> x <span class="fu">*</span> <span class="dv">10</span></code></pre></div>
+<p>Вот так и получилось, лямбда-исчисление.</p>
 <div style="padding-top: 45px;">
     
 </div>

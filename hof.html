@@ -99,7 +99,7 @@
                         </li>
                         <li>
                             <a href="./list.html">
-                                Список: знакомство
+                                Список
                             </a>
                         </li>
                         <li>
@@ -281,11 +281,11 @@ main <span class="fu">=</span> print <span class="fu">.</span> ten <span class="
 <p>Результат работы:</p>
 <div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash">[<span class="kw">12.0</span>,10.0,40.0,16.0]</code></pre></div>
 <p>Мы передали функции <code>map</code> нашу собственную ЛФ, умножающую свой единственный аргумент на <code>10</code>. Обратите внимание, мы вновь использовали краткую форму определения функции <code>ten</code>, опустив имя её аргумента. Раскроем подробнее:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">.</span>          ten         <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>] <span class="fu">=</span>
-                 ______<span class="fu">/</span>  \______
-                <span class="fu">/</span>                \
-               <span class="fu">/</span>                  \
-main <span class="fu">=</span> print <span class="fu">.</span> map   (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>) <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">main <span class="fu">=</span> print <span class="fu">.</span>         ten        <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>] <span class="fu">=</span>
+                 _____<span class="fu">/</span>  \_____
+                <span class="fu">/</span>              \
+               <span class="fu">/</span>                \
+main <span class="fu">=</span> print <span class="fu">.</span> map (\n <span class="ot">-&gt;</span> n <span class="fu">*</span> <span class="dv">10</span>) <span class="fu">$</span> [<span class="fl">1.2</span>, <span class="dv">1</span>,<span class="dv">4</span>, <span class="fl">1.6</span>]</code></pre></div>
 <p>Вы спросите, как же вышло, что оператор применения расположен между двумя аргументами функции <code>map</code>? Разве он не предназначен для применения функции к единственному аргументу? Совершенно верно. Пришло время открыть ещё один секрет Haskell.</p>
 <h2 id="частичное-применение">Частичное применение</h2>
 <p>Функция <code>map</code> ожидает два аргумента, это отражено в её типе. Но что будет, если применить её не к двум аргументам, а лишь к одному? В этом случае произойдёт ещё одно «магическое» превращение, называющееся частичным применением (англ. partial application) функции. Частичным называют такое применение, когда аргументов меньше чем ожидается.</p>
@@ -349,7 +349,8 @@ main <span class="fu">=</span> putStrLn result
 
        <span class="fu">|</span>    композиция функции    <span class="fu">|</span>
        <span class="fu">|</span>     print и частично     <span class="fu">|</span>
-       <span class="fu">|</span>_____ применённой map ____<span class="fu">|</span>   аргумент для
+       <span class="fu">|</span>_____ применённой map ____<span class="fu">|</span>
+                                      аргумент для
                                       композиции</code></pre></div>
 <p>Гибко, не правда ли? Теперь мы знакомы с частичным применением функции.</p>
 <h2 id="композиция-для-отображения">Композиция для отображения</h2>

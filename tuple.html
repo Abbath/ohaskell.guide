@@ -99,7 +99,7 @@
                         </li>
                         <li>
                             <a href="./list.html">
-                                Список: знакомство
+                                Список
                             </a>
                         </li>
                         <li>
@@ -365,6 +365,21 @@ patientEmail (_, _, email, _) <span class="fu">=</span> email
 <span class="st">    In the pattern: (_, _, email, _)</span></code></pre></div>
 <p>Оно и понятно: функция <code>patientEmail</code> использует образец, который уже некорректен. Вот почему при использовании паттерн матчинга следует быть внимательным.</p>
 <p>На этом наше знакомство с кортежем считаю завершённым, в последующих главах мы будем использовать их периодически.</p>
+<h2 id="для-любопытных">Для любопытных</h2>
+<p>Для работы с элементами многоэлементных кортежей можно использовать готовые библиотеки, во избежании длинных паттерн матчинговых цепочек. Например, пакет <a href="http://hackage.haskell.org/package/tuple">tuple</a>:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="dt">Data.Tuple.Select</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print (sel4 (<span class="dv">123</span>, <span class="dv">7</span>, <span class="st">&quot;hydra&quot;</span>, <span class="st">&quot;DC:4&quot;</span>, <span class="dv">44</span>, <span class="st">&quot;12.04&quot;</span>))</code></pre></div>
+<p>Функция <code>sel4</code> из модуля <code>Data.Tuple.Select</code> извлекает четвёртый по счёту элемент кортежа, в данном случае строку <code>&quot;DC:4&quot;</code>. Там есть функции вплоть до <code>sel32</code>, авторы вполне разумно сочли, что никто, находясь в здравом уме и твёрдой памяти, не станет оперировать кортежами, состоящими из более чем 32 элементов.</p>
+<p>Кроме того, мы и обновлять элементы кортежа можем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Tuple.Update</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print (upd2 <span class="dv">2</span> (<span class="st">&quot;si&quot;</span>, <span class="dv">45</span>))</code></pre></div>
+<p>Естественно, по причине неизменности кортежа, никакого обновления тут не происходит, но выглядит симпатично. При запуске получаем результат:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">(</span><span class="st">&quot;si&quot;</span>,<span class="kw">2)</span></code></pre></div>
+<p>Второй элемент кортежа изменился с <code>45</code> на <code>2</code>.</p>
 <div style="padding-top: 45px;">
     
 </div>

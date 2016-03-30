@@ -19,7 +19,7 @@
 
 ### Локальная сборка
 
-Для локальной сборки вам понадобится [stack](http://docs.haskellstack.org/en/stable/README/), [pandoc](http://pandoc.org/) и TeX-дистрибутив (я использую [MacTeX](https://tug.org/mactex/)). Подразумевается, что каталог `~/.local/bin` уже добавлен в ваш `PATH`. Делаем:
+Для локальной сборки вам понадобятся [stack](http://docs.haskellstack.org/en/stable/README/), [pandoc](http://pandoc.org/) и TeX-дистрибутив (я использую [MacTeX](https://tug.org/mactex/)). Подразумевается, что каталог `~/.local/bin` уже добавлен в ваш `PATH`. Делаем:
 
 ```bash
 $ git clone git@github.com:denisshevchenko/ohaskell.guide.git

@@ -7,7 +7,7 @@
         <meta name="author" content="Денис Шевченко">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0">
         <title>
-            Список: знакомство &lt;- О Haskell по-человечески
+            Список &lt;- О Haskell по-человечески
         </title>
         <link rel="icon" href="./static/images/favicon.ico">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
@@ -99,7 +99,7 @@
                         </li>
                         <li>
                             <a href="./list.html">
-                                Список: знакомство
+                                Список
                             </a>
                         </li>
                         <li>
@@ -198,7 +198,7 @@
             </nav>
         </div>
         <div class="container">
-            <h1 id="список-знакомство">Список: знакомство</h1>
+            <h1 id="список">Список</h1>
 <p>Помните, в одной из предыдущих глав я говорил, что познакомлю вас ещё с несколькими стандартными типами данных в Haskell? Пришло время узнать о списках.</p>
 <p>Список (англ. list) — это стандартный тип, характеризующий уже не просто данные, но структуру данных (англ. data structure). Эта структура представляет собой набор данных одного типа, и едва ли хоть одна реальная Haskell-программа может обойтись без списков.</p>
 <p>Структуры, содержащие данные одного типа, называют ещё гомогенными (в переводе с греческого: «одного рода»).</p>
@@ -320,7 +320,55 @@ main <span class="fu">=</span> print (<span class="st">&quot;124.67.54.90&quot;<
                     этого списка</code></pre></div>
 <p>Естественно, тип значения слева обязан совпадать с типом значений, содержащихся в списке справа.</p>
 <p>С концептуальной точки зрения функция <code>addTo</code> добавила новый IP-адрес в начало списка <code>hosts</code>. В действительности же никакого добавления не произошло, ибо списки неизменны. Оператор <code>:</code> взял значение <code>newHost</code> и список <code>hosts</code> и создал на их основе новый список, содержащий в себе уже три IP-адреса вместо двух.</p>
+<h2 id="перечисление">Перечисление</h2>
+<p>Допустим, понадобился нам список целых чисел от одного до десяти. Пишем:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print tenNumbers
+  <span class="kw">where</span> tenNumbers <span class="fu">=</span> [<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>]</code></pre></div>
+<p>Неплохо, но избыточно, ведь чисел могло быть и сто, и тысяча. Есть лучший путь:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print tenNumbers
+  <span class="kw">where</span> tenNumbers <span class="fu">=</span> [<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>]</code></pre></div>
+<p>Красиво, не правда ли? Выражение в квадратных скобках называется перечислением (англ. enumeration или сокращённо enum). Иногда её именуют также арифметической последовательностью. Идея предельно проста: зачем указывать содержимое списка целиком в той ситуации, когда можно указать лишь диапазон значений? Это мы и сделали:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">1</span><span class="fu">..</span><span class="dv">10</span>] <span class="fu">=</span> [<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>]</code></pre></div>
+<p>Значение слева от <code>..</code> — это начало диапазона, а значение справа — его конец. Компилятор сам догадается, что шаг между числами в данной последовательности равен 1. Вот ещё пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">3</span><span class="fu">..</span><span class="dv">17</span>] <span class="fu">=</span> [<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">10</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>,<span class="dv">16</span>,<span class="dv">17</span>]
+
+ _         _
+
+    <span class="fu">==</span>                                        <span class="fu">==</span></code></pre></div>
+<p>Мы можем задать шаг и явно:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">2</span>,<span class="dv">4</span><span class="fu">..</span><span class="dv">10</span>] <span class="fu">=</span> [<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">8</span>,<span class="dv">10</span>]</code></pre></div>
+<p>Получили только чётные значения. Схема проста:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">2</span>,      <span class="dv">4</span>      <span class="fu">..</span> <span class="dv">10</span>]
+
+ первый            конец
+         второй
+
+ <span class="fu">|</span>  разница   <span class="fu">|</span>
+ <span class="fu">|</span>_ даёт шаг _<span class="fu">|</span></code></pre></div>
+<p>Вот ещё пример:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">3</span>,<span class="dv">9</span><span class="fu">..</span><span class="dv">28</span>] <span class="fu">=</span> [<span class="dv">3</span>,<span class="dv">9</span>,<span class="dv">15</span>,<span class="dv">21</span>,<span class="dv">27</span>]</code></pre></div>
+<p>Можно задать и нисходящий диапазон:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="dv">9</span>,<span class="dv">8</span><span class="fu">..</span><span class="dv">1</span>] <span class="fu">=</span> [<span class="dv">9</span>,<span class="dv">8</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">5</span>,<span class="dv">4</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">1</span>]</code></pre></div>
+<p>Или так:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[(<span class="fu">-</span><span class="dv">9</span>),(<span class="fu">-</span><span class="dv">8</span>)<span class="fu">..</span>(<span class="fu">-</span><span class="dv">1</span>)] <span class="fu">=</span> [<span class="fu">-</span><span class="dv">9</span>,<span class="fu">-</span><span class="dv">8</span>,<span class="fu">-</span><span class="dv">7</span>,<span class="fu">-</span><span class="dv">6</span>,<span class="fu">-</span><span class="dv">5</span>,<span class="fu">-</span><span class="dv">4</span>,<span class="fu">-</span><span class="dv">3</span>,<span class="fu">-</span><span class="dv">2</span>,<span class="fu">-</span><span class="dv">1</span>]</code></pre></div>
+<p>Да, отрицательные числа тоже работают. Можно взять также и числа с плавающей точкой:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="fl">1.02</span>,<span class="fl">1.04</span><span class="fu">..</span><span class="fl">1.16</span>] <span class="fu">=</span> [<span class="fl">1.02</span>,<span class="fl">1.04</span>,<span class="fl">1.06</span>,<span class="fl">1.08</span>,<span class="fl">1.1</span>,<span class="fl">1.12</span>,<span class="fl">1.14</span>,<span class="fl">1.16</span>]</code></pre></div>
+<p>В общем, идея ясна. Но что это мы всё с числами да с числами! Возьмём символы:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="ch">'a'</span><span class="fu">..</span><span class="ch">'z'</span>] <span class="fu">=</span> <span class="st">&quot;abcdefghijklmnopqrstuvwxyz&quot;</span></code></pre></div>
+<p>Диапазон от <code>'a'</code> до <code>'z'</code> — получили английский алфавит в виде <code>[Char]</code> или, как мы уже знаем, просто <code>String</code>. При большом желании явно задать шаг можно и здесь:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">[<span class="ch">'a'</span>,<span class="ch">'c'</span><span class="fu">..</span><span class="ch">'z'</span>] <span class="fu">=</span> <span class="st">&quot;acegikmoqsuwy&quot;</span></code></pre></div>
+<p>Вот такая красота.</p>
 <p>Теперь, после знакомства со списком, мы будем использовать их постоянно.</p>
+<h2 id="для-любопытных">Для любопытных</h2>
+<p>В разделе про диапазоны для списка мы оперировали значениями типа <code>Int</code>, <code>Double</code> и <code>Char</code>. Возникает вопрос: а можно ли использовать значения каких-нибудь других типов? Отвечаю: можно, но с оговоркой. Попробуем проделать это со строкой:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span> print [<span class="st">&quot;a&quot;</span>,<span class="st">&quot;aa&quot;</span><span class="fu">..</span><span class="st">&quot;aaaaaa&quot;</span>]  <span class="co">-- Ну-ну...</span></code></pre></div>
+<p>При попытке скомпилировать такой код увидим ошибку:</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">No</span> instance for (Enum [Char])
+  <span class="kw">arising</span> from the arithmetic sequence ‘<span class="st">&quot;a&quot;</span>, <span class="st">&quot;aa&quot;</span> .. <span class="st">&quot;aaaaaa&quot;</span>’</code></pre></div>
+<p>И удивляться тут нечему: шаг между строками абсурден, и компилятор в замешательстве. Не все типы подходят для перечислений в силу своей природы, однако в будущем, когда мы научимся создавать наши собственные типы, мы узнаем, что их вполне можно использовать в диапазонах. Наберитесь терпения.</p>
 <div style="padding-top: 45px;">
     
 </div>
