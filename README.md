@@ -16,7 +16,7 @@
 
 За новинами про оновлення та виправлення книги стежте в [нашому чаті](https://gitter.im/denisshevchenko/ohaskell-book), а також у випусках подкасту [Банани та Лінзи](http://bananasandlenses.net/), єдиного російськомовного подкасту, цілком присвяченого Haskell. Ну й [Твіттер мій](https://twitter.com/dshevchenko_biz) можете переглядати.
 
-## Локальная збірка
+## Локальна збірка
 
 Для локальної збірки вам знадобляться [stack](http://docs.haskellstack.org/en/stable/README/), [pandoc](http://pandoc.org/) і TeX-дистрибутив (я ивикористовую [MacTeX](https://tug.org/mactex/)). Мається на увазі, що каталог `~/.local/bin` вже доданий в ваш `PATH`. Робимо:
 
