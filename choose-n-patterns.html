@@ -187,7 +187,7 @@ analizeGold standard <span class="fu">=</span>
 
 <span class="ot">main ::</span> <span class="dt">IO</span> ()
 main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">999</span>)</code></pre></div>
-<p>Уверен, вы уже стираете плевок с экрана. Вложенная <code>if-then-else</code> конструкция не может понравится никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счастью, в Haskell можно написать по-другому:</p>
+<p>Уверен, вы уже стираете плевок с экрана. Вложенная <code>if-then-else</code> конструкция не может понравиться никому, ведь она крайне неудобна в обращении. А уж если бы анализируемых проб золота было штук пять или семь, эта лестница стала бы поистине ужасной. К счастью, в Haskell можно написать по-другому:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">analizeGold ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">String</span>
 analizeGold standard <span class="fu">=</span>
   <span class="kw">if</span> <span class="fu">|</span> standard <span class="fu">==</span> <span class="dv">999</span> <span class="ot">-&gt;</span> <span class="st">&quot;Wow! 999 standard!&quot;</span>
@@ -215,7 +215,7 @@ main <span class="fu">=</span> putStrLn (analizeGold <span class="dv">583</span>
 <p>Проверка получилась неполной, вот и получите ошибку.</p>
 <p>Кстати, видите слово <code>guards</code> в сообщении об ошибке? Вертикальные черты перед логическими выражениями — это и есть охранники (англ. guard), неусыпно охраняющие наши условия. Потешное название выбрали. Чтобы читать их было легче, воспринимайте их как аналог слова «ИЛИ».</p>
 <p>А сейчас стоп. Вы ведь попробовали скомпилировать этот код, не так ли? А почему вы не ругаетесь? Ведь такой код не скомпилируется, так как не хватает одной маленькой, но важной детали. Вот как должен выглядеть модуль <code>Main</code>:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE MultiWayIf #-}</span>  <span class="co">-- А это что?</span>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE MultiWayIf #-}</span>  <span class="co">-- Что это??</span>
 
 <span class="kw">module</span> <span class="dt">Main</span> <span class="kw">where</span>
 
@@ -311,7 +311,7 @@ analizeGold <span class="dv">585</span> <span class="fu">=</span> <span class="s
   <span class="fu">...</span>
   <span class="dt">PATTERNn</span>  <span class="ot">-&gt;</span> <span class="dt">EXPRn</span>
   otherwise <span class="ot">-&gt;</span> <span class="dt">COMMON_EXPRESSION</span></code></pre></div>
-<p>где <code>EXPRESSION</code> — анализируемое выражение, последовательно сравниваемое с образцами <code>PATTERN1..n</code>. Если ни одно ни сработало — как обычно, упираемся в <code>otherwise</code> и выдаём <code>COMMON_EXPRESSION</code>.</p>
+<p>где <code>EXPRESSION</code> — анализируемое выражение, последовательно сравниваемое с образцами <code>PATTERN1..n</code>. Если ни одно не сработало — как обычно, упираемся в <code>otherwise</code> и выдаём <code>COMMON_EXPRESSION</code>.</p>
 <p>В последующих главах мы встретимся и с другими видами паттерн матчинга, ведь он используется не только для выбора.</p>
 <div style="padding-top: 45px;">
     
