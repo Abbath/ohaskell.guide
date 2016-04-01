@@ -42,12 +42,12 @@ createCover = docTypeHtml ! lang "ru" $ do
         div ! class_ "container" $
             div ! class_ "row center" ! A.style "padding-top: 70px;" $ do
                 div ! class_ "cover-title" $ do
-                    toHtml ("О Haskell по-человечески" :: String)
+                    toHtml ("Про Haskell по-людськи" :: String)
                     H.span ! A.style "font-size: 28px; color: orangered;" $
                         preEscapedToHtml ("&nbsp;&beta;" :: String)
 
                 div ! class_ "cover-v2" $
-                    "издание 2.0"
+                    "видання 2.0"
 
                 div ! class_ "row" $ do
                     div ! class_ "col s12 m1 l1" $
@@ -91,8 +91,8 @@ createCover = docTypeHtml ! lang "ru" $ do
                         preEscapedToHtml ("&nbsp;" :: String)
 
 createDefault :: [ChapterPoint] -> Html
-createDefault chapterPoints = docTypeHtml ! lang "ru" $ do
-    commonHead "PAGE_TITLE <- О Haskell по-человечески"
+createDefault chapterPoints = docTypeHtml ! lang "ua" $ do
+    commonHead "PAGE_TITLE <- Про Haskell по-людськи"
 
     body $ do
         div ! class_ "navbar-fixed" $
@@ -121,7 +121,7 @@ createChapter = do
         div ! class_ "col s6" $
             div ! class_ "center-align" $
                 button ! class_ "waves-effect waves-light btn blue lighten-2 show-comments sans" $
-                    "Обсудим?"
+                    "Обговоримо?"
 
         div ! class_ "col s3" $
             div ! class_ "right" $
@@ -136,7 +136,7 @@ createChapter = do
 
 createSubjectIndex :: [ChapterPoint] -> Html
 createSubjectIndex chapterPoints = docTypeHtml ! lang "ru" $ do
-    commonHead "Предметный указатель <- О Haskell по-человечески"
+    commonHead "Предметний індекс <- Про Haskell по-людськи"
 
     body $ do
         div ! class_ "navbar-fixed" $
@@ -147,7 +147,7 @@ createSubjectIndex chapterPoints = docTypeHtml ! lang "ru" $ do
                     contacts Skip
 
         div ! class_ "container" $ do
-            H.h1 "Предметный указатель"
+            H.h1 "Предметний індекс"
 
             div ! class_ "subject-index-wrapper" $ do
                 mapM_ subjectPoint $ subjectIndexWithHrefs chapterPoints
@@ -172,7 +172,7 @@ subjectPoint (subjectName, hrefs) =
 
 createDonate :: Html
 createDonate = docTypeHtml ! lang "ru" $ do
-    commonHead "Поддержать <- О Haskell по-человечески"
+    commonHead "Підтримати <- Про Haskell по-людськи"
 
     body $ do
         div ! class_ "navbar-fixed" $
@@ -182,7 +182,7 @@ createDonate = docTypeHtml ! lang "ru" $ do
                     contacts Skip
 
         div ! class_ "container" $ do
-            H.h1 "Поддержать проект"
+            H.h1 "Підтримати проект"
 
             div ! class_ "donate-area" $ do
                 H.h3 ! class_ "center-align" $
@@ -193,12 +193,12 @@ createDonate = docTypeHtml ! lang "ru" $ do
                     preEscapedToHtml ("PayPal" :: String)
                 preEscapedToHtml payPalDonateForm
 
-            H.h3 ! class_ "center-align" $ "Благодарю вас!"
+            H.h3 ! class_ "center-align" $ "Дякую вам!"
 
 commonHead :: T.Text -> Html
 commonHead customTitle = H.head $ do
     meta ! charset "utf-8"
-    meta ! name "description" ! content "О Haskell по-человечески. Ваша первая книга о прекрасном и удивительном языке программирования."
+    meta ! name "description" ! content "Про Haskell по-людськи. Ваша перша книга про прекрасну и дивовижну мову програмування."
     meta ! name "author" ! content "Денис Шевченко"
     meta ! name "viewport" ! content "width=device-width, initial-scale=1, maximum-scale=1.0"
 
@@ -222,14 +222,14 @@ contacts donate =
                 H.span ! class_ "fa fa-github" $ ""
         li $
             a ! href "mailto:me@dshevchenko.biz?Subject=#ohaskell,%20О%20книге"
-              ! A.title "Написать автору" $
+              ! A.title "Написати автору" $
                 H.span ! class_ "fa fa-envelope-o" $ ""
         addDonate
   where
     addDonate = case donate of
         Ask  -> li $
                     a ! href "/donate.html"
-                      ! A.title "Поддержать" $
+                      ! A.title "Підтримати" $
                         H.span ! class_ "fa fa-rub" ! A.style "font-size: 23px;" $ ""
         Skip -> return ()
 
