@@ -236,9 +236,12 @@ calculateTime timeInS <span class="fu">=</span>
 <p>Ключевое слово <code>where</code> делает примерно то же, что и <code>let</code>, но промежуточные выражения задаются в конце функции. Такая конструкция читается подобно научной формуле:</p>
 <div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell">  <span class="dt">S</span> <span class="fu">=</span> <span class="dt">V</span> <span class="fu">*</span> t,        <span class="co">-- Выражение</span>
 где
-  <span class="dt">S</span> <span class="fu">=</span> расстояние,   <span class="co">{- Всё то, что</span>
-<span class="co">  V = скорость,        используется</span>
-<span class="co">  t = время.           в выражении. -}</span></code></pre></div>
+  <span class="co">-- Всё то, что</span>
+  <span class="co">-- используется</span>
+  <span class="co">-- в выражении.</span>
+  <span class="dt">S</span> <span class="fu">=</span> расстояние,
+  <span class="dt">V</span> <span class="fu">=</span> скорость,
+  t <span class="fu">=</span> время<span class="fu">.</span></code></pre></div>
 <p>В отличие от <code>let</code>, которое может быть использовано для введения супер-локального выражение (как в последнем примере с <code>delta</code>), все <code>where</code>-выражения доступны в любой части выражения, предшествующего ключевому слову <code>where</code>.</p>
 <h2 id="вместе">Вместе</h2>
 <p>Мы можем использовать <code>let-in</code> и <code>where</code> совместно, в рамках одной функции:</p>
