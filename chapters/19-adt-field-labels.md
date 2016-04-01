@@ -1,6 +1,6 @@
-# АТД: поля с метками
+# АТД: поля з мітками
 
-Многие типы в реальных проектах довольно велики. Взгляните:
+Багато типів в реальних проектах досить великі. Погляньте:
 
 ```haskell
 data Arguments = Arguments Port
@@ -12,158 +12,158 @@ data Arguments = Arguments Port
                            FilePath
 ```
 
-Значение типа `Arguments` хранит в своих полях некоторые значения, извлечённые из параметров командной строки, с которыми запущена одна из моих программ. И всё бы хорошо, но работать с таким типом абсолютно неудобно. Он содержит семь полей, и паттерн матчинг был бы слишком громоздким, представьте себе:
+Значення типу `Arguments` зберігає в своїх полях деякі значення, отримані з параметрів командного рядка, з якими запущена одна з моїх програм. І все було б добре, але працювати з таким типом абсолютно незручно. Він містить сім полів, і патерн матчінг був би занадто громіздким, уявіть собі:
 
 ```haskell
 ...
-  where
-    Arguments _ _ _ redirectLib _ _ xpi = arguments
+where
+Arguments _ _ _ redirectLib _ _ xpi = arguments
 ```
 
-Более того, когда мы смотрим на определение типа, назначение его полей остаётся тайной за семью печатями. Видите предпоследнее поле? Оно имеет тип `Bool` и, понятное дело, отражает какой-то флаг. Но что это за флаг, читатель не представляет. К счастью, существует способ, спасающих нас от обеих этих проблем.
+Більше того, коли ми дивимося на визначення типу, призначення полів залишається таємницею за сімома печатями. Бачите передостаннє поле? Воно має тип `Bool` і, ясна річ, відображає якийсь прапорець. Але що це за прапорець, читач не представляє. На щастя, існує спосіб, який рятує нас від обох цих проблем.
 
-## Метки
+## Мітки
 
-Мы можем снабдить наши поля метками (англ. label). Вот как это выглядит:
+Ми можемо забезпечити наші поля мітками (англ. label). Ось як це виглядає:
 
 ```haskell
-data Arguments = Arguments { runWDServer    :: Port
-                           , withWDServer   :: Endpoint
-                           , redirect       :: RedirectData
-                           , redirectLib    :: FilePath
+data Arguments = Arguments { runWDServer :: Port
+                           , withWDServer :: Endpoint
+                           , redirect :: RedirectData
+                           , redirectLib :: FilePath
                            , screenshotsDir :: FilePath
-                           , noScreenshots  :: Bool
-                           , harWithXPI     :: FilePath
+                           , noScreenshots :: Bool
+                           , harWithXPI :: FilePath
                            }
 ```
 
-Теперь назначение меток куда понятнее. Схема определения такова:
+Тепер призначення міток більш зрозуміле. Схема визначення така:
 
 ```haskell
 data Arguments = Arguments   { runWDServer :: Port }
 
-тип  такой-то    конструктор   метка поля     тип
+тип  такий-то    конструктор   мітка поля     тип
                                               поля
 ```
 
-Теперь поле имеет не только тип, но и название, что и делает наше определение значительно более читабельным. Поля в этом случае разделены запятыми и заключены в фигурные скобки.
+Тепер поле має не тільки тип, але і назву, що робить наше визначення значно більш чительним. Поля в цьому випадку розділені комами і знаходяться в фігурних дужках.
 
-Если подряд идут два или более поля одного типа, его можно указать лишь для последней из меток. Так, если у нас есть вот такой тип:
+Якщо два чи більше полів одного типу йдуть поспіль, тип можна вказати лише для останньої з міток. Так, якщо у нас є ось такий тип:
 
 ```haskell
 data Patient = Patient { firstName :: String
-                       , lastName  :: String
-                       , email     :: String
+                       , lastName :: String
+                       , email :: String
                        }
 ```
 
-его определение можно чуток упростить и написать так:
+його визначення можна трохи спростити і написати так:
 
 ```haskell
 data Patient = Patient { firstName
                        , lastName
-                       , email     :: String
+                       , email :: String
                        }
 ```
 
-Раз тип всех трёх полей одинаков, мы указываем его лишь для последней из меток. Ещё пример полной формы:
+Оскільки тип всіх трьох полів однаковий, ми вказуємо його лише для останньої з міток. Ще приклад повної форми:
 
 ```haskell
-data Patient = Patient { firstName    :: String
-                       , lastName     :: String
-                       , email        :: String
-                       , age          :: Int
-                       , diseaseId    :: Int
-                       , isIndoor     :: Bool
+data Patient = Patient { firstName :: String
+                       , lastName :: String
+                       , email :: String
+                       , age :: Int
+                       , diseaseId :: Int
+                       , isIndoor :: Bool
                        , hasInsurance :: Bool
                        }
 ```
 
-и тут же упрощаем:
+і тут же спрощуємо:
 
 ```haskell
 data Patient = Patient { firstName
                        , lastName
-                       , email        :: String
+                       , email :: String
                        , age
-                       , diseaseId    :: Int
+                       , diseaseId :: Int
                        , isIndoor
                        , hasInsurance :: Bool
                        }
 ```
 
-Поля `firstName`, `lastName` и `email` имеют тип `String`, поля `age` и `diseaseId` &mdash; тип `Int`, и оставшиеся два поля &mdash; тип `Bool`.
+Поля `firstName`, `lastName` і `email` мають тип `String`, поля `age` і `diseaseId` &mdash; тип `Int`, і два поля &mdash; тип `Bool`.
 
-## Getter и Setter?
+## Getter і Setter?
 
-Что же представляют собой метки? Фактически, это особые функции, сгенерированные автоматически. Эти функции имеют три предназначения: создавать, извлекать и изменять. Да, я не оговорился, изменять. Но об этом чуть позже, путь будет маленькая интрига.
+Що ж таке мітки? Фактично, це особливі функції, згенеровані автоматично. Ці функції мають три призначення: створювати, вилучати і змінювати. Так, я не обмовився, змінювати. Але про це трохи пізніше, нехай буде маленька інтрига.
 
-Вот как мы создаём значение типа `Patient`
+Ось як ми створюємо значення типу `Patient`
 
 ```haskell
 main :: IO ()
 main = print $ diseaseId patient
   where
-    patient = Patient {
-        firstName    = "John"
-      , lastName     = "Doe"
-      , email        = "john.doe@gmail.com"
-      , age          = 24
-      , diseaseId    = 431
-      , isIndoor     = True
-      , hasInsurance = True
+  patient = Patient {
+    firstName = "John"
+    , lastName = "Doe"
+    , email = "john.doe@gmail.com"
+    , age = 24
+    , diseaseId = 431
+    , isIndoor = True
+    , hasInsurance = True
     }
 ```
 
-Метки полей используются как своего рода setter (от англ. set, &laquo;устанавливать&raquo;):
+Мітки полів використовуються як свого роду setter (від англ. set, &laquo;встановлювати&raquo;):
 
 ```haskell
 patient = Patient { firstName    =      "John"
-в этом    типа      поле с
-значении  Patient   этой меткой  равно  этой строке
+у цьому   типу      поле з
+значення  Patient   цією міткою  рівне  цьому рядку
 ```
 
-Кроме того, метку можно использовать и как getter (от англ. get, &laquo;получать&raquo;):
+Крім того, мітку можна використовувати і як getter (від англ. get, &laquo;отримувати&raquo;):
 
 ```haskell
-main = print $ diseaseId  patient
+main = print $ diseaseId   patient
 
-               метка как  аргумент
-               функция
+               мітка як    аргумент
+               функція
 ```
 
-Мы применяем метку к значению типа `Patient` и получаем значение соответствующего данной метке поля. Поэтому для получения значений полей нам уже не нужен паттерн матчинг.
+Ми застосовуємо мітку до значення типу `Patient` і отримуємо значення відповідного цій мітці поля. Тому для отримання значень полів нам уже не потрібен патерн матчінг.
 
-Но что же за интригу я приготовил под конец? Выше я упомянул, что метки используются не только для задания значений полей и для их извлечения, но и для изменения. Вот что я имел в виду:
+Але що ж за інтригу я приготував під кінець? Вище я згадав, що мітки використовуються не тільки для задання значень полів і для їх отримання, але і для зміни. Ось що я мав на увазі:
 
 ```haskell
 main :: IO ()
 main = print $ email patientWithChangedEmail
   where
     patientWithChangedEmail = patient {
-      email = "j.d@gmail.com"  -- Изменяем???
+      email = "j.d@gmail.com" -- Змінюємо???
     }
 
     patient = Patient {
-        firstName    = "John"
-      , lastName     = "Doe"
-      , email        = "john.doe@gmail.com"
-      , age          = 24
-      , diseaseId    = 431
-      , isIndoor     = True
+      firstName = "John"
+      , lastName = "Doe"
+      , email = "john.doe@gmail.com"
+      , age = 24
+      , diseaseId = 431
+      , isIndoor = True
       , hasInsurance = True
     }
 ```
 
-При запуске программы получим:
+При запуску програми отримаємо:
 
 ```haskell
 j.d@gmail.com
 ```
 
-Но постойте, что же тут произошло? Ведь в Haskell, как мы знаем, нет оператора присваивания, однако значение поля с меткой `email` поменялось. Помню, когда я впервые увидел подобный пример, то очень удивился, мол, уж не ввели ли меня в заблуждение по поводу неизменности значений в Haskell?!
+Але постривайте, що ж тут сталося? Адже в Haskell, як ми знаємо, немає оператора присвоювання, однак значення поля з міткою `email` змінилося. Пам'ятаю, коли я вперше побачив подібний приклад, то дуже здивувався, мовляв, чи не ввели мене в оману щодо незмінності значень в Haskell?!
 
-Нет, не ввели. Подобная запись:
+Ні, не ввели. Подібний запис:
 
 ```haskell
 patientWithChangedEmail = patient {
@@ -171,89 +171,89 @@ patientWithChangedEmail = patient {
 }
 ```
 
-действительно похожа на изменение поля через присваивание ему нового значения, но в действительности никакого изменения не произошло. Когда я назвал метку setter-ом, я немного слукавил, ведь классический setter из мира ООП был бы невозможен в Haskell. Посмотрим ещё раз внимательнее:
+дійсно схожий на зміну поля через присвоєння йому нового значення, але в дійсності ніякої зміни не відбулося. Коли я назвав мітку setter-ом, я трохи злукавив, адже класичний setter зі світу ООП був би неможливий в Haskell. Подивимося ще раз уважніше:
 
 ```haskell
 ...
-  where
-    patientWithChangedEmail = patient {
-      email = "j.d@gmail.com"  -- Изменяем???
-    }
+where
+  patientWithChangedEmail = patient {
+    email = "j.d@gmail.com" -- Змінюємо???
+  }
 
-    patient = Patient {
-        firstName    = "John"
-      , lastName     = "Doe"
-      , email        = "john.doe@gmail.com"
-      , age          = 24
-      , diseaseId    = 431
-      , isIndoor     = True
-      , hasInsurance = True
-    }
+  patient = Patient {
+    firstName = "John"
+    , lastName = "Doe"
+    , email = "john.doe@gmail.com"
+    , age = 24
+    , diseaseId = 431
+    , isIndoor = True
+    , hasInsurance = True
+  }
 ```
 
-Взгляните, ведь у нас теперь два значения типа `Patient`, `patient` и `patientWithChangedEmail`. Эти значения не имеют друг ко другу ни малейшего отношения. Вспомните, как я говорил, что в Haskell нельзя изменить имеющееся значение, а можно лишь создать на основе имеющегося новое значение. Это именно то, что здесь произошло: мы взяли имеющееся значение `patient` и на его основе создали уже новое значение `patientWithChangedEmail`, значение поля `email` в котором теперь другое. Понятно, что поле `email` в значении `patient` осталось неизменным.
+Погляньте, адже у нас тепер два значення типу `Patient`, `patient` і `patientWithChangedEmail`. Ці значення не мають одне до одної жодного стосунку. Згадайте, як я говорив, що в Haskell не можна змінити наявні значення, а можна лише створити на основі наявного нове значення. Це саме те, що тут сталося: ми взяли наявне значення `patient` і на його основі створили вже нове значення `patientWithChangedEmail`, значення поля `email` в якому тепер інше. Зрозуміло, що поле `email` у значенні `patient` залишилося незмінним.
 
-Будьте внимательны при инициализации значения с полями: вы обязаны предоставить значения для всех полей. Если вы напишете так:
+Будьте уважні при ініціалізації значення з полями: ви зобов'язані надати значення для всіх полів. Якщо ви напишете так:
 
 ```haskell
 main :: IO ()
 main = print $ email patientWithChangedEmail
   where
     patientWithChangedEmail = patient {
-      email = "j.d@gmail.com"  -- Изменяем???
+      email = "j.d@gmail.com" -- Змінюємо???
     }
 
     patient = Patient {
-        firstName    = "John"
-      , lastName     = "Doe"
-      , email        = "john.doe@gmail.com"
-      , age          = 24
-      , diseaseId    = 431
-      , isIndoor     = True
+      firstName = "John"
+      , lastName = "Doe"
+      , email = "john.doe@gmail.com"
+      , age = 24
+      , diseaseId = 431
+      , isIndoor = True
     }
 
-    -- Поле hasInsurance забыли!
+    -- Поле hasInsurance забули!
 ```
 
-код скомпилируется, но внимательный компилятор предупредит вас о проблеме:
+код зкомпілюється, але уважний компілятор попередить вас про проблему:
 
 ```haskell
-Fields of ‘Patient’ not initialised: hasInsurance
+Fields of 'Patient' not initialised: hasInsurance
 ```
 
-Пожалуйста, не пренебрегайте подобным предупреждением, ведь если вы проигнорируете его и затем попытаетесь обратиться к неинициализированному полю:
+Будь ласка, не нехтуйте подібним попередженням, адже якщо ви проігноруєте його і потім спробуєте звернутися до неініціалізованого поля:
 
 ```haskell
 main = print $ hasInsurance patient
-  ...
+...
 ```
 
-ваша программа аварийно завершится на этапе выполнения с ожидаемой ошибкой:
+ваша програма аварійно завершиться на етапі виконання з очікуваною помилкою:
 
 ```bash
-Missing field in record construction hasInsurance
+Missing record field in construction hasInsurance
 ```
 
-Не забывайте: компилятор &mdash; ваш добрый друг.
+Не забувайте: компілятор &mdash; ваш добрий друг.
 
-## Без меток
+## Без міток
 
-Помните, что метки полей &mdash; это синтаксический сахар (англ. syntactic sugar), и мы можем обойтись без него. Даже если тип был определён с метками, как наш `Patient`, мы можем работать с ним по-старинке:
+Пам'ятайте, що мітки полів &mdash; це синтаксичний цукор (англ. syntactic sugar), і ми можемо обійтися без нього. Навіть якщо тип був визначений з мітками, як наш `Patient`, ми можемо працювати з ним по-старому:
 
 ```haskell
-data Patient = Patient { firstName    :: String
-                       , lastName     :: String
-                       , email        :: String
-                       , age          :: Int
-                       , diseaseId    :: Int
-                       , isIndoor     :: Bool
-                       , hasInsurance :: Bool
-                       }
+data Patient = Patient { firstName :: String
+                         , lastName :: String
+                         , email :: String
+                         , age :: Int
+                         , diseaseId :: Int
+                         , isIndoor :: Bool
+                         , hasInsurance :: Bool
+                         }
 
 main :: IO ()
 main = print $ hasInsurance patient
   where
-    -- Создаём по-старинке...
+    -- Створюємо по-старому...
     patient = Patient "John"
                       "Doe"
                       "john.doe@gmail.com"
@@ -263,13 +263,13 @@ main = print $ hasInsurance patient
                       True
 ```
 
-Соответственно, извлекать значения полей тоже можно по-старинке, через паттерн матчинг:
+Відповідно, отримувати значення полів теж можна по-старому, через патерн матчінг:
 
 ```haskell
 main :: IO ()
 main = print insurance
   where
-    -- Жутко неудобно, но если желаете...
+    -- Страшенно незручно, але якщо бажаєте...
     Patient _ _ _ _ _ _ insurance = patient
     patient = Patient "John"
                       "Doe"
@@ -280,5 +280,4 @@ main = print insurance
                       True
 ```
 
-С понятием &laquo;синтаксический сахар&raquo; мы встретимся ещё не раз, на куда более продвинутых примерах.
-
+З поняттям &laquo;синтаксичний цукор&raquo; ми зустрінемося ще не раз, на куди більш просунутих прикладах.
