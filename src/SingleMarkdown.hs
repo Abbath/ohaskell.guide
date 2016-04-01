@@ -11,6 +11,7 @@ import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
 import           System.Directory       (getDirectoryContents)
 import           System.FilePath.Posix
+import           Data.List
 
 type ChapterName     = T.Text
 type ChapterPath     = FilePath
@@ -21,7 +22,7 @@ type ChapterPoint    = (ChapterName, ChapterPath)
 createSingleMarkdown :: IO (FilePath, [ChapterPoint])
 createSingleMarkdown = do
     allPathsToMarkdownFiles <- getDirectoryContents "chapters"
-    let pathsToMarkdownFiles = filter markdownOnly allPathsToMarkdownFiles
+    let pathsToMarkdownFiles = filter markdownOnly (sort allPathsToMarkdownFiles)
     chaptersInfo <- mapM readMarkdownFile pathsToMarkdownFiles
     let singleMarkdown = composeSingleMarkdownFrom chaptersInfo
         chapterPoints  = collectChapterPointsFrom chaptersInfo
