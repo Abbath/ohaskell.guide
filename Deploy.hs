@@ -1,88 +1,116 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE MultiWayIf #-}
 
 {-
-    Deploy the book to GitHub.
+    Деплоим книгу на GitHub (включая Pages).
 
     $ stack ghc -- Deploy.hs
-    $ ./Deploy "Commit message"
+    $ ./Deploy "Сообщение о коммите"
 
-    or
+    или
 
-    $ stack exec runhaskell Deploy.hs "Commit message"
+    $ stack exec runhaskell Deploy.hs "Сообщение о коммите"
 -}
 
 module Main where
 
-import           Shelly
-import qualified Data.Text              as T
-import           Control.Monad          (void)
-import           System.Environment     (getArgs)
-import           Control.Monad.IO.Class (liftIO)
-import           Control.Exception.Base
+import Control.Monad            (unless)
+import Data.List                (intercalate)
+import System.Directory         ( createDirectory
+                                , copyFile
+                                , doesDirectoryExist
+                                , removeDirectoryRecursive
+                                )
+import System.FilePath.Posix    ((</>))
+import System.Process           (callProcess)
+import System.Exit              (die)
+import System.Environment       (getArgs)
 
 main :: IO ()
-main = void . shelly $ do
-    args <- liftIO getArgs
-    if length args /= 1 then commitMessagePlease else do
-        let [commitMessageRaw] = args
-            commitMessage      = T.pack commitMessageRaw
+main = do
+    putStrLn $ "Собираем новую версию книги..."
 
-        echo "Собираем новую версию книги..."
-        run "ohaskell" []
+    shouldBeInRepoRoot
+    branchShouldBeMaster
 
-        echo "Учитываем изменения в ветке 'master'..."
-        gitAdd ["."]
-        gitCommit [commitMessage]
-        gitPush ["master"]
+    compileBook
+    commitNPushToMasterIfNecessary
+    rebuildBook
 
-        echo "Копируем во временное место, предварительно удалив старое, если нужно..."
-        rm_rf "/tmp/_site" `catch_sh` ifNot
-        cp_r "_site" "/tmp"
+    -- Артефакты сборки (в ветке master не учитываются):
+    -- _site                    -> полная веб-версия
+    -- pdf/ohaskell.pdf         -> PDF A4
+    -- pdf/ohaskell-mobile.pdf  -> PDF A5
+    -- epub/ohaskell.epub       -> EPUB
 
-        echo "Переключаемся на ветку 'gh-pages'..."
-        gitCheckout ["gh-pages"]
-
-        echo "Удаляем ненужное..."
-        rm_f  "*.html"
-        rm_rf "static"
-        rm_f  "*.md"
-        rm_f  "*.cabal"
-        rm_f  "*.hs"
-
-        echo "Копируем..."
-        cp_r "/tmp/_site/." "."
-
-        rm_rf "chapters"
-        rm_rf "src"
-        rm_rf "templates"
-        rm_rf "epub"
-        rm_rf "pdf"
-        rm_rf "_site"
-        rm_rf "_cache"
-        rm_f  "*.md"
-        rm_f  "*.cabal"
-        rm_f  "*.hs"
-        rm_f  "*.config"
-        rm_f  "Deploy"
-
-        echo "Учитываем все изменения и публикуем на GitHub Pages..."
-        gitAdd ["."]
-        gitCommit [commitMessage] `catch_sh` ifNot
-        gitPush ["gh-pages"] `catch_sh` ifNot
-
-        echo "Возвращаемся в ветку 'master'..."
-        gitCheckout ["master"]
-
-        echo "Готово!"
+    storeArtefactsInSite
+    saveSiteInTempDirectory
+    checkoutToGhPages
+    cleanGhPages
+    takeSiteFromTempDirectory
+    commitNPushToGhPages
+    backToMaster
+    removeTempDirectory
   where
-    commitMessagePlease = liftIO . putStrLn $
-        "Сообщение о коммите забыли, нужно ./Deploy \"Что-нибудь интересное.\""
+    shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
+        unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
 
-    gitAdd      = command_ "git" ["add"]
-    gitCommit   = command_ "git" ["commit", "-a", "-m"]
-    gitPush     = command_ "git" ["push", "origin"]
-    gitCheckout = command_ "git" ["checkout"]
+    branchShouldBeMaster = readFile ".git/HEAD" >>= \headValue ->
+        unless (strip headValue == "ref: refs/heads/master") $
+            die $ "Я желаю ветку master, а вовсе не '" ++ show headValue ++ "'..."
+      where
+        strip = intercalate "\n" . lines
 
-    ifNot :: SomeException -> Sh ()
-    ifNot _ = return ()
+    git_ = callProcess "git"
 
+    commitNPushToMasterIfNecessary = do
+        arguments <- getArgs
+        if | null arguments -> do
+               putStrLn "Сообщения о коммите нет, считаем, что в ветке master нет локальных изменений."
+               return ()
+           | length arguments == 1 -> do
+               putStrLn "Учитываем изменения в ветке master..."
+               let [commitMessage] = arguments
+               git_ ["commit", "-a", "-m", commitMessage]
+               git_ ["push", "origin", "master"]
+           | otherwise -> die $
+               "Запускайте с одним сообщением о коммите, или совсем без него."
+
+    commitNPushToGhPages = do
+        putStrLn "Учитываем изменения в ветке gh-pages..."
+        git_ ["add", "."]
+        git_ ["commit", "-a", "-m", "Current."]
+        git_ ["push", "-f", "origin", "gh-pages"]
+
+    compileBook = do
+        putStrLn $ "Компилируем..."
+        callProcess "stack" ["clean"]
+        callProcess "stack" ["build"]
+
+    rebuildBook = do
+        putStrLn $ "Собираем..."
+        callProcess "stack" ["exec", "--", "ohaskell"]
+
+    fullWeb         = "_site"
+    pdfBinary       = "ohaskell.pdf"
+    pdfMobileBinary = "ohaskell-mobile.pdf"
+    epubBinary      = "ohaskell.epub"
+    storeArtefactsInSite = do
+        createDirectory $ fullWeb </> "pdf"
+        copyFile ("pdf" </> pdfBinary)       $ fullWeb </> "pdf" </> pdfBinary
+        copyFile ("pdf" </> pdfMobileBinary) $ fullWeb </> "pdf" </> pdfMobileBinary
+
+        createDirectory $ fullWeb </> "epub"
+        copyFile ("epub" </> epubBinary)     $ fullWeb </> "epub" </> epubBinary
+
+    saveSiteInTempDirectory     = callProcess "cp" ["-R", fullWeb, "/tmp"]
+    checkoutToGhPages           = git_ ["checkout", "gh-pages"]
+    resetLastCommit             = git_ ["reset", "--hard", "HEAD~1"]
+    takeSiteFromTempDirectory   = callProcess "cp" ["-R", "/tmp" </> fullWeb ++ "/.", "."]
+    removeTempDirectory         = removeDirectoryRecursive $ "/tmp" </> fullWeb
+    backToMaster                = git_ ["checkout", "master"]
+
+    cleanGhPages = do
+        git_ ["add", "."]
+        git_ ["commit", "-a", "-m", "Trash."]
+        git_ ["reset", "--hard", "HEAD~2"]
