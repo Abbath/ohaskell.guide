@@ -191,7 +191,7 @@ analizeGold standard =
     999 -> "Wow! 999 standard!"
     750 -> "Great! 750 standard."
     585 -> "Not bad! 585 standard."
-    otherwise -> "I don't know such a standard..."
+    _ -> "I don't know such a standard..."
 ```
 
 Запам'ятайте конструкцію `case-of`, ми зустрінемося з нею не раз. Працює вона згідно моделі:
@@ -202,9 +202,9 @@ case ВИРАЗ of
   PATTERN2 -> EXPR2
   ...
   PATTERNn -> EXPRn
-  otherwise -> COMMON_EXPRESSION
+  _ -> COMMON_EXPRESSION
 ```
 
-де `EXPRESSION` &mdash; аналізований вираз, послідовно порівнюється із зразками `PATTERN1..n`. Якщо жоден не спрацював &mdash; як звичайно, впираємося в `otherwise` і видаємо `COMMON_EXPRESSION`.
+де `EXPRESSION` &mdash; аналізований вираз, послідовно порівнюється із зразками `PATTERN1..n`. Якщо жоден не спрацював &mdash; як звичайно, впираємося в універсальний зразок `_` і видаємо `COMMON_EXPRESSION`.
 
 У наступних розділах ми зустрінемося і з іншими видами патерн матчінгу, адже він використовується не лише для вибору.
