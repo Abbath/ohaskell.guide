@@ -7,8 +7,8 @@
 Часто ми хочемо вибирати не тільки з двох можливих варіантів. Ось як це можна зробити:
 
 ```haskell
-analizeGold :: Int -> String
-analizeGold standard =
+analyzeGold :: Int -> String
+analyzeGold standard =
   if standard == 999
     then "Wow! 999 standard!"
     else if standard == 750
@@ -17,14 +17,14 @@ analizeGold standard =
         then "Not bad! 585 standard."
         else "I don't know such a standard..."
 
-main :: IO ()main = putStrLn (analizeGold 999)
+main :: IO ()main = putStrLn (analyzeGold 999)
 ```
 
 Впевнений, що ви вже стираєте плювок з екрану. Вкладена `if-then-else` конструкція не може нікому сподобатися, адже вона вкрай незручна в зверненні. А якщо аналізованих проб золота було б штук п'ять або сім, ця драбина стала б справді жахливою. На щастя, в Haskell можна написати по-іншому:
 
 ```haskell
-analizeGold :: Int -> String
-analizeGold standard =
+analyzeGold :: Int -> String
+analyzeGold standard =
   if | standard == 999 -> "Wow! 999 standard!"
      | standard == 750 -> "Great! 750 standard."
      | standard == 585 -> "Not bad! 585 standard." 
@@ -43,17 +43,17 @@ if | CONDITION1 -> EXPR1
 
 де `CONDITION1..n` &mdash; вирази, що дають хибу або істину, а `EXPR1..n` &mdash; відповідні їм результуючі вирази. Особлива функція `otherwise` відповідає загальному випадку, коли жоден з логічних виразів не дав `True`, і в цій ситуації результатом умовної конструкції стане вираз `COMMON_EXPRESSION`.
 
-Не нехтуйте `otherwise`! Якщо ви його не вкажете і при цьому застосуйте функцію `analizeGold` до значення, відмінного від перевірених:
+Не нехтуйте `otherwise`! Якщо ви його не вкажете і при цьому застосуйте функцію `analyzeGold` до значення, відмінного від перевірених:
 
 ```haskell
-analizeGold :: Int -> String
-analizeGold standard =
+analyzeGold :: Int -> String
+analyzeGold standard =
   if | standard == 999 -> "Wow! 999 standard!" 
      | standard == 750 -> "Great! 750 standard."
      | standard == 585 -> "Not bad! 585 standard."
 
 main :: IO ()
-main = putStrLn (analizeGold 583) -- Ой...
+main = putStrLn (analyzeGold 583) -- Ой...
 ```
 
 компіляція завершиться успішно, однак у момент запуску програми на вас чекає неприємний сюрприз у вигляді помилки:
@@ -69,15 +69,15 @@ Non-exhaustive guards in multi-way if
 ```haskell
 {-# LANGUAGE MultiWayIf #-} -- Що це??
 
-module Main whereanalizeGold :: Int -> String
-analizeGold standard =
+module Main whereanalyzeGold :: Int -> String
+analyzeGold standard =
   if | standard == 999 -> "Wow! 999 standard!"
      | standard == 750 -> "Great! 750 standard."
      | standard == 585 -> "Not bad! 585 standard."
      | otherwise -> "I don't know such a standard..."
 
 main :: IO ()
-main = putStrLn (analizeGold 999)
+main = putStrLn (analyzeGold 999)
 ```
 
 Ось тепер все гаразд. Але що це за дивний коментар у першому рядку модуля? Начебто оформлений як багаторядковий коментар, але виглядає незвично. Перед нами &mdash; вказівка розширення мови Haskell. Стандарт [Haskell 2010](https://www.haskell.org/onlinereport/haskell2010/) &mdash; це офіційний стрижень мови. Однак компілятор GHC, давно вже став компілятором за замовчуванням при розробці на Haskell та володіє рядом особливих можливостей. За замовчуванням багато які з цих можливостей вимкнені, а прагма `LANGUAGE` якраз для того і призначена, щоб їх вмикати/активізувати. В даному випадку ми увімкнули розширення `MultiWayIf`. Саме це розширення дозволяє нам використовувати множинний `if`. Такого роду розширень існує дуже багато, і ми будемо часто використовувати. Пам'ятайте: розширення, включене з допомогою прагми `LANGUAGE`, діє лише в рамках поточного модуля. І якщо я прописав його тільки в модулі `app/Main.hs`, то на модуль `src/Lib.hs` механізм `MultiWayIf` не поширюється.
@@ -87,8 +87,8 @@ main = putStrLn (analizeGold 999)
 Множинний `if` досить зручний, але є спосіб більш красивий. Погляньте:
 
 ```haskell
-analizeGold :: Int -> String
-analizeGold standard
+analyzeGold :: Int -> String
+analyzeGold standard
   | standard == 999 = "Wow! 999 standard!"
   | standard == 750 = "Great! 750 standard."
   | standard == 585 = "Not bad! 585 standard."
@@ -128,43 +128,43 @@ function arg |   CONDITION1 =         EXPR1  | ...
 Прибравши слово `if`, і ми з нашими віртуальними &laquo;АБО&raquo; можемо розлучитися. В цьому випадку залишиться лише це:
 
 ```haskell
-analizeGold :: Int -> String -- Одне оголошення.
+analyzeGold :: Int -> String -- Одне оголошення.
 -- Та безліч визначень...
-analizeGold 999 = "Wow! 999 standard!"
-analizeGold 750 = "Great! 750 standard."
-analizeGold 585 = "Not bad! 585 standard."
-analizeGold _ = "I don't know such a standard..."
+analyzeGold 999 = "Wow! 999 standard!"
+analyzeGold 750 = "Great! 750 standard."
+analyzeGold 585 = "Not bad! 585 standard."
+analyzeGold _ = "I don't know such a standard..."
 ```
 
-Ми просто перерахували визначення функції `analizeGold` одне за іншим. На перший погляд, можливість безлічі визначень однієї і тієї ж функції дивує, але якщо згадати, що застосування функції суть вираз, тоді нічого дивного. Ось як це читається:
+Ми просто перерахували визначення функції `analyzeGold` одне за іншим. На перший погляд, можливість безлічі визначень однієї і тієї ж функції дивує, але якщо згадати, що застосування функції суть вираз, тоді нічого дивного. Ось як це читається:
 
 ```haskell
-     analizeGold 999            =        "Wow! 999 standard!"
+     analyzeGold 999            =        "Wow! 999 standard!"
 
 якщо ця функція  застосовується тоді     цьому виразу
                  до цього       вона
                  аргументу      дорівнює
 
-     analizeGold 750            =        "Wow! 999 standard!"
+     analyzeGold 750            =        "Wow! 999 standard!"
 
 якщо ця функція  застосовується тоді     іншому виразу
                  до іншого      вона
                  аргументу      дорівнює
 ...
-          analizeGold _ =       "I don't know such a standard..."
+          analyzeGold _ =       "I don't know such a standard..."
 в
 іншому    ця функція   просто   деякому загальному виразу
 ж випадку              дорівнює
 ```
 
-Коли функція `analizeGold` застосовується до конкретного аргументу, цей аргумент послідовно порівнюється із зразком (англ. pattern matching). Зразка тут три: `999`, `750` і `585`. І якщо раніше ми порівнювали аргумент з цими числовими значеннями явно, за допомогою функції `==`, тепер це відбувається приховано. Ідея порівняння із зразком дуже проста: щось (в даному випадку реальний аргумент) зіставляється із зразком (або зразками) на предмет &laquo;підходить/не підходить&raquo;. Якщо підходить &mdash; тобто порівняння із зразком дає результат `True` &mdash;готово, використовуємо відповідний вираз. Якщо ж не підходить &mdash; переходимо до наступного зразка.
+Коли функція `analyzeGold` застосовується до конкретного аргументу, цей аргумент послідовно порівнюється із зразком (англ. pattern matching). Зразка тут три: `999`, `750` і `585`. І якщо раніше ми порівнювали аргумент з цими числовими значеннями явно, за допомогою функції `==`, тепер це відбувається приховано. Ідея порівняння із зразком дуже проста: щось (в даному випадку реальний аргумент) зіставляється із зразком (або зразками) на предмет &laquo;підходить/не підходить&raquo;. Якщо підходить &mdash; тобто порівняння із зразком дає результат `True` &mdash;готово, використовуємо відповідний вираз. Якщо ж не підходить &mdash; переходимо до наступного зразка.
 
 Порівняння із зразком використовується в Haskell надзвичайно широко. У україномовній літературі переклад словосполучення &laquo;pattern matching&raquo; не особливо закріпився, замість цього так і кажуть &laquo;патерн матчінг&raquo;. Я зроблю так само.
 
 Але що це за символ підкреслення такий, в останньому варіанті визначення? Ось цей:
 
 ```haskell
-analizeGold _ = "I don't know such a standard..."
+analyzeGold _ = "I don't know such a standard..."
 ```
 
 З формальної точки зору, це &mdash; універсальний зразок, порівняння з яким завжди істинно (ще говорять, що з ним матчиться (англ. match) все що завгодно). А з неформальної &mdash; це символ, який можна прочитати, як &laquo;мені все одно&raquo;. Ми неначе кажемо: &laquo;У даному разі нас не цікавить конкретний вміст аргументу, нам все одно, ми просто повертаємо рядок `I don't know such a standard...`&raquo;.
@@ -172,11 +172,11 @@ analizeGold _ = "I don't know such a standard..."
 Важливо відзначити, що порівняння аргументу із зразками відбувається послідовно, згори вниз. Тому якщо ми напишемо так:
 
 ```haskell
-analizeGold :: Int -> String
-analizeGold _ = "I don't know such a standard..."
-analizeGold 999 = "Wow! 999 standard!"
-analizeGold 750 = "Great! 750 standard."
-analizeGold 585 = "Not bad! 585 standard."
+analyzeGold :: Int -> String
+analyzeGold _ = "I don't know such a standard..."
+analyzeGold 999 = "Wow! 999 standard!"
+analyzeGold 750 = "Great! 750 standard."
+analyzeGold 585 = "Not bad! 585 standard."
 ```
 
 наша функція буде завжди повертати перший вираз, рядок `I don't know such a standard...`, і це цілком очікувано: перша ж перевірка гарантовано дасть нам `True`, адже з зразком `_` збігається все що завгодно. Таким чином, загальний зразок слід розташовувати в самому кінці, щоб ми потрапили на нього лише після того, як не спрацювали всі інші зразки.
@@ -186,7 +186,7 @@ analizeGold 585 = "Not bad! 585 standard."
 Існує ще один вид патерн матчінгу, за допомогою конструкції `case-of`:
 
 ```haskell
-analizeGold standard =
+analyzeGold standard =
   case standard of
     999 -> "Wow! 999 standard!"
     750 -> "Great! 750 standard."
