@@ -3,4 +3,6 @@ packages:
 - '.'
 extra-deps:
 - roman-numerals-0.5.1.5
+- hyphenation-0.4.2.1
+- hakyll-contrib-hyphenation-0.1.0.3
 resolver: lts-5.5

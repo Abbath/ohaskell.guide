@@ -1,4 +1,5 @@
 {-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE QuasiQuotes       #-}
 
 module PrepareHtmlTOC (
     polishHtml
@@ -7,28 +8,32 @@ module PrepareHtmlTOC (
 import qualified Data.Vector            as V
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
+import           Text.RawString.QQ
 
 import           SingleMarkdown
 
-polishHtml :: [ChapterPoint] -> IO ()
-polishHtml chapterPoints = do
-    prepareHtmlTOC chapterPoints
+polishHtml :: [ChapterPoint] -> [ChapterPoint] -> IO ()
+polishHtml chapterPoints practicePoints = do
+    prepareHtmlTOC ""          chapterPoints
+    prepareHtmlTOC "/practice" practicePoints
     prepareHtmlPageTitles chapterPoints
+    prepareHtmlPageTitles practicePoints
+    prepareSolutionSectionsIn practicePoints
 
-prepareHtmlTOC :: [ChapterPoint] -> IO ()
-prepareHtmlTOC chapterPoints = V.mapM_ (handle chaptersURLsWithIndex) chaptersURLsWithIndex
+prepareHtmlTOC :: String -> [ChapterPoint] -> IO ()
+prepareHtmlTOC root chapterPoints = V.mapM_ (handle root chaptersURLsWithIndex) chaptersURLsWithIndex
   where
     chaptersURLsWithIndex = V.indexed . V.fromList $ [path | (_, path) <- chapterPoints]
 
-handle :: V.Vector (Int, ChapterPath) -> (Int, ChapterPath) -> IO ()
-handle chaptersURLsWithIndex (currentChapterIndex, currentChapterURL)
+handle :: String -> V.Vector (Int, ChapterPath) -> (Int, ChapterPath) -> IO ()
+handle root chaptersURLsWithIndex (currentChapterIndex, currentChapterURL)
     | currentChapterIndex == 0 = handleFirstChapter
     | otherwise = if currentChapterIndex + 1 == V.length chaptersURLsWithIndex
                       then handleLastChapter
                       else handleChapter
   where
     pathToCurrentChapter = "_site" ++ currentChapterURL
-    initChapter = "/index.html" :: FilePath
+    initChapter = root ++ "/init.html" :: FilePath
 
     handleFirstChapter =
         let prevChapterURL      = initChapter
@@ -60,4 +65,19 @@ prepareHtmlPageTitles = mapM_ prepare
         chapter <- TIO.readFile path
         let chapter' = T.replace "PAGE_TITLE" name chapter
         TIO.writeFile path chapter'
+
+prepareSolutionSectionsIn :: [ChapterPoint] -> IO ()
+prepareSolutionSectionsIn = mapM_ prepare
+  where
+    prepare :: (ChapterName, ChapterPath) -> IO ()
+    prepare (_, rawPath) = do
+        let path = "_site" ++ rawPath
+        chapter <- TIO.readFile path
+        let chapter'  = T.replace "SOLUTION_BEGIN" solutionBegin chapter
+            chapter'' = T.replace "SOLUTION_END"   solutionEnd   chapter'
+        TIO.writeFile path chapter''
+
+solutionBegin, solutionEnd :: T.Text
+solutionBegin = T.pack [r|<div style="padding-top: 10px; padding-bottom: 10px;"><ul class="collapsible collapsible-accordion" data-collapsible="accordion"><li><div class="collapsible-header"><i class="fa fa-check-square-o" style="font-size: 21px; color: green;" aria-hidden="true"></i><span class="sans">Решение</span></div><div class="collapsible-body"><div class="solution-content">|]
+solutionEnd = T.pack [r|</div></div></li></ul></div>|]
 

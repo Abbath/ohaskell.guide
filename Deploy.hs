@@ -14,7 +14,7 @@
 
 module Main where
 
-import Control.Monad            (unless)
+import Control.Monad            (unless, when)
 import Data.List                (intercalate)
 import System.Directory         ( createDirectory
                                 , copyFile
@@ -28,7 +28,7 @@ import System.Environment       (getArgs)
 
 main :: IO ()
 main = do
-    putStrLn $ "Собираем новую версию книги..."
+    putStrLn "Собираем новую версию книги..."
 
     shouldBeInRepoRoot
     branchShouldBeMaster
@@ -43,6 +43,7 @@ main = do
     -- pdf/ohaskell-mobile.pdf  -> PDF A5
     -- epub/ohaskell.epub       -> EPUB
 
+    removeTempDirectory
     storeArtefactsInSite
     saveSiteInTempDirectory
     checkoutToGhPages
@@ -50,7 +51,6 @@ main = do
     takeSiteFromTempDirectory
     commitNPushToGhPages
     backToMaster
-    removeTempDirectory
   where
     shouldBeInRepoRoot = doesDirectoryExist ".git" >>= \inRepoRoot ->
         unless inRepoRoot $ die "Отсутствует .git-каталог, а он мне очень нужен!"
@@ -73,7 +73,7 @@ main = do
                let [commitMessage] = arguments
                git_ ["commit", "-a", "-m", commitMessage]
                git_ ["push", "origin", "master"]
-           | otherwise -> die $
+           | otherwise -> die
                "Запускайте с одним сообщением о коммите, или совсем без него."
 
     commitNPushToGhPages = do
@@ -83,22 +83,24 @@ main = do
         git_ ["push", "-f", "origin", "gh-pages"]
 
     compileBook = do
-        putStrLn $ "Компилируем..."
+        putStrLn "Компилируем..."
         callProcess "stack" ["clean"]
         callProcess "stack" ["build"]
 
     rebuildBook = do
-        putStrLn $ "Собираем..."
+        putStrLn "Собираем..."
         callProcess "stack" ["exec", "--", "ohaskell"]
 
-    fullWeb         = "_site"
-    pdfBinary       = "ohaskell.pdf"
-    pdfMobileBinary = "ohaskell-mobile.pdf"
-    epubBinary      = "ohaskell.epub"
+    fullWeb            = "_site"
+    pdfBinary          = "ohaskell.pdf"
+    pdfMobileBinary    = "ohaskell-mobile.pdf"
+    pdfPrintableBinary = "ohaskell-printable.pdf"
+    epubBinary         = "ohaskell.epub"
     storeArtefactsInSite = do
         createDirectory $ fullWeb </> "pdf"
-        copyFile ("pdf" </> pdfBinary)       $ fullWeb </> "pdf" </> pdfBinary
-        copyFile ("pdf" </> pdfMobileBinary) $ fullWeb </> "pdf" </> pdfMobileBinary
+        copyFile ("pdf" </> pdfBinary)          $ fullWeb </> "pdf" </> pdfBinary
+        copyFile ("pdf" </> pdfMobileBinary)    $ fullWeb </> "pdf" </> pdfMobileBinary
+        copyFile ("pdf" </> pdfPrintableBinary) $ fullWeb </> "pdf" </> pdfPrintableBinary
 
         createDirectory $ fullWeb </> "epub"
         copyFile ("epub" </> epubBinary)     $ fullWeb </> "epub" </> epubBinary
@@ -107,10 +109,13 @@ main = do
     checkoutToGhPages           = git_ ["checkout", "gh-pages"]
     resetLastCommit             = git_ ["reset", "--hard", "HEAD~1"]
     takeSiteFromTempDirectory   = callProcess "cp" ["-R", "/tmp" </> fullWeb ++ "/.", "."]
-    removeTempDirectory         = removeDirectoryRecursive $ "/tmp" </> fullWeb
     backToMaster                = git_ ["checkout", "master"]
 
     cleanGhPages = do
         git_ ["add", "."]
         git_ ["commit", "-a", "-m", "Trash."]
         git_ ["reset", "--hard", "HEAD~2"]
+
+    removeTempDirectory = do
+        yep <- doesDirectoryExist $ "/tmp" </> fullWeb
+        when yep $ removeDirectoryRecursive $ "/tmp" </> fullWeb

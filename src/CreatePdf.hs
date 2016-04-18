@@ -3,9 +3,10 @@
 module CreatePdf (
       createPdfDesktop
     , createPdfMobile
+    , createPdfPrintable
 ) where
 
-import System.Process (callCommand)
+import           System.Process     (callCommand)
 
 createPdfDesktop :: FilePath -> IO ()
 createPdfDesktop pathToSingleMarkdown =
@@ -44,9 +45,31 @@ createPdfMobile pathToSingleMarkdown =
                          , pathToSingleMarkdown
                          ]
 
-pdfEngine, template, outDesktop, outMobile :: String
-pdfEngine  = "xelatex"
-template   = "pdf/template.tex"
-outDesktop = "pdf/ohaskell.pdf"
-outMobile  = "pdf/ohaskell-mobile.pdf"
+createPdfPrintable :: FilePath -> IO ()
+createPdfPrintable pathToSingleMarkdown =
+    callCommand $ concat [ "pandoc --latex-engine="
+                         , pdfEngine
+                         , " --template="
+                         , template
+                         , " -V fontsize=\"11pt\""
+                         , " -V classoption=\"oneside\""
+                         , " -V geometry=\"headsep=11mm\""
+                         , " -V geometry=\"top=30mm\""
+                         , " -V geometry=\"bottom=30mm\""
+                         , " -V geometry=\"left=30mm\""
+                         , " -V geometry=\"right=30mm\""
+                         , " -V geometry=\"paper=a4paper\""
+                         , " -V printable-version" -- Флаг включает особые опции.
+                         , " -o "
+                         , outPrintable
+                         , " "
+                         , pathToSingleMarkdown
+                         ]
+
+pdfEngine, template, outDesktop, outMobile, outPrintable :: String
+pdfEngine    = "xelatex"
+template     = "pdf/template.tex"
+outDesktop   = "pdf/ohaskell.pdf"
+outMobile    = "pdf/ohaskell-mobile.pdf"
+outPrintable = "pdf/ohaskell-printable.pdf"
 

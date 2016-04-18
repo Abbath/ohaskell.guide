@@ -1,82 +1,81 @@
 module Main where
 
-import SingleMarkdown
-import CreatePdf
-import CreateEpub
-import CreateHtml
-import CreateHtmlTemplates
+import           SingleMarkdown
+import           CreatePdf
+import           CreateEpub
+import           CreateHtml
+import           CreateHtmlTemplates
 
-import Control.Concurrent.Async
-import System.Environment
-import System.Exit
+import           Data.List                  (intercalate)
+import           Control.Monad              (when)
+import           Control.Concurrent.Async   (async, wait)
+import           System.Environment         (getArgs, withArgs)
+import           System.Exit                (exitFailure)
 
 main :: IO ()
 main = do
-    (pathToSingleMarkdown, chapterPoints) <- createSingleMarkdown
+    (pathToSingleMarkdown, chapterPoints, practicePoints) <- createSingleMarkdown
 
     args <- getArgs
     check args
 
-    buildEpubIfNecessary args pathToSingleMarkdown
-    buildPdfIfNecessary  args pathToSingleMarkdown
-    buildHtmlIfNecessary args chapterPoints
+    buildEpubIfNecessary            args pathToSingleMarkdown
+    buildPdfIfNecessary             args pathToSingleMarkdown
+    buildPdfPrintableIfNecessary    args pathToSingleMarkdown
+    buildHtmlIfNecessary            args chapterPoints practicePoints
 
 buildEpubIfNecessary :: [String] -> FilePath -> IO ()
 buildEpubIfNecessary args pathToSingleMarkdown =
-    if buildAllOrJust epub args then do
+    when (buildAllOrJust epub args) $ do
         buildingVersion epub
         createEpub pathToSingleMarkdown
-    else
-        return ()
 
 buildPdfIfNecessary :: [String] -> FilePath -> IO ()
 buildPdfIfNecessary args pathToSingleMarkdown =
-    if buildAllOrJust pdf args then do
+    when (buildAllOrJust pdf args) $ do
         -- Самые тяжеловесные операции.
         buildingVersion pdf
         pdfDesktopDone <- async $ createPdfDesktop pathToSingleMarkdown
         pdfMobileDone  <- async $ createPdfMobile pathToSingleMarkdown
         wait pdfDesktopDone
         wait pdfMobileDone
-    else
-        return ()
 
-buildHtmlIfNecessary :: [String] -> [ChapterPoint] -> IO ()
-buildHtmlIfNecessary args chapterPoints =
-    if buildAllOrJust html args then do
+buildPdfPrintableIfNecessary :: [String] -> FilePath -> IO ()
+buildPdfPrintableIfNecessary args pathToSingleMarkdown =
+    when (buildAllOrJust pdfPrintable args) $ do
+        buildingVersion pdfPrintable
+        createPdfPrintable pathToSingleMarkdown
+
+buildHtmlIfNecessary :: [String]
+                     -> [ChapterPoint]
+                     -> [ChapterPoint]
+                     -> IO ()
+buildHtmlIfNecessary args chapterPoints practicePoints =
+    when (buildAllOrJust html args) $ do
         buildingVersion html
-        createHtmlTemplates chapterPoints
+        createHtmlTemplates chapterPoints practicePoints
         -- Аргумент rebuild нужен для Hakyll.
-        withArgs ["rebuild"] $ createHtml chapterPoints
-    else
-        return ()
+        withArgs ["rebuild"] $ createHtml chapterPoints practicePoints
 
 check :: [String] -> IO ()
 check args =
-    if someInvalidArgs then do
-        putStrLn $ "Usage: ohaskell ["  ++ pdf ++
-                                    "|" ++ epub ++
-                                    "|" ++ html ++ "]"
+    when someInvalidArgs $ do
+        putStrLn $ "Usage: ohaskell [" ++ intercalate "|" validArgs ++ "]"
         exitFailure
-    else
-        return ()
   where
     someInvalidArgs = not . null $ filter invalid args
-    invalid arg     =    arg /= pdf
-                      && arg /= epub
-                      && arg /= html
+    invalid arg     = arg `notElem` validArgs
+    validArgs       = [pdf, pdfPrintable, epub, html]
 
 buildAllOrJust :: String -> [String] -> Bool
 buildAllOrJust some args = some `elem` args || null args
 
-pdf :: String
-pdf = "--pdf"
-
-epub :: String
-epub = "--epub"
-
-html :: String
-html = "--html"
+pdf, pdfPrintable, epub, html :: String
+pdf             = "--pdf"
+pdfPrintable    = "--pdf-printable"
+epub            = "--epub"
+html            = "--html"
 
 buildingVersion :: String -> IO ()
 buildingVersion ver = putStrLn $ " Build " ++ drop 2 ver ++ " version..."
+

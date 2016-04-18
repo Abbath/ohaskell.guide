@@ -4,15 +4,16 @@ module CreateHtml (
     createHtml
 ) where
 
-import Hakyll
-import Control.Exception    (finally)
+import           Hakyll
+-- import           Hakyll.Contrib.Hyphenation (hyphenateHtml, russian)
+import           Control.Exception          (finally)
 
-import PrepareHtmlTOC
-import CreateCss
-import SingleMarkdown
+import           PrepareHtmlTOC
+import           CreateCss
+import           SingleMarkdown
 
-createHtml :: [ChapterPoint] -> IO ()
-createHtml chapterPoints = do
+createHtml :: [ChapterPoint] -> [ChapterPoint] -> IO ()
+createHtml chapterPoints practicePoints = do
     createCss
     hakyll
       (do
@@ -30,7 +31,8 @@ createHtml chapterPoints = do
         createDonatePage
         createSubjectIndexPage
         createChapters
-      ) `finally` polishHtml chapterPoints
+        createPractice
+      ) `finally` polishHtml chapterPoints practicePoints
 
 justCopy :: Pattern -> Rules ()
 justCopy something = match something $ do
@@ -69,9 +71,10 @@ createDonatePage = create ["donate.html"] $ do
 createChapters :: Rules ()
 createChapters = match chapters $ do
     route $ removeChaptersDirectoryFromURLs
-            `composeRoutes` removeChapterNumberFromURLs
+            `composeRoutes` removeChapterNumberFromURLs 3
             `composeRoutes` setExtension "html"
-    compile $ pandocCompiler >>= loadAndApplyTemplate chapterTemplateName defaultContext
+    compile $ pandocCompiler -- >>= hyphenateHtml russian -- Переносы только в русских словах.
+                             >>= loadAndApplyTemplate chapterTemplateName defaultContext
                              >>= loadAndApplyTemplate defaulTemplateName defaultContext
                              >>= relativizeUrls
   where
@@ -79,9 +82,29 @@ createChapters = match chapters $ do
     chapterTemplateName = fromFilePath "templates/chapter.html"
     defaulTemplateName  = fromFilePath "templates/default.html"
 
+createPractice :: Rules ()
+createPractice = match practice $ do
+    route $ removePracticeDirectoryFromURLs
+            `composeRoutes` removeChapterNumberFromURLs 4
+            `composeRoutes` addPracticeDirectoryToURLs
+            `composeRoutes` setExtension "html"
+    compile $ pandocCompiler >>= loadAndApplyTemplate chapterTemplateName defaultContext
+                             >>= loadAndApplyTemplate defaulTemplateName defaultContext
+                             >>= relativizeUrls
+  where
+    practice            = fromGlob "practice/*.md"
+    chapterTemplateName = fromFilePath "templates/chapter.html"
+    defaulTemplateName  = fromFilePath "templates/default-practice.html"
+
 removeChaptersDirectoryFromURLs :: Routes
 removeChaptersDirectoryFromURLs = gsubRoute "chapters/" (const "")
 
-removeChapterNumberFromURLs :: Routes
-removeChapterNumberFromURLs = customRoute $ drop 3 . toFilePath
+removePracticeDirectoryFromURLs :: Routes
+removePracticeDirectoryFromURLs = gsubRoute "practice/" (const "")
+
+addPracticeDirectoryToURLs :: Routes
+addPracticeDirectoryToURLs = customRoute $ ("practice/" ++) . toFilePath
+
+removeChapterNumberFromURLs :: Int -> Routes
+removeChapterNumberFromURLs howMany = customRoute $ drop howMany . toFilePath
 

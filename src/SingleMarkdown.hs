@@ -7,11 +7,12 @@ module SingleMarkdown (
     , ChapterPoint
 ) where
 
+import           Data.Maybe             (fromMaybe)
+import           Data.List              (sort)
 import qualified Data.Text              as T
 import qualified Data.Text.IO           as TIO
 import           System.Directory       (getDirectoryContents)
-import           System.FilePath.Posix
-import           Data.List
+import           System.FilePath.Posix  (takeExtensions, replaceExtension)
 
 type ChapterName     = T.Text
 type ChapterPath     = FilePath
@@ -19,33 +20,45 @@ type ChapterContent  = T.Text
 type ChaptersContent = T.Text
 type ChapterPoint    = (ChapterName, ChapterPath)
 
-createSingleMarkdown :: IO (FilePath, [ChapterPoint])
+createSingleMarkdown :: IO (FilePath, [ChapterPoint], [ChapterPoint])
 createSingleMarkdown = do
-    allPathsToMarkdownFiles <- getDirectoryContents "chapters"
-    let pathsToMarkdownFiles = filter markdownOnly (sort allPathsToMarkdownFiles)
-    chaptersInfo <- mapM readMarkdownFile pathsToMarkdownFiles
+    chaptersInfo <- collectMarkdownInfoFrom ""          "chapters" 3
+    practiceInfo <- collectMarkdownInfoFrom "/practice" "practice" 4
     let singleMarkdown = composeSingleMarkdownFrom chaptersInfo
         chapterPoints  = collectChapterPointsFrom chaptersInfo
+        practicePoints = collectChapterPointsFrom practiceInfo
     TIO.writeFile pathToSingleMarkdown singleMarkdown
-    return (pathToSingleMarkdown, chapterPoints)
+    return (pathToSingleMarkdown, chapterPoints, practicePoints)
   where
+    collectMarkdownInfoFrom :: String
+                            -> String
+                            -> Int
+                            -> IO [(ChapterContent, ChapterName, ChapterPath)]
+    collectMarkdownInfoFrom root directory numberPrefix = do
+        allPathsToMarkdownFiles <- getDirectoryContents directory
+        let pathsToMarkdownFiles = filter markdownOnly $ sort allPathsToMarkdownFiles
+        mapM (readMarkdownFile root directory numberPrefix) pathsToMarkdownFiles
+
     pathToSingleMarkdown = "/tmp/ohaskell-book.md"
+
     markdownOnly path = takeExtensions path == ".md"
 
-readMarkdownFile :: ChapterPath -> IO (ChapterContent, ChapterName, ChapterPath)
-readMarkdownFile path = do
-    content <- TIO.readFile $ "chapters/" ++ path
+readMarkdownFile :: String
+                 -> String
+                 -> Int
+                 -> ChapterPath
+                 -> IO (ChapterContent, ChapterName, ChapterPath)
+readMarkdownFile root directory numberPrefix path = do
+    content <- TIO.readFile $ directory ++ "/" ++ path
     let name = extractChapterNameFrom content
     return (content, name, htmlPath)
   where
-    -- Убираем `01-` из глав, на уровне путей они не нужны.
-    htmlPath = "/" ++ (drop 3 $ replaceExtension path "html")
+    -- Убираем префиксные номера из глав, на уровне путей они не нужны.
+    htmlPath = root ++ "/" ++ drop numberPrefix (replaceExtension path "html")
     extractChapterNameFrom aContent = aName
       where
         firstLine = head . T.lines $ aContent
-        aName     = T.strip $ case T.stripPrefix "#" firstLine of
-                                  Nothing      -> firstLine
-                                  Just rawName -> rawName
+        aName     = T.strip $ fromMaybe firstLine (T.stripPrefix "#" firstLine)
 
 composeSingleMarkdownFrom :: [(ChapterContent, ChapterName, ChapterPath)] -> ChaptersContent
 composeSingleMarkdownFrom chaptersInfo =

@@ -4,9 +4,9 @@ module CreateCss (
     createCss
 ) where
 
-import           Prelude        hiding (span, div)
+import           Prelude            hiding (span, div)
 import           Clay
-import qualified Data.Text.Lazy as L
+import qualified Data.Text.Lazy     as L
 
 createCss :: IO ()
 createCss = writeFile "static/css/default.css" . L.unpack . render $ do
@@ -48,6 +48,11 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
             paddingLeftPx   3
             paddingRightPx  3
 
+        hrefWithArrow = do
+            content . stringContent $ "⇗"
+            paddingLeftPx   2
+            fontSizePx      14
+
     importUrl "https://fonts.googleapis.com/css?family=PT+Sans:400|PT+Serif:400,700,400italic|Ubuntu+Mono:400,400italic,700&subset=latin,cyrillic"
 
     body ? do
@@ -87,22 +92,43 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
     a # visited ? textDecoration none
     a # active  ? textDecoration none
 
+    p  |>       a # after ? hrefWithArrow
+    ol |> li |> a # after ? hrefWithArrow
+
     blockquote ? do
         marginLeft      nil
         paddingLeftPx   20
-        color           "#777"
+        color           "#666"
         borderLeft      solid (px 5) "#ee6e73"
 
     ".cover-title" ? do
         colorBase01
         fontSizePx      48
         paddingTopPx    15
+        marginBottomPx  30
 
-    ".cover-v2" ? do
+    ".book-icon" ? do
+        fontSizePx      130
+        opacity         0.5
+        color           "#448aff"
+
+    ".keyboard-icon" ? do
+        fontSizePx      130
+        opacity         0.5
+        color           "#ffa000"
+
+    ".publish-version" ? do
         colorBase01
-        fontSizePx      22
-        paddingTopPx    20
-        paddingBottomPx 70
+        fontSizePx      18
+        paddingBottomPx 40
+
+    ".read-button" ? do
+        paddingTopPx    40
+        paddingBottomPx 20
+
+    ".practice-button" ? do
+        paddingTopPx    40
+        paddingBottomPx 40
 
     ".sans" ?
         fontFamily ["PT Sans"] [sansSerif]
@@ -111,7 +137,7 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         monoFont
 
     ".get-button" ?
-        width (px 138)
+        width (px 148)
 
     ".get-button-separator" ?
         paddingBottomPx 25
@@ -175,8 +201,15 @@ createCss = writeFile "static/css/default.css" . L.unpack . render $ do
         color           "#f17603"
         fontSizePx      18
 
-    ".donate-area" ? do
+    ".donate-area" ?
         centerAlign
+
+    ".solution-content" ? do
+        padding         (px 20) (px 20) (px 20) (px 20)
+        backgroundColor "#FEFBF3"
+
+    ".collapsible-body" ?
+        p ? padding     (px 0) (px 0) (px 0) (px 0)
 
     pre # ".sourceCode" ? do
         hsCodeBase
